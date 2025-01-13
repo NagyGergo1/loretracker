@@ -1,7 +1,7 @@
 <?php
 
 function adatokLekerese($muvelet){
-    $db = new mysqli('localhost', 'root', '', 'nyaralas');
+    $db = new mysqli('localhost', 'root', '', 'loretracker');
     if($db->connect_errno == 0){
         $eredmeny = $db->query($muvelet);
 
@@ -25,7 +25,7 @@ function adatokLekerese($muvelet){
 }
 
 function adatokValtozasa($muvelet){
-    $db = new mysqli('localhost', 'root', '', 'nyaralas');
+    $db = new mysqli('localhost', 'root', '', 'loretracker');
 
     if($db-> connect_errno == 0){
         $db->query($muvelet);
