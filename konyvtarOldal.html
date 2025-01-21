@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Könyvtár</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/konyvtarOldal_css.css">
+</head>
+<body>
+    <!--Navbar-->
+    <div class="navMenu" id="fomenu_navMenu">
+        <a href="./foOldal.html" class="active">Home</a>
+        <a href="./konyvtarOldal.html" class="active">Könyvtár</a>
+        <input type="text" name="navmenu_kereso" id="text_oldalKereso" placeholder="&#xf002 Keresés">
+        <input type="button" id="button_menuBelepes" value="Belépés">
+    </div>
+
+    <!--Oldal Tartalom-->
+    <div class="konyvtarOldal">
+        <!--Szűrő-->
+        <div class="szuro">
+            <input type="text" class="konyvtarOldal_szuro" name="konyvtarOldal_konyvtarKereses" id="konyvtarOldal_konyvtarKereses" style="margin: 5px; text-align: center;" placeholder="&#xf002 Keresés">
+            <select name="konyvtarOldal_konyvtarFilter" class="konyvtarOldal_szuro" id="konyvtarOldal_konyvtarFilter" style="padding: 5px;">
+                <option disabled selected hidden value="">&#xf0b0</option>
+                <option value="">Option 1</option>
+                <option value="">Option 2</option>
+                <option value="">Option 3</option>
+            </select>
+            <input type="button" class="konyvtarOldal_szuro" value="Keresés">
+        </div>
+        <!--Játék kártyák-->
+        <div class="kartyak">
+            <div class="row">
+                <div class="col-lg-1 col-sm-3">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+                        <div class="card-body flex-grow-1">
+                            <img src="..." alt="Placeholder">
+                        </div>
+                        <div class="card-footer">
+                            <h6>Játék 1</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-1 col-sm-3">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+                        <div class="card-body flex-grow-1">
+                            <img src="..." alt="Placeholder">
+                        </div>
+                        <div class="card-footer">
+                            <h6>Játék 2</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-1 col-sm-6">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+                        <div class="card-body flex-grow-1">
+                            <img src="..." alt="Placeholder">
+                        </div>
+                        <div class="card-footer">
+                            <h6>Játék 3</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/konyvtarOldal_javaScript.js"></script>
+</body>
+</html>
