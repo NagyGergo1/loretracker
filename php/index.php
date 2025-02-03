@@ -1,25 +1,25 @@
 <?php
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+
 include './adatbazis_fuggvenyek.php';
 
-$request = json_decode(file_get_contents('php://input'), true);
+$fullURL = explode("/", $_SERVER["REQUEST_URI"]);
+$url = explode("?", end($fullURL));
 
-if (!isset($request['function'])) {
-    echo json_encode(['error' => 'No function.']);
-    exit;
+$bodyContent = json_decode(file_get_contents("php://input"), true);
+
+switch ($url[0]){
+    case "gameloadall":
+        gameLoadAll($bodyContent['params']['key1']);
+        break;
+
+    default:
+        echo 'none selected';
+        break;
 }
-
-$function = $request['func'];
-$params = $request['params'] ?? [];
-
-if (function_exists($function)) {
-    $result = $function($params);
-    echo json_encode($result);
-}
-else {
-    echo json_encode(['error' => 'Function not found.']);
-}
-
 
 function gameLoadAll($gameId){
     $lekeres = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");

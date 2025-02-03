@@ -1,26 +1,34 @@
-async function callFunction(functionName, params = {}){
+async function callphpFunction(funcName, params = {}){
     try {
-        const response = await fetch('../php/index.php', {
+        let toSend = {
+            "params" : params
+        }
+
+        let response = await fetch('http://localhost/13c-nagyg/php/index.php/' + funcName, {
             method : 'POST',
-            headers: {
+            headers : {
                 'Content-Type' : 'application/json',
             },
-            body : JSON.stringify({
-                func : functionName,
-                params : params,
-            }),
+            body : JSON.stringify(toSend),
         })
 
-        let data = response.json()
-        console.log(data)
+        if(response.ok){
+            let data = await response.json()
+            return data
+        }
+        else{
+            throw response.status
+        }
     }
     catch (error) {
         console.log(error)
     }
 }
 
-function testcall1(){
-    callFunction('gameLoadAll', { key1: 1 })
+async function testcall1(){
+    let data = await callphpFunction('gameloadall', { key1: 1})
+
+    console.log(data)
 }
 
 window.addEventListener('load', testcall1)
