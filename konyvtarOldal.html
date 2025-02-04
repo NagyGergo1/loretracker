@@ -23,17 +23,17 @@
             <input type="text" class="konyvtarOldal_szuro" name="konyvtarOldal_konyvtarKereses" id="konyvtarOldal_konyvtarKereses" style="margin: 5px; text-align: center;" placeholder="&#xf002 Keresés">
             <select name="konyvtarOldal_konyvtarFilter" class="konyvtarOldal_szuro" id="konyvtarOldal_konyvtarFilter" style="padding: 5px;">
                 <option disabled selected hidden value="">&#xf0b0</option>
-                <option value="">Option 1</option>
-                <option value="">Option 2</option>
-                <option value="">Option 3</option>
+                <option value="jatek_tipus1">Option 1</option>
+                <option value="jatek_tipus2">Option 2</option>
+                <option value="jatek_tipus3">Option 3</option>
             </select>
-            <input type="button" class="konyvtarOldal_szuro" value="Keresés">
+            <input type="button" class="konyvtarOldal_szuro" value="Keresés" onclick="szures()">
         </div>
         <!--Játék kártyák-->
-        <div class="kartyak">
-            <div class="row">
-                <div class="col-lg-1 col-sm-3">
-                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+        <div class="kartyak" id="kartya_div">
+            <div class="row" id="kartya_row">
+                <div class="col-lg-1 col-sm-3 kartya jatek_tipus1">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya" id="jatek1">
                         <div class="card-body flex-grow-1">
                             <img src="..." alt="Placeholder">
                         </div>
@@ -42,8 +42,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-1 col-sm-3">
-                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+                <div class="col-lg-1 col-sm-3 kartya jatek_tipus2">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya" id="jatek2">
                         <div class="card-body flex-grow-1">
                             <img src="..." alt="Placeholder">
                         </div>
@@ -53,7 +53,7 @@
                     </a>
                 </div>
                 <div class="col-lg-1 col-sm-6">
-                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya">
+                    <a href="https://example.com" class="card d-flex flex-column jatek_kartya" id="jatek3">
                         <div class="card-body flex-grow-1">
                             <img src="..." alt="Placeholder">
                         </div>
