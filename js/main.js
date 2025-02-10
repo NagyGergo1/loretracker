@@ -25,10 +25,30 @@ async function callphpFunction(funcName, params = {}){
     }
 }
 
-async function testcall1(){
-    let data = await callphpFunction('gameloadall', { key1: 1})
-
-    console.log(data)
+async function loadLorepage1(){
+    let data = await callphpFunction('gameloadall', { id: 1 })
+    data = data[0]
+    return data
 }
 
-window.addEventListener('load', testcall1)
+async function gameList(){
+    let data = await callphpFunction('gameList')
+    return data
+}
+
+async function getUserTracker(){
+    let data = await callphpFunction('getUserTracker', { id: 2 })
+    data = data[0]
+    return data
+}
+
+async function getUserData(){
+    let data = await callphpFunction('getUserData', { id: 3 })
+    data = data[0]
+    return data
+}
+
+async function callAllFunc(){
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData())
+}
+window.addEventListener('load', callAllFunc)
