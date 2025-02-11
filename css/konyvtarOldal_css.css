@@ -1,4 +1,10 @@
 @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
 /*Navigációs Menü*/
 .navMenu {
     background-color: #333;

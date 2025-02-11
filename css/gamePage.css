@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    max-width: none;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+}
+
+.left-items,
+.right-items {
+    display: flex;
+    align-items: center;
+}
+
+.left-items > div {
+    margin-right: 10px;
+}
+
+.navbar div {
+    cursor: pointer;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    background-color: orange;
+}
+
+.navMenu a.active {
+    background-color: orange;
+    color: white;
+}
+
+/* .navbar div:hover  {
+    background-color: #555;
+} */
+
+.main {
+    display: flex;
+    flex: 1;
+}
+.sidebar {
+    width: 200px;
+    background-color: #e1e1e1;
+    padding: 10px;
+}
+.chapter-navbar {
+    width: 150px;
+    background-color: #d1d1d1;
+    padding: 10px;
+}
+.content {
+    flex: 1;
+    padding: 10px;
+}
+.sidebar button, .chapter-navbar button, .content button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+}
+.content .chapter {
+    margin: 20px 0;
+}
+.content .chapter h2 {
+    margin: 10px 0;
+}
+.content .chapter p {
+    margin: 10px 0;
+}
+.content .image-placeholder {
+    width: 200px;
+    height: 200px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
