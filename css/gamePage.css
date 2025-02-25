@@ -12,7 +12,7 @@ body {
 .navbar {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 10px 20px; /* Adjust padding for better sizing */
     background-color: #333;
     color: #fff;
 }
@@ -21,6 +21,11 @@ body {
 .right-items {
     display: flex;
     align-items: center;
+}
+
+.left-items {
+    background-color: orange;
+    padding: 10px 0; /* Add padding for better layout */
 }
 
 .left-items > div {
@@ -34,7 +39,6 @@ body {
 .navbar a {
     text-decoration: none;
     color: #fff;
-    background-color: orange;
 }
 
 .navMenu a.active {
