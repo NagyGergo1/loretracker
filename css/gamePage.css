@@ -46,10 +46,6 @@ body {
     color: white;
 }
 
-/* .navbar div:hover  {
-    background-color: #555;
-} */
-
 .main {
     display: flex;
     flex: 1;
@@ -64,11 +60,24 @@ body {
     background-color: #d1d1d1;
     padding: 10px;
 }
-.content {
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.button-container button {
+    margin-right: 10px;
+}
+.content-area {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 10px;
 }
-.sidebar button, .chapter-navbar button, .content button {
+.content {
+    flex: 1;
+}
+.sidebar button, .chapter-navbar button, .button-container button, .content button {
     display: block;
     width: 100%;
     margin: 5px 0;
@@ -98,3 +107,4 @@ body {
     padding: 10px;
     background-color: #f1f1f1;
 }
+
