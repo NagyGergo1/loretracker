@@ -1,7 +1,7 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 include './adatbazis_fuggvenyek.php';
@@ -31,6 +31,9 @@ switch ($url[0]){
     case "getUserData":
         getUserData($params['id']);
         break;
+
+    // case "":
+    //     break;
 
     //közösségi oldal
     case "getAdditionalByTimeDesc":
@@ -87,7 +90,7 @@ function gameList(){
 }
 
 function getUserTracker($trackerID){
-    $query = adatokLekerese("SELECT jatekloretracker.jatekID as id, jatekloretracker.achievementCounter as achCounter FROM jatekloretracker
+    $query = adatokLekerese("SELECT * FROM jatekloretracker
     WHERE jatekloretracker.trackerID = {$trackerID}");
 
     if(is_array($query)){

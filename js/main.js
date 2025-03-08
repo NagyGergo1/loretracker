@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('http://localhost/13c-nagyg/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/loretracker/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -12,12 +12,14 @@ async function callphpFunction(funcName, params = {}){
             body : JSON.stringify(toSend),
         })
 
+        let data = await response.json()
         if(response.ok){
-            let data = await response.json()
+            
+            data = (data.length > 1) ? data : data[0]
             return data
         }
         else{
-            throw response.status
+            return data.valasz
         }
     }
     catch (error) {
@@ -27,7 +29,6 @@ async function callphpFunction(funcName, params = {}){
 
 async function loadLorepage1(){
     let data = await callphpFunction('gameloadall', { id: 1 })
-    data = data[0]
     return data
 }
 
@@ -37,14 +38,12 @@ async function gameList(){
 }
 
 async function getUserTracker(){
-    let data = await callphpFunction('getUserTracker', { id: 2 })
-    data = data[0]
+    let data = await callphpFunction('getUserTracker', { id: 3 })
     return data
 }
 
 async function getUserData(){
     let data = await callphpFunction('getUserData', { id: 3 })
-    data = data[0]
     return data
 }
 
