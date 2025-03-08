@@ -13,6 +13,7 @@ $bodyContent = json_decode(file_get_contents("php://input"), true);
 $params = $bodyContent['params'];
 
 switch ($url[0]){
+    //játék
     case "gameloadall":
         gameLoadAll($params['id']);
         break;
@@ -21,14 +22,17 @@ switch ($url[0]){
         gameList();
         break;
 
+    //felhasználó tracker
     case "getUserTracker":
         getUserTracker($params['id']);
         break;
 
+    //felhasználó
     case "getUserData":
         getUserData($params['id']);
         break;
 
+    //közösségi oldal
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc();
         break;
