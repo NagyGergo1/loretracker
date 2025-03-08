@@ -1,7 +1,7 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
 include './adatbazis_fuggvenyek.php';
@@ -32,8 +32,9 @@ switch ($url[0]){
         getUserData($params['id']);
         break;
 
-    // case "":
-    //     break;
+    case "createUserData":
+        createUserData($params['userName'], $params['password'], $params['email'], $params['steamID']);
+        break;
 
     //közösségi oldal
     case "getAdditionalByTimeDesc":
@@ -65,9 +66,8 @@ switch ($url[0]){
         break;
 }
 
-function gameLoadAll($gameId){
-    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
-
+//------------------------------------
+function queryGetCheck($query){
     if(is_array($query)){
         echo json_encode($query, JSON_UNESCAPED_UNICODE);
     }
@@ -75,115 +75,71 @@ function gameLoadAll($gameId){
         echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
         header('bad request', true, 400);
     }
+}
+
+function queryChangeCheck($query){
+    if($query == "Sikeres művelet!"){
+        echo json_encode($query, JSON_UNESCAPED_UNICODE);
+    }
+    else{
+        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
+        header('bad request', true, 400);
+    }
+}
+//------------------------------------
+
+function gameLoadAll($gameId){
+    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
+    queryGetCheck($query);
 }
 
 function gameList(){
     $query = adatokLekerese("SELECT * FROM jatek ORDER BY jatek.jatekID");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getUserTracker($trackerID){
-    $query = adatokLekerese("SELECT * FROM jatekloretracker
-    WHERE jatekloretracker.trackerID = {$trackerID}");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE jatekloretracker.trackerID = {$trackerID}");
+    queryGetCheck($query);
 }
 
 function getUserData($userID){
     $query = adatokLekerese("SELECT * FROM user WHERE user.userID = {$userID}");
+    queryGetCheck($query);
+}
 
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+function createUserData($userName, $password, $email, $steamID){
+    $query = adatokValtozasa("INSERT IGNORE INTO `user`(`userName`, `password`, `email`, `steamID`, `admin`)
+    VALUES ('{$userName}', '{$password}', '{$email}', '{$steamID}', 0)");
+    queryChangeCheck($query);
 }
 
 function getAdditionalByTimeDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at DESC");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getAdditionalByTimeAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at ASC");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getAdditionalByLikeDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.likeCounter DESC");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getAdditionalByLikeAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.likeCounter ASC");
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getAdditionalByTitleDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title DESC");
-
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }
 
 function getAdditionalByTitleAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title ASC");
-
-
-    if(is_array($query)){
-        echo json_encode($query, JSON_UNESCAPED_UNICODE);
-    }
-    else{
-        echo json_encode(['valasz' => $query], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    queryGetCheck($query);
 }

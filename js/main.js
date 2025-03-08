@@ -28,26 +28,26 @@ async function callphpFunction(funcName, params = {}){
 }
 
 async function loadLorepage1(){
-    let data = await callphpFunction('gameloadall', { id: 1 })
-    return data
+    return await callphpFunction('gameloadall', { id: 1 })
 }
 
 async function gameList(){
-    let data = await callphpFunction('gameList')
-    return data
+    return await callphpFunction('gameList')
 }
 
 async function getUserTracker(){
-    let data = await callphpFunction('getUserTracker', { id: 3 })
-    return data
+    return await callphpFunction('getUserTracker', { id: 1 })
 }
 
 async function getUserData(){
-    let data = await callphpFunction('getUserData', { id: 3 })
-    return data
+    return await callphpFunction('getUserData', { id: 3 })
+}
+
+async function createUserData() {
+    return await callphpFunction('createUserData', { userName: "tesztuser", password: "asd123", email: "joemail@email.com", steamID: "ijdgsiu298479" })
 }
 
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData())
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData()*/)
 }
 window.addEventListener('load', callAllFunc)

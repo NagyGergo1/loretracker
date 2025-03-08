@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 03. 13:09
+-- Létrehozás ideje: 2025. Már 08. 18:14
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -148,7 +148,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin`) VALUES
-(3, 'gergo', 'asd123', 'nagyonjoemail', '2', 1);
+(3, 'gergo', 'asd123', 'nagyonjoemail', '2', 1),
+(7, 'tesztuser', 'asd123', 'kivaloemail@email.com', 'oashdoi928436', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -235,7 +236,7 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Megkötések a kiírt táblákhoz
