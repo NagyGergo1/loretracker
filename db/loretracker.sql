@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 08. 18:14
+-- Létrehozás ideje: 2025. Már 08. 18:35
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `loretracker`
 --
+CREATE DATABASE IF NOT EXISTS `loretracker` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
+USE `loretracker`;
 
 -- --------------------------------------------------------
 
@@ -77,8 +79,7 @@ CREATE TABLE `jatekloretracker` (
 --
 
 INSERT INTO `jatekloretracker` (`trackerID`, `userID`, `jatekID`, `achievementCounter`) VALUES
-(3, 3, 1, 4),
-(4, 3, 2, 0);
+(1, 2, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -148,8 +149,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin`) VALUES
-(3, 'gergo', 'asd123', 'nagyonjoemail', '2', 1),
-(7, 'tesztuser', 'asd123', 'kivaloemail@email.com', 'oashdoi928436', 0);
+(1, 'gergo', 'asd123', 'gergonagy1122@gmail.com', '76561198811836115', 1),
+(2, 'tesztuser', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0),
+(3, 'tesztuser', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -195,8 +197,7 @@ ALTER TABLE `loretype`
 -- A tábla indexei `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`userID`),
-  ADD UNIQUE KEY `steamID` (`steamID`);
+  ADD PRIMARY KEY (`userID`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -218,7 +219,7 @@ ALTER TABLE `jatek`
 -- AUTO_INCREMENT a táblához `jatekloretracker`
 --
 ALTER TABLE `jatekloretracker`
-  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT a táblához `lorepage`
@@ -236,7 +237,7 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Megkötések a kiírt táblákhoz
