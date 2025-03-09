@@ -32,8 +32,9 @@ async function callphpFunction(funcName, params = {}){
 }
 
 async function bejelentkezes() {
-    let userEmail = $("");
-    let userPass = $("");
+    let userEmail = $("loginEmail").value;
+    let userPass = $("loginPassword").value;
 
-    let userAdatok = callphpFunction("")
+    let userAdatok = await callphpFunction("getUserLogin", {email : userEmail, password : userPass});
+    console.log(userAdatok);
 }
