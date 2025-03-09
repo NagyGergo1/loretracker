@@ -31,9 +31,12 @@ async function callphpFunction(funcName, params = {}){
     }
 }
 
-async function bejelentkezes() {
-    let userEmail = $("");
-    let userPass = $("");
+async function regisztralas() {
+    let userName = $("registerUsername").value;
+    let userSteamId = $("registerSteamId").value;
+    let userEmail = $("registerEmail").value;
+    let userPassword = ($("registerPassword").value == $("registerConfirmPassword").value) ? $("registerPassword").value : null;
 
-    let userAdatok = callphpFunction("")
+    let userAdatok = await callphpFunction("createUserData", {userName : userName, steamID : userSteamId, email : userEmail, password : userPassword});
+    console.log(userAdatok);
 }
