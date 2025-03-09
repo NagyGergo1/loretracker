@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    max-width: none;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px; /* Adjust padding for better sizing */
+    background-color: #333;
+    color: #fff;
+}
+
+.left-items,
+.right-items {
+    display: flex;
+    align-items: center;
+}
+
+.left-items {
+    background-color: orange;
+    padding: 10px 0; /* Add padding for better layout */
+}
+
+.left-items > div {
+    margin-right: 10px;
+}
+
+.navbar div {
+    cursor: pointer;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.navMenu a.active {
+    background-color: orange;
+    color: white;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+}
+.sidebar {
+    width: 200px;
+    background-color: #e1e1e1;
+    padding: 10px;
+}
+.chapter-navbar {
+    width: 150px;
+    background-color: #d1d1d1;
+    padding: 10px;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.button-container button {
+    margin-right: 10px;
+}
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.content {
+    flex: 1;
+}
+.sidebar button, .chapter-navbar button, .button-container button, .content button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+}
+.content .chapter {
+    margin: 20px 0;
+}
+.content .chapter h2 {
+    margin: 10px 0;
+}
+.content .chapter p {
+    margin: 10px 0;
+}
+.content .image-placeholder {
+    width: 200px;
+    height: 200px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
