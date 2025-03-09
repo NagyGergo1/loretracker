@@ -51,7 +51,15 @@ async function getUserByName() {
     return await callphpFunction('getUserByName', { name: "gergo" })
 }
 
+async function getUserByEmail() {
+    return await callphpFunction('getUserByEmail', { email: "gergonagy1122@gmail.com" });
+}
+
+async function getUserLogin() {
+    return await callphpFunction('getUserLogin', { email: "gergonagy1122@gmail.com", password: "asd123" })
+}
+
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName())
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
 }
 window.addEventListener('load', callAllFunc)
