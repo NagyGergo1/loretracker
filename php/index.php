@@ -36,6 +36,18 @@ switch ($url[0]){
         createUserData($params['userName'], $params['password'], $params['email'], $params['steamID']);
         break;
 
+    case "getUserByName":
+        getUserByName($params['name']);
+        break;
+
+    case "getUserByEmail":
+        getUserByEmail($params['email']);
+        break;
+
+    case "getUserLogin":
+        getUserLogin($params['email'], $params['password']);
+        break;
+
     //közösségi oldal
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc();
@@ -112,6 +124,21 @@ function createUserData($userName, $password, $email, $steamID){
     $query = adatokValtozasa("INSERT IGNORE INTO `user`(`userName`, `password`, `email`, `steamID`, `admin`)
     VALUES ('{$userName}', '{$password}', '{$email}', '{$steamID}', 0)");
     queryChangeCheck($query);
+}
+
+function getUserByName($name){
+    $query = adatokLekerese("SELECT * FROM user WHERE userName = '{$name}'");
+    queryGetCheck($query);
+}
+
+function getUserByEmail($email){
+    $query = adatokLekerese("SELECT * FROM user WHERE email = '{$email}'");
+    queryGetCheck($query);
+}
+
+function getUserLogin($email, $password){
+    $query = adatokLekerese("SELECT * FROM user WHERE user.email = '{$email}' AND user.password = '{$password}'");
+    queryGetCheck($query);
 }
 
 function getAdditionalByTimeDesc(){

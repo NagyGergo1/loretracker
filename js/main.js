@@ -47,7 +47,11 @@ async function createUserData() {
     return await callphpFunction('createUserData', { userName: "tesztuser", password: "asd123", email: "joemail@email.com", steamID: "ijdgsiu298479" })
 }
 
+async function getUserByName() {
+    return await callphpFunction('getUserByName', { name: "gergo" })
+}
+
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData()*/)
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName())
 }
 window.addEventListener('load', callAllFunc)
