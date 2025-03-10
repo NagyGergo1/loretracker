@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('http://localhost/loretracker/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/13c-nagyg/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -59,7 +59,41 @@ async function getUserLogin() {
     return await callphpFunction('getUserLogin', { email: "gergonagy1122@gmail.com", password: "asd123" })
 }
 
+function createcookie(){
+    document.cookie = "name=gergo"
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+}
+
+function checkCookie(cname) {
+    let name = getCookie(cname);
+    if(name != ""){
+        alert("Welcome again " + name + "!");
+    }
+    else{
+        alert("Please log in!")
+    }
+  }
+
 async function callAllFunc(){
     console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
+
+    createcookie()
+    console.log(getCookie("name"))
+    checkCookie("name")
 }
 window.addEventListener('load', callAllFunc)
