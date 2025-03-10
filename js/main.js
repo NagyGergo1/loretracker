@@ -95,5 +95,6 @@ async function callAllFunc(){
     createcookie()
     console.log(getCookie("name"))
     checkCookie("name")
+    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 }
 window.addEventListener('load', callAllFunc)
