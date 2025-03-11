@@ -24,8 +24,7 @@ body {
 }
 
 .left-items {
-    background-color: orange;
-    padding: 10px 0; /* Add padding for better layout */
+    padding: 10px 0; 
 }
 
 .left-items > div {
@@ -108,3 +107,6 @@ body {
     background-color: #f1f1f1;
 }
 
+.post-head {
+    display: inline;
+}
