@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('http://localhost/13c-nagyg/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -59,12 +59,12 @@ async function getUserLogin() {
     return await callphpFunction('getUserLogin', { email: "gergonagy1122@gmail.com", password: "asd123" })
 }
 
-function createcookie(name, data){
-    document.cookie = `${name}=${data}; Path=/;`
+function setCookie(cname, data){
+    document.cookie = `loretracker_${cname}=${data}`
 }
 
 function getCookie(cname) {
-    let name = cname + "=";
+    let name = "loretracker_" + cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
     for(let i = 0; i <ca.length; i++) {
@@ -87,16 +87,22 @@ function checkCookie(cname) {
     else{
         alert("Please log in!")
     }
-  }
+}
+
+function deleteCookie(cname){
+    document.cookie = `loretracker_${cname}=none; expires=Mon, 17 Mar 2025 00:00:00 UTC`
+}
 
 async function callAllFunc(){
     console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
 
-    createcookie("name", "gergo")
-    createcookie("email", "gergonagy1122@gmail.com")
+    setCookie("name", "gergo")
     console.log(getCookie("name"))
     checkCookie("name")
-    console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
+    deleteCookie("name")
+    checkCookie("name")
+
+    //console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 }
 window.addEventListener('load', callAllFunc)
 
