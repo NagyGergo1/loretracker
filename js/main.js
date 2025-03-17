@@ -59,8 +59,8 @@ async function getUserLogin() {
     return await callphpFunction('getUserLogin', { email: "gergonagy1122@gmail.com", password: "asd123" })
 }
 
-function createcookie(){
-    document.cookie = "name=gergo"
+function createcookie(name, data){
+    document.cookie = `${name}=${data}; Path=/;`
 }
 
 function getCookie(cname) {
@@ -92,9 +92,30 @@ function checkCookie(cname) {
 async function callAllFunc(){
     console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
 
-    createcookie()
+    createcookie("name", "gergo")
+    createcookie("email", "gergonagy1122@gmail.com")
     console.log(getCookie("name"))
     checkCookie("name")
     console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 }
 window.addEventListener('load', callAllFunc)
+
+//Steam API
+async function steamRequest() {
+    try {
+        let valasz = await fetch('https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=2215430&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=76561198811836115')
+        //let valasz = await fetch('https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=525020EAA6719FA15214AF6D447A5FC7&appid=2215430')
+
+        let adatok = await valasz.json()
+        
+        if(valasz.ok){
+            console.log(adatok.playerstats.achievements)
+            //console.log(adatok.game.availableGameStats.achievements)
+        }
+        else alert("nem jo :c")
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+window.addEventListener('load', steamRequest)

@@ -100,6 +100,8 @@ function queryChangeCheck($query){
 }
 //------------------------------------
 
+
+//játék
 function gameLoadAll($gameId){
     $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
     queryGetCheck($query);
@@ -110,11 +112,15 @@ function gameList(){
     queryGetCheck($query);
 }
 
+
+//felhasználó tracker
 function getUserTracker($trackerID){
     $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE jatekloretracker.trackerID = {$trackerID}");
     queryGetCheck($query);
 }
 
+
+//felhasználó
 function getUserData($userID){
     $query = adatokLekerese("SELECT * FROM user WHERE user.userID = {$userID}");
     queryGetCheck($query);
@@ -141,6 +147,8 @@ function getUserLogin($email, $password){
     queryGetCheck($query);
 }
 
+
+//közösségi oldal
 function getAdditionalByTimeDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at DESC");
     queryGetCheck($query);
