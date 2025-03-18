@@ -52,11 +52,7 @@ export function getCookie(cname) {
 export function checkCookie(cname) {
     let name = getCookie(cname);
     if(name != ""){
-        //alert("Welcome again " + name + "!");
         loginStat = true;
-    }
-    else{
-        alert("Please log in!")
     }
 }
 
