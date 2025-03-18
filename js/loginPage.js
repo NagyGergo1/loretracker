@@ -38,7 +38,7 @@ async function loadPage() {
         button.classList.add("btn");
         button.classList.add("btn-danger");
         button.id = ("kilepes");
-        button.type = "button";
+        button.type = "submit";
         button.innerHTML = "Kilépés";
         button.onclick = () => {deleteCookie("email")};
 
