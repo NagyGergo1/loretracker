@@ -10,12 +10,12 @@ function $(id) {
 }
 
 async function loadPage() {
-    checkCookie("name");
+    checkCookie("email");
     console.log(loginStat);
     if (loginStat == true) {
         $("form-content").innerHTML = "";
-        let userName = getCookie("name");
-        let userData = await callphpFunction("getUserByName", {name: userName});
+        let userEmail = getCookie("email");
+        let userData = await callphpFunction("getUserByName", {email: userEmail});
         console.log(userData);
         let table = document.createElement("table");
         table.classList.add("table");
@@ -44,7 +44,7 @@ async function loadPage() {
         $("form-content").appendChild(table);
         $("form-content").appendChild(button);
 
-        $("kilepes").addEventListener("click", deleteCookie("name"));
+        $("kilepes").addEventListener("click", deleteCookie("email"));
     }
 }
 
