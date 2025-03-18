@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('../php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -40,7 +40,7 @@ async function getUserTracker(){
 }
 
 async function getUserData(){
-    return await callphpFunction('getUserData', { id: 3 })
+    return await callphpFunction('getUserData', { id: 1 })
 }
 
 async function createUserData() {
