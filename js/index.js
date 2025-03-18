@@ -5,9 +5,8 @@ export async function callphpFunction(funcName, params = {}){
         let toSend = {
             "params" : params
         }
-        //let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
-
-        let response = await fetch('http://localhost/fodor/vizsgaRemek/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
+        //let response = await fetch('http://localhost/fodor/vizsgaRemek/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',

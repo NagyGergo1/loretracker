@@ -55,7 +55,19 @@ async function regisztralas() {
 
     if (userPassword != 0) {
         let userAdatok = await callphpFunction("createUserData", {userName : userName, steamID : userSteamId, email : userEmail, password : userPassword});
-        console.log(userAdatok);    
+        console.log(userAdatok);
+        let kiiras = $("form-content")
+        kiiras.innerHTML = `
+            <h1 style="text-align: center;">Sikeres regisztráció!</h1>
+        `;
+        let button = document.createElement("button");
+        button.classList.add("btn");
+        button.classList.add("btn-primary");
+        button.type = "button";
+        button.innerHTML="Bejelentkezés";
+        button.onclick = () => {location.href='./loginPage.html'};
+
+        kiiras.appendChild(button);
     } else {
         //$("visszaJelzes").innerHTML = "";
         $("visszaJelzes").innerHTML += `

@@ -76,6 +76,13 @@ async function bejelentkezes() {
             setCookie("email", userAdatok.email);
             console.log(getCookie("name"));
             checkCookie("name");
+            location.replace(location.href);
+        } else {
+            $("hibakiir").innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    Nincs ilyen felhasználó!
+                </div>
+            `;
         }
     } catch (error) {
         console.log(error);
