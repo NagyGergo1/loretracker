@@ -15,7 +15,7 @@ async function loadPage() {
     if (loginStat == true) {
         $("form-content").innerHTML = "";
         let userEmail = getCookie("email");
-        let userData = await callphpFunction("getUserByName", {email: userEmail});
+        let userData = await callphpFunction("getUserByEmail", {email: userEmail});
         console.log(userData);
         let table = document.createElement("table");
         table.classList.add("table");
@@ -40,11 +40,10 @@ async function loadPage() {
         button.id = ("kilepes");
         button.type = "button";
         button.innerHTML = "Kilépés";
+        button.onclick = () => {deleteCookie("email")};
 
         $("form-content").appendChild(table);
         $("form-content").appendChild(button);
-
-        $("kilepes").addEventListener("click", deleteCookie("email"));
     }
 }
 

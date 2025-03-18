@@ -31,7 +31,7 @@ export async function callphpFunction(funcName, params = {}){
 }
 
 export function setCookie(name, data){
-    document.cookie = `loretracker_${name}=${data};`
+    document.cookie = `loretracker_${name}=${data}; expires=Mon, 24 Mar 2025 00:00:00 UTC`
 }
 
 export function getCookie(cname) {
