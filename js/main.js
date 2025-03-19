@@ -39,6 +39,10 @@ async function getUserTracker(){
     return await callphpFunction('getUserTracker', { id: 1 })
 }
 
+async function getTrackerByUserAndGame() {
+    return await callphpFunction('getTrackerByUserAndGame', { userID: 2, jatekID: 1 })
+}
+
 async function getUserData(){
     return await callphpFunction('getUserData', { id: 1 })
 }
@@ -94,7 +98,7 @@ function deleteCookie(cname){
 }
 
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getTrackerByUserAndGame(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
 
     setCookie("name", "gergo")
     console.log(getCookie("name"))

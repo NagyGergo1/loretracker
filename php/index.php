@@ -27,6 +27,10 @@ switch ($url[0]){
         getUserTracker($params['id']);
         break;
 
+    case "getTrackerByUserAndGame":
+        getTrackerByUserAndGame($params['userID'], $params['jatekID']);
+        break;
+
     //felhasználó
     case "getUserData":
         getUserData($params['id']);
@@ -116,6 +120,11 @@ function gameList(){
 //felhasználó tracker
 function getUserTracker($trackerID){
     $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE jatekloretracker.trackerID = {$trackerID}");
+    queryGetCheck($query);
+}
+
+function getTrackerByUserAndGame($userID, $jatekID){
+    $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE userID = {$userID} AND jatekID = {$jatekID}");
     queryGetCheck($query);
 }
 
