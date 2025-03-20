@@ -37,7 +37,7 @@ async function loadPage() {
         let button = document.createElement("button");
         button.classList.add("btn");
         button.classList.add("btn-danger");
-        button.id = ("kilepes");
+        button.id = "kilepes";
         button.type = "submit";
         button.innerHTML = "Kilépés";
         button.onclick = () => {deleteCookie("email")};

@@ -1,20 +1,21 @@
 import { callphpFunction } from "./index.js";
 import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
-import { getCookie } from "./index.js";
-import { deleteCookie } from "./index.js";
+//import { getCookie } from "./index.js";
+//import { deleteCookie } from "./index.js";
 
 function $(id) {
     return document.getElementById(id);
 }
 
 async function loadPage() {
-    checkCookie("name");
+    checkCookie("email");
     console.log(loginStat);
+/*    
     if (loginStat == true) {
         $("form-content").innerHTML = "";
-        let userName = getCookie("name");
-        let userData = await callphpFunction("getUserByName", {name: userName});
+        let userName = getCookie("email");
+        let userData = await callphpFunction("getUserByEmail", {email: userEmail});
         console.log(userData);
         let table = document.createElement("table");
         table.classList.add("table");
@@ -36,14 +37,20 @@ async function loadPage() {
         let button = document.createElement("button");
         button.classList.add("btn");
         button.classList.add("btn-danger");
-        button.id = ("kilepes");
-        button.type = "button";
-        button.innerHTML = "Kilépés";
+        button.id = "kilepes";
+        button.type = "submit";
+        //button.innerHTML = "Kilépés";
+        button.onclick = () => {deleteCookie("email")};
+
 
         $("form-content").appendChild(table);
         $("form-content").appendChild(button);
 
-        $("kilepes").addEventListener("click", deleteCookie("name"));
+        //$("kilepes").addEventListener("click", deleteCookie("name"));
+    }
+*/
+    if (loginStat == true) {
+        window.location.href='./loginPage.html';
     }
 }
 

@@ -5,7 +5,14 @@ export async function callphpFunction(funcName, params = {}){
         let toSend = {
             "params" : params
         }
-        let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
+        //Otthon
+        let response = await fetch('http://localhost/Iskolai_Munka/Projekt%20Munka/loretracker/php/index.php/' + funcName, {
+
+
+        //Laragon
+        //let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
+
+        //Iskola
         //let response = await fetch('http://localhost/fodor/vizsgaRemek/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {

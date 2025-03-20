@@ -1,5 +1,9 @@
 import { callphpFunction } from "./index.js";
+import { checkCookie } from "./index.js";
+import { loginStat } from "./index.js";
 
+checkCookie("email");
+console.log(loginStat);
 function $(id) {
     return document.getElementById(id);
 }
