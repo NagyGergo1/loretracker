@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Gép: localhost:3306
--- Létrehozás ideje: 2025. Már 18. 11:12
--- Kiszolgáló verziója: 8.4.3
--- PHP verzió: 8.3.16
+-- Gép: 127.0.0.1
+-- Létrehozás ideje: 2025. Már 21. 12:15
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `loretracker`
 --
-CREATE DATABASE IF NOT EXISTS `loretracker` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_hungarian_ci;
+CREATE DATABASE IF NOT EXISTS `loretracker` DEFAULT CHARACTER SET utf8 COLLATE utf8_hungarian_ci;
 USE `loretracker`;
 
 -- --------------------------------------------------------
@@ -30,17 +30,43 @@ USE `loretracker`;
 --
 
 CREATE TABLE `additionallore` (
-  `postID` int NOT NULL,
-  `addJatek` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `addLoreType` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `title` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `body` text COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `publisher` int NOT NULL,
-  `accepted` tinyint NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `likeCounter` int NOT NULL,
-  `relatedPageID` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `postID` int(11) NOT NULL,
+  `jatekID` int(11) NOT NULL,
+  `typeID` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `publisher` int(11) NOT NULL,
+  `accepted` tinyint(4) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `likeCounter` int(11) NOT NULL,
+  `relatedPageID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- Eseményindítók `additionallore`
+--
+DELIMITER $$
+CREATE TRIGGER `additional_logger` AFTER INSERT ON `additionallore` FOR EACH ROW BEGIN
+  INSERT INTO additionallore_log (muvelet, ido, postID, timestamp, data1, data2)
+  VALUES('insert', NOW(), NEW.postID, NEW.publisher, NEW.title);
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `additionallore_log`
+--
+
+CREATE TABLE `additionallore_log` (
+  `logID` int(11) NOT NULL,
+  `muvelet` varchar(255) NOT NULL,
+  `ido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `postID` int(11) NOT NULL,
+  `publisher` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 -- --------------------------------------------------------
 
@@ -49,9 +75,9 @@ CREATE TABLE `additionallore` (
 --
 
 CREATE TABLE `jatek` (
-  `jatekID` int NOT NULL,
-  `nev` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `jatekID` int(11) NOT NULL,
+  `nev` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `jatek`
@@ -68,22 +94,23 @@ INSERT INTO `jatek` (`jatekID`, `nev`) VALUES
 --
 
 CREATE TABLE `jatekloretracker` (
-  `trackerID` int NOT NULL,
-  `userID` int NOT NULL,
-  `jatekID` int NOT NULL,
-  `mainAchievementCounter` int NOT NULL,
-  `sideAchievementCounter1` int NOT NULL,
-  `sideAchievementCounter2` int NOT NULL,
-  `sideAchievementCounter3` int NOT NULL,
-  `sideAchievementCounter4` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `trackerID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `jatekID` int(11) NOT NULL,
+  `mainAchievementCounter` int(11) NOT NULL,
+  `sideAchievementCounter1` int(11) NOT NULL,
+  `sideAchievementCounter2` int(11) NOT NULL,
+  `sideAchievementCounter3` int(11) NOT NULL,
+  `sideAchievementCounter4` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `jatekloretracker`
 --
 
 INSERT INTO `jatekloretracker` (`trackerID`, `userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
-(1, 2, 1, 6, 0, 0, 0, 0);
+(2, 2, 1, 4, 3, 6, 0, 0),
+(6, 1, 2, 4, 3, 6, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -92,12 +119,12 @@ INSERT INTO `jatekloretracker` (`trackerID`, `userID`, `jatekID`, `mainAchieveme
 --
 
 CREATE TABLE `lorepage` (
-  `pageID` int NOT NULL,
-  `jatekID` int NOT NULL,
-  `typeID` int NOT NULL,
-  `title` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `body` text COLLATE utf8mb3_hungarian_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `pageID` int(11) NOT NULL,
+  `jatekID` int(11) NOT NULL,
+  `typeID` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `body` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `lorepage`
@@ -124,9 +151,9 @@ INSERT INTO `lorepage` (`pageID`, `jatekID`, `typeID`, `title`, `body`) VALUES
 --
 
 CREATE TABLE `loretype` (
-  `typeID` int NOT NULL,
-  `typeName` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `typeID` int(11) NOT NULL,
+  `typeName` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `loretype`
@@ -143,13 +170,13 @@ INSERT INTO `loretype` (`typeID`, `typeName`) VALUES
 --
 
 CREATE TABLE `user` (
-  `userID` int NOT NULL,
-  `userName` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `steamID` varchar(255) COLLATE utf8mb3_hungarian_ci NOT NULL,
-  `admin` tinyint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_hungarian_ci;
+  `userID` int(11) NOT NULL,
+  `userName` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `steamID` varchar(255) NOT NULL,
+  `admin` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `user`
@@ -169,7 +196,15 @@ INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin
 ALTER TABLE `additionallore`
   ADD PRIMARY KEY (`postID`),
   ADD UNIQUE KEY `publisher` (`publisher`),
-  ADD UNIQUE KEY `relatedPageID` (`relatedPageID`);
+  ADD UNIQUE KEY `relatedPageID` (`relatedPageID`),
+  ADD UNIQUE KEY `jatekID` (`jatekID`),
+  ADD UNIQUE KEY `typeID` (`typeID`);
+
+--
+-- A tábla indexei `additionallore_log`
+--
+ALTER TABLE `additionallore_log`
+  ADD PRIMARY KEY (`logID`);
 
 --
 -- A tábla indexei `jatek`
@@ -215,37 +250,43 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT a táblához `additionallore_log`
+--
+ALTER TABLE `additionallore_log`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT a táblához `jatek`
 --
 ALTER TABLE `jatek`
-  MODIFY `jatekID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `jatekID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `jatekloretracker`
 --
 ALTER TABLE `jatekloretracker`
-  MODIFY `trackerID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `lorepage`
 --
 ALTER TABLE `lorepage`
-  MODIFY `pageID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `pageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT a táblához `loretype`
 --
 ALTER TABLE `loretype`
-  MODIFY `typeID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `typeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -256,7 +297,9 @@ ALTER TABLE `user`
 --
 ALTER TABLE `additionallore`
   ADD CONSTRAINT `additionallore_ibfk_1` FOREIGN KEY (`publisher`) REFERENCES `user` (`userID`),
-  ADD CONSTRAINT `additionallore_ibfk_2` FOREIGN KEY (`relatedPageID`) REFERENCES `lorepage` (`pageID`);
+  ADD CONSTRAINT `additionallore_ibfk_2` FOREIGN KEY (`relatedPageID`) REFERENCES `lorepage` (`pageID`),
+  ADD CONSTRAINT `additionallore_ibfk_3` FOREIGN KEY (`jatekID`) REFERENCES `jatek` (`jatekID`),
+  ADD CONSTRAINT `additionallore_ibfk_4` FOREIGN KEY (`typeID`) REFERENCES `loretype` (`typeID`);
 
 --
 -- Megkötések a táblához `jatekloretracker`

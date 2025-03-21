@@ -22,13 +22,17 @@ switch ($url[0]){
         gameList();
         break;
 
-    //felhasználó tracker
+    //tracker
     case "getUserTracker":
         getUserTracker($params['id']);
         break;
 
     case "getTrackerByUserAndGame":
         getTrackerByUserAndGame($params['userID'], $params['jatekID']);
+        break;
+
+    case "createTracker":
+        createTracker($params['userID'], $params['jatekID'], $params['mainAcCounter'], $params['optional']);
         break;
 
     //felhasználó
@@ -117,7 +121,7 @@ function gameList(){
 }
 
 
-//felhasználó tracker
+//tracker
 function getUserTracker($trackerID){
     $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE jatekloretracker.trackerID = {$trackerID}");
     queryGetCheck($query);
@@ -126,6 +130,17 @@ function getUserTracker($trackerID){
 function getTrackerByUserAndGame($userID, $jatekID){
     $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE userID = {$userID} AND jatekID = {$jatekID}");
     queryGetCheck($query);
+}
+
+function createTracker($userID, $jatekID, $mainAcCounter, $optional){
+    $counterList = [0, 0, 0, 0];
+
+    for ($i=0; $i < count($optional); $i++) {
+        $counterList[$i] = $optional[$i];
+    }
+
+    $query = adatokValtozasa("REPLACE INTO `jatekloretracker`(`userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES ({$userID},{$jatekID},{$mainAcCounter},{$counterList[0]},{$counterList[1]},{$counterList[2]},{$counterList[3]})");
+    queryChangeCheck($query);
 }
 
 

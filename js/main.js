@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('../php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/13c-nagyg/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -36,7 +36,7 @@ async function gameList(){
 }
 
 async function getUserTracker(){
-    return await callphpFunction('getUserTracker', { id: 1 })
+    return await callphpFunction('getUserTracker', { id: 2 })
 }
 
 async function getTrackerByUserAndGame() {
@@ -102,9 +102,9 @@ async function callAllFunc(){
 
     setCookie("name", "gergo")
     console.log(getCookie("name"))
-    checkCookie("name")
+    //checkCookie("name")
     deleteCookie("name")
-    checkCookie("name")
+    //checkCookie("name")
 
     //console.log(Intl.DateTimeFormat().resolvedOptions().timeZone)
 }
@@ -129,3 +129,8 @@ async function steamRequest() {
     }
 }
 window.addEventListener('load', steamRequest)
+
+async function createTracker(){
+    return await callphpFunction('createTracker', { userID: 1, jatekID: 2, mainAcCounter: 4, optional: [3, 6] })
+}
+document.getElementById("gomba").addEventListener('click', createTracker)
