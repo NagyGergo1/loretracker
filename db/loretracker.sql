@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 21. 12:15
+-- Létrehozás ideje: 2025. Már 21. 13:38
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -43,12 +43,33 @@ CREATE TABLE `additionallore` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
+-- A tábla adatainak kiíratása `additionallore`
+--
+
+INSERT INTO `additionallore` (`postID`, `jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES
+(3, 1, 1, 'asd', 'szoveg', 1, 0, '2025-03-21 11:36:18', 0, 1);
+
+--
 -- Eseményindítók `additionallore`
 --
 DELIMITER $$
-CREATE TRIGGER `additional_logger` AFTER INSERT ON `additionallore` FOR EACH ROW BEGIN
-  INSERT INTO additionallore_log (muvelet, ido, postID, timestamp, data1, data2)
-  VALUES('insert', NOW(), NEW.postID, NEW.publisher, NEW.title);
+CREATE TRIGGER `additional_delete_logger` AFTER DELETE ON `additionallore` FOR EACH ROW BEGIN
+  INSERT INTO additionallore_log (muvelet, ido, postID, publisher, title, accepted)
+  VALUES('delete', NOW(), OLD.postID, OLD.publisher, OLD.title, OLD.accepted);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `additional_insert_logger` AFTER INSERT ON `additionallore` FOR EACH ROW BEGIN
+  INSERT INTO additionallore_log (muvelet, ido, postID, publisher, title, accepted)
+  VALUES('insert', NOW(), NEW.postID, NEW.publisher, NEW.title, NEW.accepted);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `additional_update_logger` AFTER UPDATE ON `additionallore` FOR EACH ROW BEGIN
+  INSERT INTO additionallore_log (muvelet, ido, postID, publisher, title, accepted)
+  VALUES('update', NOW(), NEW.postID, NEW.publisher, NEW.title, NEW.accepted);
 END
 $$
 DELIMITER ;
@@ -65,8 +86,16 @@ CREATE TABLE `additionallore_log` (
   `ido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `postID` int(11) NOT NULL,
   `publisher` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL
+  `title` varchar(255) NOT NULL,
+  `accepted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `additionallore_log`
+--
+
+INSERT INTO `additionallore_log` (`logID`, `muvelet`, `ido`, `postID`, `publisher`, `title`, `accepted`) VALUES
+(2, 'update', '2025-03-21 11:53:35', 3, 1, 'asd', 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +213,56 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin`) VALUES
 (1, 'gergo', 'asd123', 'gergonagy1122@gmail.com', '76561198811836115', 1),
-(2, 'tesztuser', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0);
+(2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0);
+
+--
+-- Eseményindítók `user`
+--
+DELIMITER $$
+CREATE TRIGGER `user_delete_logger` AFTER DELETE ON `user` FOR EACH ROW BEGIN
+  INSERT INTO user_log (muvelet, ido, userID, userName, password, email, steamID)
+  VALUES('delete', NOW(), OLD.userID, OLD.userName, OLD.password, OLD.email, OLD.steamID);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `user_insert_logger` AFTER INSERT ON `user` FOR EACH ROW BEGIN
+  INSERT INTO user_log (muvelet, ido, userID, userName, password, email, steamID)
+  VALUES('insert', NOW(), NEW.userID, NEW.userName, NEW.password, NEW.email, NEW.steamID);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `user_update_logger` AFTER UPDATE ON `user` FOR EACH ROW BEGIN
+  INSERT INTO user_log (muvelet, ido, userID, userName, password, email, steamID)
+  VALUES('update', NOW(), NEW.userID, NEW.userName, NEW.password, NEW.email, NEW.steamID);
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `user_log`
+--
+
+CREATE TABLE `user_log` (
+  `logID` int(11) NOT NULL,
+  `muvelet` varchar(255) NOT NULL,
+  `ido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `userID` int(11) NOT NULL,
+  `userName` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `steamID` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `user_log`
+--
+
+INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `password`, `email`, `steamID`) VALUES
+(1, 'update', '2025-03-21 12:19:19', 2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -243,6 +321,12 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- A tábla indexei `user_log`
+--
+ALTER TABLE `user_log`
+  ADD PRIMARY KEY (`logID`);
+
+--
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -250,13 +334,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `additionallore_log`
 --
 ALTER TABLE `additionallore_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `jatek`
@@ -287,6 +371,12 @@ ALTER TABLE `loretype`
 --
 ALTER TABLE `user`
   MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT a táblához `user_log`
+--
+ALTER TABLE `user_log`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Megkötések a kiírt táblákhoz
