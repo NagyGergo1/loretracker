@@ -1,6 +1,4 @@
-/* @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css"; */
-
-/* foOldal.css (Specific styles for foOldal.html) */
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 
 .content-area {
     flex: 1;
@@ -13,7 +11,7 @@
     flex: 1;
 }
 
-.foOldal {
+.mainPage {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +19,7 @@
     flex-direction: column;
 }
 
-.foOldal_idBeker_container {
+.foOldal_steamID_container {
     display: flex;
     gap: 10px;
 }
@@ -29,8 +27,9 @@
 #text_oldalKereso {
     vertical-align: middle;
     text-align: center;
-    margin: 0 10px;
+    margin: 12px 10px;
     border-radius: 10px;
+    font-family: 'FontAwesome';
 }
 
 .left-items {
