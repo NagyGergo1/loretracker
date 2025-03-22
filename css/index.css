@@ -13,10 +13,9 @@ body {
 
 .navbar {
     display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
     background-color: #333;
     color: #fff;
+    --bs-navbar-padding-y: 0rem;
 }
 
 .left-items,
@@ -26,11 +25,20 @@ body {
 }
 
 .left-items {
-    padding: 10px 0;
+    background-color: orange;
+    display: flex;
+    align-items: stretch;
+    padding: 5px;
 }
 
 .left-items > div {
-    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.right-items {
+    padding-right: 20px;
 }
 
 .navbar div {
