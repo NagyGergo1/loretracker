@@ -8,6 +8,11 @@
     font-family: 'FontAwesome';
 }
 
+#filter_icon,
+#search_icon {
+    font-family: 'FontAwesome';
+}
+
 .sidebar {
     width: 200px;
     background-color: #e1e1e1;
@@ -42,6 +47,7 @@
 }
 
 .community-container .left-side {
+    width: 25%;
     display: flex;
     float: left;
 }
@@ -51,7 +57,7 @@
     float: right;
 }
 
-.community-container select,
+
 .community-container button {
     margin-right: 5px;
 }
@@ -64,6 +70,7 @@
 
 .content {
     flex: 1;
+    padding: 0px 10px;
 }
 
 .sidebar button,

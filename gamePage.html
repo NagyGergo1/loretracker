@@ -45,9 +45,14 @@
                 </div>
                 <div class="community-container">
                     <div class="left-side">
-                        <select name="communityFilter" id="communityFilter" class="form-select">
-                            <option value=""></option>
-                        </select>
+                        <div class="input-group">
+                            <span class="input-group-text" id="filter_icon">&#xf0b0</span>
+                            <select name="communityFilter" id="communityFilter" class="form-select" aria-describedby="filter_icon">
+                                <option value=""></option>
+                            </select>
+                            <button type="button" class="btn btn-warning"
+                            id="search_icon">&#xf002</button>
+                        </div> 
                         <button type="button" class="btn btn-primary">+New</button>
                     </div>
                     <div class="right-side">
