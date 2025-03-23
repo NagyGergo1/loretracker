@@ -1,7 +1,8 @@
 @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 
 #text_libraryPageSearch,
-#filter_icon {
+#filter_icon,
+#startButton_libraryFilter {
     font-family: 'FontAwesome';
 }
 
