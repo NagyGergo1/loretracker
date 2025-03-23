@@ -26,6 +26,8 @@
         </div>
         <div class="main">
             <div class="sidebar">
+                <input type="text" name="text_gamePageSearch" id="text_gamePageSearch" class="form-control"
+                    placeholder="&#xf002 Search">
                 <button>Main Quest</button>
                 <button>Side Quests</button>
                 <button>World</button>
@@ -38,8 +40,19 @@
             </div>
             <div class="content-area">
                 <div class="button-container">
-                    <button>Lore Page</button>
-                    <button>Community Page</button>
+                    <button type="button" class="btn">Lore Page</button>
+                    <button type="button" class="btn">Community Page</button>
+                </div>
+                <div class="community-container">
+                    <div class="left-side">
+                        <select name="communityFilter" id="communityFilter" class="form-select">
+                            <option value=""></option>
+                        </select>
+                        <button type="button" class="btn btn-primary">+New</button>
+                    </div>
+                    <div class="right-side">
+                        <input type="text" name="text_communitySearch" id="text_communitySearch" class="form-control" placeholder="&#xf002 Search">
+                    </div>
                 </div>
                 <div class="content" id="actual_page">
                     <div class="card" style="width: 100%;">
@@ -53,22 +66,26 @@
                                     <h6 style="display: inline;">Chapter X</h6>
                                     <div class="vr"></div>
                                     <h6 style="display: inline;">2025.03.11</h6>
+                                    <div class="btn-group upDownVote">
+                                        <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                                        <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                                    </div>
                                 </div>
                             </span>
                         </div>
                         <div class="card-body">
-                            <div class="card-body" style="border-bottom: 1px;">item1</div>
-                            <div class="card-body">item2</div>
-                            <div class="card-body">item3</div>
+                            <div class="card-text" style="border-bottom: 1px solid black;">item1</div>
+                            <div class="card-text">item2</div>
+                            <div class="card-text">item3</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer">
+        <!-- <div class="footer">
             <div>Footer Content 1</div>
             <div>Footer Content 2</div>
-        </div>
+        </div> -->
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

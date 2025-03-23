@@ -24,10 +24,11 @@
     gap: 10px;
 }
 
-#text_oldalKereso {
+#text_navBarSearch {
     vertical-align: middle;
     text-align: center;
-    margin: 12px 10px;
+    height: 35px;
+    width: 200px;
     border-radius: 10px;
     font-family: 'FontAwesome';
 }

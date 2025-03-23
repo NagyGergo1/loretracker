@@ -1,11 +1,10 @@
 @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 body {
-    margin: 0; /* Remove default margin */
+    margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
 }
 
-/*Navigációs Menü*/
 .navMenu {
     background-color: #333;
     overflow: hidden;
@@ -49,8 +48,6 @@ body {
     padding: 0px 20px 0px 20px;
 }
 
-/*Oldal tartalom*/
-/*Szűrő*/
 .konyvtarOldal_szuro {
     vertical-align: middle;
     text-align: center;
@@ -59,7 +56,6 @@ body {
     font-family: 'FontAwesome';
 }
 
-/*Kártyák*/
 .jatek_kartya {
     width: 150px;
     height: 200px;

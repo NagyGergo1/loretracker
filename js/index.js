@@ -1,5 +1,7 @@
 export var loginStat = false;
 
+export var tempLogin = false;
+
 export async function callphpFunction(funcName, params = {}){
     try {
         let toSend = {
@@ -7,7 +9,6 @@ export async function callphpFunction(funcName, params = {}){
         }
         //Otthon
         let response = await fetch('http://localhost/Iskolai_Munka/Projekt%20Munka/loretracker/php/index.php/' + funcName, {
-
 
         //Laragon
         //let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
