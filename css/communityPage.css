@@ -29,18 +29,27 @@
     background-color: #c1c1c1;
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
-.button-container button {
+.button-container h5 {
+    width: 25%;
+    margin: 5px;
+    padding: 10px;
+    background-color: orange;
+    border: none;
+    text-align: center;
+}
+
+.button-container a {
     display: block;
-    width: 100%;
-    margin: 5px 5px;
+    width: 37.5%;
+    margin: 5px;
     padding: 10px;
     background-color: orange;
     border: none;
     cursor: pointer;
 }
-
 
 .community-container {
     margin: 10px;
