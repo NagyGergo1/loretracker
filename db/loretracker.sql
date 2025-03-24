@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 21. 13:38
+-- Létrehozás ideje: 2025. Már 24. 12:14
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -140,6 +140,56 @@ CREATE TABLE `jatekloretracker` (
 INSERT INTO `jatekloretracker` (`trackerID`, `userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
 (2, 2, 1, 4, 3, 6, 0, 0),
 (6, 1, 2, 4, 3, 6, 0, 0);
+
+--
+-- Eseményindítók `jatekloretracker`
+--
+DELIMITER $$
+CREATE TRIGGER `tracker_delete_logger` AFTER DELETE ON `jatekloretracker` FOR EACH ROW BEGIN
+  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
+  VALUES('delete', NOW(), OLD.trackerID, OLD.mainAchievementCounter,  OLD.sideAchievementCounter1, OLD.sideAchievementCounter2, OLD.sideAchievementCounter3, OLD.sideAchievementCounter4);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `tracker_insert_logger` AFTER INSERT ON `jatekloretracker` FOR EACH ROW BEGIN
+  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
+  VALUES('insert', NOW(), NEW.trackerID, NEW.mainAchievementCounter,  NEW.sideAchievementCounter1, NEW.sideAchievementCounter2, NEW.sideAchievementCounter3, NEW.sideAchievementCounter4);
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `tracker_update_logger` AFTER UPDATE ON `jatekloretracker` FOR EACH ROW BEGIN
+  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
+  VALUES('update', NOW(), NEW.trackerID, NEW.mainAchievementCounter,  NEW.sideAchievementCounter1, NEW.sideAchievementCounter2, NEW.sideAchievementCounter3, NEW.sideAchievementCounter4);
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `jatekloretracker_log`
+--
+
+CREATE TABLE `jatekloretracker_log` (
+  `logID` int(11) NOT NULL,
+  `muvelet` varchar(255) NOT NULL,
+  `ido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `trackerID` int(11) NOT NULL,
+  `mainAchievementCounter` int(11) NOT NULL,
+  `sideAchievementCounter1` int(11) NOT NULL,
+  `sideAchievementCounter2` int(11) NOT NULL,
+  `sideAchievementCounter3` int(11) NOT NULL,
+  `sideAchievementCounter4` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `jatekloretracker_log`
+--
+
+INSERT INTO `jatekloretracker_log` (`logID`, `muvelet`, `ido`, `trackerID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
+(2, 'delete', '2025-03-24 11:14:16', 10, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -295,8 +345,15 @@ ALTER TABLE `jatek`
 --
 ALTER TABLE `jatekloretracker`
   ADD PRIMARY KEY (`trackerID`),
-  ADD UNIQUE KEY `jatekID` (`jatekID`),
-  ADD KEY `userID` (`userID`);
+  ADD UNIQUE KEY `unique_pair` (`userID`,`jatekID`),
+  ADD KEY `userID` (`userID`),
+  ADD KEY `jatekID` (`jatekID`) USING BTREE;
+
+--
+-- A tábla indexei `jatekloretracker_log`
+--
+ALTER TABLE `jatekloretracker_log`
+  ADD PRIMARY KEY (`logID`);
 
 --
 -- A tábla indexei `lorepage`
@@ -352,7 +409,13 @@ ALTER TABLE `jatek`
 -- AUTO_INCREMENT a táblához `jatekloretracker`
 --
 ALTER TABLE `jatekloretracker`
-  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT a táblához `jatekloretracker_log`
+--
+ALTER TABLE `jatekloretracker_log`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `lorepage`
