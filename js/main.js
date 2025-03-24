@@ -63,6 +63,10 @@ async function getUserLogin() {
     return await callphpFunction('getUserLogin', { email: "gergonagy1122@gmail.com", password: "asd123" })
 }
 
+async function updateTracker(){
+    return await callphpFunction('updateTracker', { trackerID: 2, mainAcCounter: 8, optional: [4, 1] })
+}
+
 function setCookie(cname, data){
     document.cookie = `loretracker_${cname}=${data}`
 }
@@ -98,7 +102,7 @@ function deleteCookie(cname){
 }
 
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getTrackerByUserAndGame(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin())
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getTrackerByUserAndGame(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin(), /*await updateTracker()*/)
 
     setCookie("name", "gergo")
     console.log(getCookie("name"))

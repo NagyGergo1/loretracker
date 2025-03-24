@@ -22,6 +22,11 @@ switch ($url[0]){
         gameList();
         break;
 
+    //típus
+    case "getAlltipus":
+        getAlltipus();
+        break;
+
     //tracker
     case "getUserTracker":
         getUserTracker($params['id']);
@@ -33,6 +38,10 @@ switch ($url[0]){
 
     case "createTracker":
         createTracker($params['userID'], $params['jatekID'], $params['mainAcCounter'], $params['optional']);
+        break;
+
+    case "updateTracker":
+        updateTracker($params['trackerID'], $params['mainAcCounter'], $params['optional']);
         break;
 
     //felhasználó
@@ -55,6 +64,8 @@ switch ($url[0]){
     case "getUserLogin":
         getUserLogin($params['email'], $params['password']);
         break;
+
+    //főoldal
 
     //közösségi oldal
     case "getAdditionalByTimeDesc":
@@ -120,6 +131,12 @@ function gameList(){
     queryGetCheck($query);
 }
 
+//típus
+function getAlltipus(){
+    $query = adatokLekerese("SELECT * FROM loretype ORDER BY loretype.typeID");
+    queryGetCheck($query);
+}
+
 
 //tracker
 function getUserTracker($trackerID){
@@ -140,6 +157,17 @@ function createTracker($userID, $jatekID, $mainAcCounter, $optional){
     }
 
     $query = adatokValtozasa("REPLACE INTO `jatekloretracker`(`userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES ({$userID},{$jatekID},{$mainAcCounter},{$counterList[0]},{$counterList[1]},{$counterList[2]},{$counterList[3]})");
+    queryChangeCheck($query);
+}
+
+function updateTracker($trackerID, $mainAcCounter, $optional){
+    $counterList = [0, 0, 0, 0];
+
+    for ($i=0; $i < count($optional); $i++) {
+        $counterList[$i] = $optional[$i];
+    }
+
+    $query = adatokValtozasa("UPDATE `jatekloretracker` SET `mainAchievementCounter`={$mainAcCounter},`sideAchievementCounter1`={$counterList[0]},`sideAchievementCounter2`={$counterList[1]},`sideAchievementCounter3`={$counterList[2]},`sideAchievementCounter4`={$counterList[3]} WHERE trackerID = {$trackerID}");
     queryChangeCheck($query);
 }
 
