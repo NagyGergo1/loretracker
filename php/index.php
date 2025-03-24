@@ -65,6 +65,14 @@ switch ($url[0]){
         getUserLogin($params['email'], $params['password']);
         break;
 
+    case "modifyUser":
+        modifyUser($params['userName'], $params['password'], $params['email'], $params['steamID'], $params['currentEmail']);
+        break;
+
+    case "deleteUser":
+        deleteUser($params['email']);
+        break;
+
     //főoldal
 
     //közösségi oldal
@@ -92,6 +100,20 @@ switch ($url[0]){
         getAdditionalByTitleAsc();
         break;
 
+    //logok
+    case "getUserLog":
+        getUserLog();
+        break;
+
+    case "getAdditionalLog":
+        getAdditionalLog();
+        break;
+
+    case "getTrackerLog":
+        getTrackerLog();
+        break;
+
+    //default
     default:
         echo 'none selected';
         break;
@@ -199,6 +221,16 @@ function getUserLogin($email, $password){
     queryGetCheck($query);
 }
 
+function modifyUser($userName, $password, $email, $steamID, $currentEmail){
+    $query = adatokValtozasa("UPDATE user SET userName = '{$userName}', password = '{$password}', email = '{$email}', steamID = '{$steamID}' WHERE email = '{$currentEmail}'");
+    queryChangeCheck($query);
+}
+
+function deleteUser($email){
+    $query = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
+    queryChangeCheck($query);
+}
+
 
 //közösségi oldal
 function getAdditionalByTimeDesc(){
@@ -228,5 +260,22 @@ function getAdditionalByTitleDesc(){
 
 function getAdditionalByTitleAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title ASC");
+    queryGetCheck($query);
+}
+
+
+//logok
+function getUserLog(){
+    $query = adatokLekerese("SELECT * FROM user_log ORDER BY ido DESC");
+    queryGetCheck($query);
+}
+
+function getAdditionalLog(){
+    $query = adatokLekerese("SELECT * FROM additionallore_log ORDER BY ido DESC");
+    queryGetCheck($query);
+}
+
+function getTrackerLog(){
+    $query = adatokLekerese("SELECT * FROM jatekloretracker_log ORDER BY ido DESC");
     queryGetCheck($query);
 }

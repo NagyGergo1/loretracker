@@ -4,7 +4,7 @@ async function callphpFunction(funcName, params = {}){
             "params" : params
         }
 
-        let response = await fetch('http://localhost/13c-nagyg/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -117,8 +117,8 @@ window.addEventListener('load', callAllFunc)
 //Steam API
 async function steamRequest() {
     try {
-        let valasz = await fetch('https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=2215430&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=76561198811836115')
-        //let valasz = await fetch('https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=525020EAA6719FA15214AF6D447A5FC7&appid=2215430')
+        let valasz = await fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=2215430&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=76561198811836115`)
+        //let valasz = await fetch(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=525020EAA6719FA15214AF6D447A5FC7&appid=2215430`)
 
         let adatok = await valasz.json()
         
@@ -134,7 +134,17 @@ async function steamRequest() {
 }
 window.addEventListener('load', steamRequest)
 
+
 async function createTracker(){
     return await callphpFunction('createTracker', { userID: 1, jatekID: 2, mainAcCounter: 4, optional: [3, 6] })
 }
-document.getElementById("gomba").addEventListener('click', createTracker)
+
+async function modifyUser(){
+    return await callphpFunction('modifyUser', { userName: "tesztuser1", password: "asd123", email: "joemail@email.com", steamID: "2934872982363", currentEmail: "joemail@email.com" })
+}
+
+async function deleteUser(){
+    return await callphpFunction('deleteUser', { email: "ads" })
+}
+
+document.getElementById("gomba").addEventListener('click', deleteUser)
