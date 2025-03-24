@@ -20,6 +20,11 @@ async function loadPage() {
         let userEmail = getCookie("email");
         let userData = await callphpFunction("getUserByEmail", {email: userEmail});
         console.log(userData);
+
+        $("form-content").innerHTML += `
+            <h2 style="text-align: center; color: orange"><b>My Account</b></h2>
+        `;
+
         let table = document.createElement("table");
         table.classList.add("table");
         
@@ -36,18 +41,48 @@ async function loadPage() {
                 <th>SteamID: </th>
                 <td>${userData.steamID}</td>
             </tr>
-        `;
-        let button = document.createElement("button");
-        button.classList.add("btn");
-        button.classList.add("btn-danger");
-        button.id = "kilepes";
-        button.type = "submit";
-        button.innerHTML = "Kilépés";
-        button.onclick = () => {deleteCookie("email")};
-
+        `;        
         $("form-content").appendChild(table);
-        $("form-content").appendChild(button);
+
+        let div = document.createElement("div");
+        div.style.display = "flex";
+        
+        let button1 = document.createElement("button");
+        button1.classList.add("btn");
+        button1.classList.add("btn-danger");
+        button1.id = "torles";
+        button1.type = "submit";
+        button1.style = "margin-right: 2.5px;";
+        button1.innerHTML = "Delete Account";
+        button1.onclick = () => {userDelete()};
+        
+        //$("form-content").appendChild(button1);
+        div.appendChild(button1);
+        
+        let button2 = document.createElement("button");
+        button2.classList.add("btn");
+        button2.classList.add("btn-warning");
+        button2.id = "kilepes";
+        button2.type = "submit";
+        button2.innerHTML = "Log Out";
+        button2.style = "margin-left: 2.5px";
+        button2.onclick = () => {deleteCookie("email")};
+        
+        //$("form-content").appendChild(button2);
+        div.appendChild(button2);
+
+        $("form-content").appendChild(div);
     }
+}
+
+async function userDelete() {
+    let userEmail = getCookie("email");
+    let deleteUser = await callphpFunction("deleteUser", {email : userEmail});
+
+    deleteUser;
+    deleteCookie("email");
+    deleteCookie("name");
+    //location.reload();
 }
 
 async function bejelentkezes() {
