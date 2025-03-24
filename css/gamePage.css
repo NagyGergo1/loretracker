@@ -113,3 +113,12 @@
 .chapters h2 {
     background-color: orange;
 }
+
+.scrollable-content {
+    height: 500px; 
+    overflow-y: auto; 
+}
+
+.nav-link.active {
+    background-color: orange !important;
+}

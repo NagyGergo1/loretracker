@@ -32,17 +32,27 @@ async function jatekAdatBetolt() {
                 chapterText.innerHTML = `${jatekAdatok[j].body}`;
                 chapter.appendChild(chapterText);
 
+                let navDiv = document.createElement("div");
+                navDiv.classList.add("nav-item");
+
                 let chapterGomb = document.createElement("a");
+                chapterGomb.classList.add("nav-link");
                 chapterGomb.type = "button";
                 chapterGomb.href = "#chapter" + (j + 1) + "Section";
                 chapterGomb.innerHTML = `Chapter ${j + 1}`;
+                navDiv.appendChild(chapterGomb);
 
-                tartalomJegy.appendChild(chapterGomb);
+                tartalomJegy.appendChild(navDiv);
                 kiiras.appendChild(chapter);
+
             }
         }
-        
     }
+    const scrollableContent = document.querySelector('.scrollable-content');
+    const scrollSpy = new bootstrap.ScrollSpy(scrollableContent, {
+        target: '#chapter-nav',
+        offset: 100
+    });
 }
 
 window.addEventListener("load", function() {
