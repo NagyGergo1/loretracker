@@ -31,20 +31,7 @@
             <a href="#" type="button" class="btn">Community Page</a>
         </div>
         <div class="main">
-            <div class="sidebar">
-                <input type="text" name="text_gamePageSearch" id="text_gamePageSearch" class="form-control"
-                    placeholder="&#xf002 Search">
-                <button>Main Quest</button>
-                <button>Side Quests</button>
-                <button>World</button>
-                <button>Characters</button>
-            </div>
-            <div class="chapter-navbar">
-                <button>Chapter 1</button>
-                <button>Chapter 2</button>
-                <button>Chapter X</button>
-            </div>
-            <div class="content-area">
+            <div class="content-area" id="content-area">
                 <div class="community-container">
                     <div class="left-side">
                         <div class="input-group">
@@ -56,7 +43,8 @@
                             <button type="button" class="btn btn-warning"
                                 id="startButton_communityFilter">&#xf002</button>
                         </div>
-                        <button type="button" class="btn btn-primary">+New</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#newPostModal">+New</button>
                     </div>
                     <div class="right-side">
                         <input type="text" name="text_communitySearch" id="text_communitySearch" class="form-control"
@@ -95,6 +83,37 @@
             <div>Footer Content 1</div>
             <div>Footer Content 2</div>
         </div> -->
+    </div>
+
+    <!-- New post modal -->
+    <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Community Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newPostTitleLabel">Title: </span>
+                            <input type="text" class="form-control" id="newPostTitle" aria-describedby="newPostTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newPostSectionLabel">Section: </span>
+                            <select class="form-select" name="" id="newPostSection" aria-describedby="newPostSectionLabel">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <textarea class="form-control" name="newPostText" id="newPostText"></textarea>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

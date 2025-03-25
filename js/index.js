@@ -1,3 +1,7 @@
+export function $(id) {
+    return document.getElementById(id);
+}
+
 export var loginStat = false;
 
 export var tempLogin = false;
@@ -8,13 +12,13 @@ export async function callphpFunction(funcName, params = {}){
             "params" : params
         }
         //Otthon
-        let response = await fetch('http://localhost/Iskolai_Munka/Projekt%20Munka/loretracker/php/index.php/' + funcName, {
+        //let response = await fetch('http://localhost/Iskolai_Munka/Projekt%20Munka/loretracker/php/index.php/' + funcName, {
 
         //Laragon
         //let response = await fetch('http://localhost/loretracker/php/index.php/' + funcName, {
 
         //Iskola
-        //let response = await fetch('http://localhost/fodor/vizsgaRemek/loretracker/php/index.php/' + funcName, {
+        let response = await fetch('http://localhost/fodor/vizsgaRemek/loretracker/php/index.php/' + funcName, {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json',
@@ -84,7 +88,9 @@ export async function steamRequest() {
         // if (valasz2.ok) {
         //     console.log(adatok2.game.availableGameStats.achievements)
         // }
-        else alert("nem jo :c")
+        else {
+            return false;
+        }
 
     } catch (error) {
         console.log(error)
