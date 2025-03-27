@@ -10,12 +10,20 @@ function $(id) {
     return document.getElementById(id);
 }
 
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
 
 async function jatekAdatBetolt() {
+    const gameId = getQueryParam("gameId");
+
+    document.getElementById("communityLink").href = `./communityPage.html?gameId=${gameId}`
+
     let kiiras = $("chapters");
     let tartalomJegy = $("chapter-nav");
     let userAdatok = await steamRequest();
-    let jatekAdatok = await callphpFunction("gameloadall", {id : 1});
+    let jatekAdatok = await callphpFunction("gameloadall", {id : gameId});
     
     for (let i = 0; i < userAdatok.length; i++) {
         for (let j = 0; j < jatekAdatok.length; j++) {

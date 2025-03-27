@@ -2,10 +2,17 @@ import { $ } from "./index.js";
 import { callphpFunction } from "./index.js";
 import { steamRequest } from "./index.js";
 
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
 async function newPostSections() {
+    const gameId = getQueryParam("gameId");
+
     let select = $("newPostSection");
     let userAdatok = await steamRequest();
-    let jatekAdatok = await callphpFunction("gameloadall", {id : 1});
+    let jatekAdatok = await callphpFunction("gameloadall", {id : gameId});
     for (let i = 0; i < userAdatok.length; i++) {
         for (let j = 0; j < jatekAdatok.length; j++) {
             if (userAdatok[i].name == jatekAdatok[j].title) {
@@ -17,6 +24,12 @@ async function newPostSections() {
             }
         }
     }
+}
+
+async function loadCommunityPosts() {
+    const gameId = getQueryParam("gameId");
+
+    document.getElementById("lorePageLink").href = `./gamePage.html?gameId=${gameId}`;
 }
 
 async function ujPost() {
@@ -34,4 +47,5 @@ async function ujPost() {
 
 window.addEventListener("load", function() {
     newPostSections();
+    loadCommunityPosts();
 })
