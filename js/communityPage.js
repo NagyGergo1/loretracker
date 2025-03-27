@@ -1,6 +1,9 @@
 import { $ } from "./index.js";
 import { callphpFunction } from "./index.js";
-import { steamRequest } from "./index.js";
+import { steamRequest, loginStat, checkCookie, getCookie } from "./index.js";
+
+checkCookie("email");
+console.log(loginStat);
 
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
@@ -33,17 +36,18 @@ async function loadCommunityPosts() {
 }
 
 async function ujPost() {
-    let kiiras = $("content-area");
+    let ujPostTitle = $("newPostTitle").value;
+    let ujPostPublisher = getCookie("name");
+    let ujPostSection = $("newPostSection").value;
+    let ujPostText = $("newPostText").value;
 
-    kiiras.innerHTML = "";
-
-    let ujPostDiv = document.createElement("div");
-    ujPostDiv.classList.add("new-post-area");
-
-    let ujPostForm = document.createElement("form");
-
-    ujPostForm.innerHTML += ``;
+    if (ujPostTitle == "" || ujPostSection == "" || ujPostText == "") {
+        $("newPostHiba").innerHTML = "Please fill all the blanks!"
+    }
+    console.log(ujPostPublisher);
 }
+
+$("newPostSubmit").addEventListener("click", ujPost);
 
 window.addEventListener("load", function() {
     newPostSections();
