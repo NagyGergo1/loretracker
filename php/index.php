@@ -14,7 +14,7 @@ $params = $bodyContent['params'];
 
 switch ($url[0]){
     //játék
-    case "gameloadall":
+    case "gameLoadAll":
         gameLoadAll($params['id']);
         break;
 
@@ -100,7 +100,7 @@ switch ($url[0]){
         getAdditionalByTitleAsc();
         break;
 
-    //logok
+    //log
     case "getUserLog":
         getUserLog();
         break;
