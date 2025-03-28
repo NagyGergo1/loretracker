@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 24. 12:14
+-- Létrehozás ideje: 2025. Már 28. 12:13
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -105,16 +105,18 @@ INSERT INTO `additionallore_log` (`logID`, `muvelet`, `ido`, `postID`, `publishe
 
 CREATE TABLE `jatek` (
   `jatekID` int(11) NOT NULL,
-  `nev` varchar(255) NOT NULL
+  `nev` varchar(255) NOT NULL,
+  `steamID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `jatek`
 --
 
-INSERT INTO `jatek` (`jatekID`, `nev`) VALUES
-(1, 'Ghost of Tsushima'),
-(2, 'Team Fortress 2');
+INSERT INTO `jatek` (`jatekID`, `nev`, `steamID`) VALUES
+(1, 'Ghost of Tsushima', 2215430),
+(2, 'Team Fortress 2', 440),
+(4, 'Horizon Zero Dawn', 2561580);
 
 -- --------------------------------------------------------
 
@@ -189,7 +191,9 @@ CREATE TABLE `jatekloretracker_log` (
 --
 
 INSERT INTO `jatekloretracker_log` (`logID`, `muvelet`, `ido`, `trackerID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
-(2, 'delete', '2025-03-24 11:14:16', 10, 0, 0, 0, 0, 0);
+(2, 'delete', '2025-03-24 11:14:16', 10, 0, 0, 0, 0, 0),
+(3, 'insert', '2025-03-28 09:51:23', 11, 0, 0, 0, 0, 0),
+(4, 'delete', '2025-03-28 09:55:35', 11, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -312,7 +316,13 @@ CREATE TABLE `user_log` (
 --
 
 INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `password`, `email`, `steamID`) VALUES
-(1, 'update', '2025-03-21 12:19:19', 2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479');
+(1, 'update', '2025-03-21 12:19:19', 2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479'),
+(2, 'insert', '2025-03-28 09:48:05', 4, 'asd', 'asd', 'asd', 'asd'),
+(3, 'insert', '2025-03-28 09:48:33', 5, 'asdasdasasd', 'asdasdasdasdasd', 'asdd', 'asd'),
+(4, 'delete', '2025-03-28 09:55:35', 4, 'asd', 'asd', 'asd', 'asd'),
+(5, 'delete', '2025-03-28 09:55:48', 5, 'asdasdasasd', 'asdasdasdasdasd', 'asdd', 'asd'),
+(6, 'insert', '2025-03-28 09:58:29', 6, 'asd', 'asd', 'asd', 'asd'),
+(7, 'delete', '2025-03-28 09:59:04', 6, 'asd', 'asd', 'asd', 'asd');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -403,19 +413,19 @@ ALTER TABLE `additionallore_log`
 -- AUTO_INCREMENT a táblához `jatek`
 --
 ALTER TABLE `jatek`
-  MODIFY `jatekID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `jatekID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `jatekloretracker`
 --
 ALTER TABLE `jatekloretracker`
-  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `jatekloretracker_log`
 --
 ALTER TABLE `jatekloretracker_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `lorepage`
@@ -433,13 +443,13 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Megkötések a kiírt táblákhoz
