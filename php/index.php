@@ -27,6 +27,10 @@ switch ($url[0]){
         getAlltipus();
         break;
 
+    case "getTipusById":
+        getTipusById($params['id']);
+        break;
+
     //tracker
     case "getUserTracker":
         getUserTracker($params['id']);
@@ -42,6 +46,10 @@ switch ($url[0]){
 
     case "updateTracker":
         updateTracker($params['trackerID'], $params['mainAcCounter'], $params['optional']);
+        break;
+
+    case "deleteTracker":
+        deleteTracker($params['userID']);
         break;
 
     //felhasználó
@@ -76,6 +84,10 @@ switch ($url[0]){
     //főoldal
 
     //közösségi oldal
+    case "getAdditionalByUser":
+        getAdditionalByUser($userID);
+        break;
+
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc();
         break;
@@ -98,6 +110,14 @@ switch ($url[0]){
     
     case "getAdditionalByTitleAsc":
         getAdditionalByTitleAsc();
+        break;
+
+    case "createAdditional":
+        createAdditional($params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['publisher'], $params['relatedPageID']);
+        break;
+
+    case "deleteAdditional":
+        deleteAdditional($postID);
         break;
 
     //log
@@ -159,6 +179,11 @@ function getAlltipus(){
     queryGetCheck($query);
 }
 
+function getTipusById($id){
+    $query = adatokLekerese("SELECT * FROM loretype WHERE typeID = {$id}");
+    queryGetCheck($query);
+}
+
 
 //tracker
 function getUserTracker($trackerID){
@@ -190,6 +215,11 @@ function updateTracker($trackerID, $mainAcCounter, $optional){
     }
 
     $query = adatokValtozasa("UPDATE `jatekloretracker` SET `mainAchievementCounter`={$mainAcCounter},`sideAchievementCounter1`={$counterList[0]},`sideAchievementCounter2`={$counterList[1]},`sideAchievementCounter3`={$counterList[2]},`sideAchievementCounter4`={$counterList[3]} WHERE trackerID = {$trackerID}");
+    queryChangeCheck($query);
+}
+
+function deleteTracker($userID){
+    $query = adatokValtozasa("DELETE FROM `jatekloretracker` WHERE userID = {$userID}");
     queryChangeCheck($query);
 }
 
@@ -227,12 +257,24 @@ function modifyUser($userName, $password, $email, $steamID, $currentEmail){
 }
 
 function deleteUser($email){
-    $query = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
-    queryChangeCheck($query);
+    $query1 = adatokLekerese("SELECT userID FROM user WHERE email = '{$email}'");
+    adatokValtozasa("DELETE FROM jatekloretracker WHERE userID = {$query1[0]['userID']}");
+    adatokValtozasa("DELETE FROM additionallore WHERE publisher = {$query1[0]['userID']}");
+
+    $query3 = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
+    queryChangeCheck($query3);
 }
 
 
+//főoldal
+
+
 //közösségi oldal
+function getAdditionalByUser($userID){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID}");
+    queryGetCheck($query);
+}
+
 function getAdditionalByTimeDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at DESC");
     queryGetCheck($query);
@@ -261,6 +303,16 @@ function getAdditionalByTitleDesc(){
 function getAdditionalByTitleAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title ASC");
     queryGetCheck($query);
+}
+
+function createAdditional($jatekID, $typeID, $title, $body, $publisher, $relatedPageID){
+    $query = adatokValtozasa("INSERT INTO `additionallore`(`jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES ({$jatekID}, {$typeID}, '{$title}', '{$body}', {$publisher}, 0, NOW(), 0, {$relatedPageID})");
+    queryChangeCheck($query);
+}
+
+function deleteAdditional($postID){
+    $query = adatokValtozasa("DELETE FROM `additionallore` WHERE postID = {$postID}");
+    queryChangeCheck($query);
 }
 
 

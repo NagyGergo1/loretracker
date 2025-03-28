@@ -28,7 +28,7 @@ async function callphpFunction(funcName, params = {}){
 }
 
 async function loadLorepage1(){
-    return await callphpFunction('gameloadall', { id: 1 })
+    return await callphpFunction('gameLoadAll', { id: 1 })
 }
 
 async function gameList(){
@@ -102,7 +102,7 @@ function deleteCookie(cname){
 }
 
 async function callAllFunc(){
-    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getTrackerByUserAndGame(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin(), /*await updateTracker()*/)
+    console.log(await loadLorepage1(), await gameList(), await getUserTracker(), await getTrackerByUserAndGame(), await getUserData(), /*await createUserData(),*/ await getUserByName(), await getUserByEmail(), await getUserLogin(), /*await updateTracker(),*/ await getTipusById())
 
     setCookie("name", "gergo")
     console.log(getCookie("name"))
@@ -133,6 +133,7 @@ async function steamRequest() {
     }
 }
 window.addEventListener('load', steamRequest)
+//https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamids=76561198036370701
 
 
 async function createTracker(){
@@ -144,7 +145,11 @@ async function modifyUser(){
 }
 
 async function deleteUser(){
-    return await callphpFunction('deleteUser', { email: "ads" })
+    return await callphpFunction('deleteUser', { email: "asd" })
 }
 
 document.getElementById("gomba").addEventListener('click', deleteUser)
+
+async function getTipusById(){
+    return await callphpFunction('getTipusById', { id: 1 })
+}
