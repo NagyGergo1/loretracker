@@ -39,7 +39,6 @@ async function jatekAdatBetolt() {
                 chapterTitle.innerHTML = `Chapter ${j + 1}`;
                 chapter.appendChild(chapterTitle);
 
-
                 let chapterText = document.createElement("p");
                 chapterText.innerHTML = `${jatekAdatok[j].body}`;
                 chapter.appendChild(chapterText);
