@@ -88,40 +88,44 @@ switch ($url[0]){
     //főoldal
 
     //közösségi oldal
+    case "searchAdditionalByTitle":
+        searchAdditionalByTitle($params['title']);
+        break;
+
     case "getAdditionalByUser":
-        getAdditionalByUser($userID);
+        getAdditionalByUser($params['userID']);
+        break;
+
+    case "getAdditionalByUserAndGame":
+        getAdditionalByUserAndGame($params['userID'], $params['gameId']);
         break;
 
     case "getAdditionalByTimeDesc":
-        getAdditionalByTimeDesc();
+        getAdditionalByTimeDesc($params['gameId']);
         break;
 
     case "getAdditionalByTimeAsc":
-        getAdditionalByTimeAsc();
-        break;
-
-    case "getAdditionalByLikeDesc":
-        getAdditionalByLikeDesc();
-        break;
-
-    case "getAdditionalByLikeAsc":
-        getAdditionalByLikeAsc();
+        getAdditionalByTimeAsc($params['gameId']);
         break;
 
     case "getAdditionalByTitleDesc":
-        getAdditionalByTitleDesc();
+        getAdditionalByTitleDesc($params['gameId']);
         break;
     
     case "getAdditionalByTitleAsc":
-        getAdditionalByTitleAsc();
+        getAdditionalByTitleAsc($params['gameId']);
         break;
 
     case "createAdditional":
         createAdditional($params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['publisher'], $params['relatedPageID']);
         break;
 
+    case "updateAdditional":
+        updateAdditional($params['postID'], $params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['relatedPageID']);
+        break;
+
     case "deleteAdditional":
-        deleteAdditional($postID);
+        deleteAdditional($params['postID']);
         break;
 
     //log
@@ -177,7 +181,7 @@ function gameList(){
     queryGetCheck($query);
 }
 
-function gameNameGet($gameId)  {
+function gameNameGet($gameId) {
     $query = adatokLekerese("SELECT * FROM jatek WHERE jatekID = {$gameId}");
     queryGetCheck($query);
 }
@@ -279,43 +283,48 @@ function deleteUser($email){
 
 
 //közösségi oldal
+function searchAdditionalByTitle($title){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE title LIKE '%{$title}%'");
+    queryGetCheck($query);
+}
+
 function getAdditionalByUser($userID){
     $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID}");
     queryGetCheck($query);
 }
 
-function getAdditionalByTimeDesc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at DESC");
+function getAdditionalByUserAndGame($userID, $gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID} AND jatekID = {$gameId}");
     queryGetCheck($query);
 }
 
-function getAdditionalByTimeAsc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at ASC");
+function getAdditionalByTimeDesc($gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE jatekID = {$gameId} ORDER BY additionallore.created_at DESC");
     queryGetCheck($query);
 }
 
-function getAdditionalByLikeDesc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.likeCounter DESC");
+function getAdditionalByTimeAsc($gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE jatekID = {$gameId} ORDER BY additionallore.created_at ASC");
     queryGetCheck($query);
 }
 
-function getAdditionalByLikeAsc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.likeCounter ASC");
+function getAdditionalByTitleDesc($gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE jatekID = {$gameId} ORDER BY additionallore.title DESC");
     queryGetCheck($query);
 }
 
-function getAdditionalByTitleDesc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title DESC");
-    queryGetCheck($query);
-}
-
-function getAdditionalByTitleAsc(){
-    $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title ASC");
+function getAdditionalByTitleAsc($gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE jatekID = {$gameId} ORDER BY additionallore.title ASC");
     queryGetCheck($query);
 }
 
 function createAdditional($jatekID, $typeID, $title, $body, $publisher, $relatedPageID){
     $query = adatokValtozasa("INSERT INTO `additionallore`(`jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES ({$jatekID}, {$typeID}, '{$title}', '{$body}', {$publisher}, 0, NOW(), 0, {$relatedPageID})");
+    queryChangeCheck($query);
+}
+
+function updateAdditional($postID, $jatekID, $typeID, $title, $body, $relatedPageID){
+    $query = adatokValtozasa("UPDATE `additionallore` SET `jatekID`={$jatekID}, `typeID`={$typeID}, `title`='{$title}', `body`='{$body}', `relatedPageID`={$relatedPageID} WHERE postID = {$postID}");
     queryChangeCheck($query);
 }
 
