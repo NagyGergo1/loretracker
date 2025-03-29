@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Már 28. 12:13
+-- Létrehozás ideje: 2025. Már 29. 12:31
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -333,10 +333,10 @@ INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `passwo
 --
 ALTER TABLE `additionallore`
   ADD PRIMARY KEY (`postID`),
-  ADD UNIQUE KEY `publisher` (`publisher`),
-  ADD UNIQUE KEY `relatedPageID` (`relatedPageID`),
-  ADD UNIQUE KEY `jatekID` (`jatekID`),
-  ADD UNIQUE KEY `typeID` (`typeID`);
+  ADD KEY `publisher` (`publisher`) USING BTREE,
+  ADD KEY `typeID` (`typeID`) USING BTREE,
+  ADD KEY `jatekID` (`jatekID`) USING BTREE,
+  ADD KEY `relatedPageID` (`relatedPageID`) USING BTREE;
 
 --
 -- A tábla indexei `additionallore_log`
@@ -401,7 +401,7 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `additionallore_log`
