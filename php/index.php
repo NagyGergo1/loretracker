@@ -85,7 +85,10 @@ switch ($url[0]){
     case "gameLoadAll":
         gameLoadAll($params['id']);
         break;
-
+    
+    case "getChapterTitle":
+        getChapterTitle($params['gameId'], $params['pageId']);
+        break;
     //közösségi oldal
     case "searchAdditionalByTitle":
         searchAdditionalByTitle($params['title']);
@@ -288,6 +291,11 @@ function deleteUser($email){
 //főoldal
 function gameLoadAll($gameId){
     $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
+    queryGetCheck($query);
+}
+
+function getChapterTitle($gameId, $pageId) {
+    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = $gameId AND pageID = $pageId;");
     queryGetCheck($query);
 }
 

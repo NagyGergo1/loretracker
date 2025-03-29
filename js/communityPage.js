@@ -24,7 +24,7 @@ async function newPostSections() {
             if (userAdatok[i].name == jatekAdatok[j].title) {
                 let option = document.createElement("option");
                 option.value = jatekAdatok[j].pageID;
-                option.innerHTML = `Chapter ${j + 1}`;
+                option.innerHTML = `Chapter ${j + 1}: ${jatekAdatok[j].chapterName}`;
 
                 select.appendChild(option);
             }
@@ -47,46 +47,56 @@ async function loadCommunityPosts() {
         let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
         postPub = postPub.userName;
 
-        let postSection = await callphpFunction("gameLoadAll", { id: getPosts[i].relatedPageID });
-        postSection = postSection[i].title;
+        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId : getPosts[i].relatedPageID });
+        postSection = postSection.chapterName;
 
         console.log(postPub);
         console.log(postSection);
 
         let communityPostCard = document.createElement("div");
         communityPostCard.classList.add("card");
-        communityPostCard.style = "width: 100%;";
+        communityPostCard.style = "width: 100%; margin-bottom: 10px";
+        communityPostCard.id = getPosts[i].postID;
 
         let cardHeader = document.createElement("div");
         cardHeader.classList.add("card-header");
-        cardHeader.innerHTML = `
-            <span>
-                <div>
-                    <h5 style="display: inline;">${getPosts[i].title}</h5>
-                    <div class="vr"></div>
-                    <h6 style="display: inline;">By: ${postPub}</h6>
-                    <div class="vr"></div>
-                    <h6 style="display: inline;">Chapter X</h6>
-                    <div class="vr"></div>
-                    <h6 style="display: inline;">2025.03.11</h6>
-                    <div class="btn-group upDownVote">
-                        <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                        <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                    </div>
-                </div>
-            </span>
+
+        let cardHeaderContent = document.createElement("div");
+        cardHeaderContent.innerHTML = `
+            <h5 style="display: inline;">${getPosts[i].title}</h5>
+            <div class="vr"></div>
+            <h6 style="display: inline;">By: ${postPub}</h6>
+            <div class="vr"></div>
+            <h6 style="display: inline;">${postSection}</h6>
+            <div class="vr"></div>
+            <h6 style="display: inline;">${getPosts[i].created_at}</h6>
+            <div class="btn-group upDownVote">
+                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+            </div>
         `;
+        
+        communityPostCard.appendChild(cardHeader);
+
+        // let deletePostButton = document.createElement("button");
+        // deletePostButton.type = "button";
+        // deletePostButton.classList.add("btn");
+        // deletePostButton.classList.add("btn-danger");
+        // deletePostButton.innerHTML = "Delete Post";
+        // deletePostButton.onclick = () => {callphpFunction("deleteAdditional", {postID : getPosts[i].postID})};
+
+        // $(`card${getPosts[i].postID}HeaderContet`).appendChild(deletePostButton);
 
         let cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
         cardBody.innerHTML = `
-            <div class="card-text" style="border-bottom: 1px solid black;">
-                <p></p>
+            <div class="card-text">
+                <p>${getPosts[i].body}</p>
             </div>
         `;
-    }
-    for (const data of getPosts) {
+        communityPostCard.appendChild(cardBody);
 
+        kiiras.appendChild(communityPostCard);
     }
 }
 
@@ -107,7 +117,8 @@ async function ujPost() {
         } else {
             let postUpload = await callphpFunction("createAdditional", { jatekID: gameId, typeID: 1, title: ujPostTitle, body: ujPostText, publisher: ujPostPublisher, relatedPageID: ujPostSection });
 
-            $("newPostModalClose").click();
+            //$("newPostModalClose").click();
+            location.reload();
         }
         console.log(ujPostPublisher);
     } catch (error) {
