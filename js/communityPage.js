@@ -84,7 +84,10 @@ async function loadCommunityPosts() {
         deletePostButton.style = "display: inline;";
         deletePostButton.innerHTML = "Delete Post";
         deletePostButton.onclick = () => {callphpFunction("deleteAdditional", {postID : getPosts[i].postID}), location.reload()};
-        cardHeaderContent.appendChild(deletePostButton);
+
+        if (postPub == getCookie("name")) {
+            cardHeaderContent.appendChild(deletePostButton);
+        }
 
         cardHeader.appendChild(cardHeaderContent);
 
