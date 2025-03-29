@@ -92,6 +92,10 @@ switch ($url[0]){
         getAdditionalByUser($params['userID']);
         break;
 
+    case "getAdditionalByUserAndGame":
+        getAdditionalByUserAndGame($params['userID'], $params['gameId']);
+        break;
+
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc($params['gameId']);
         break;
@@ -110,6 +114,10 @@ switch ($url[0]){
 
     case "createAdditional":
         createAdditional($params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['publisher'], $params['relatedPageID']);
+        break;
+
+    case "updateAdditional":
+        updateAdditional($params['postID'], $params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['relatedPageID']);
         break;
 
     case "deleteAdditional":
@@ -276,6 +284,11 @@ function getAdditionalByUser($userID){
     queryGetCheck($query);
 }
 
+function getAdditionalByUserAndGame($userID, $gameId){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID} AND jatekID = {$gameId}");
+    queryGetCheck($query);
+}
+
 function getAdditionalByTimeDesc($gameId){
     $query = adatokLekerese("SELECT * FROM additionallore WHERE jatekID = {$gameId} ORDER BY additionallore.created_at DESC");
     queryGetCheck($query);
@@ -298,6 +311,11 @@ function getAdditionalByTitleAsc($gameId){
 
 function createAdditional($jatekID, $typeID, $title, $body, $publisher, $relatedPageID){
     $query = adatokValtozasa("INSERT INTO `additionallore`(`jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES ({$jatekID}, {$typeID}, '{$title}', '{$body}', {$publisher}, 0, NOW(), 0, {$relatedPageID})");
+    queryChangeCheck($query);
+}
+
+function updateAdditional($postID, $jatekID, $typeID, $title, $body, $relatedPageID){
+    $query = adatokValtozasa("UPDATE `additionallore` SET `jatekID`={$jatekID}, `typeID`={$typeID}, `title`='{$title}', `body`='{$body}', `relatedPageID`={$relatedPageID} WHERE postID = {$postID}");
     queryChangeCheck($query);
 }
 
