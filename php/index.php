@@ -14,10 +14,6 @@ $params = $bodyContent['params'];
 
 switch ($url[0]){
     //játék
-    case "gameLoadAll":
-        gameLoadAll($params['id']);
-        break;
-
     case "gameList":
         gameList();
         break;
@@ -86,6 +82,9 @@ switch ($url[0]){
         break;
 
     //főoldal
+    case "gameLoadAll":
+        gameLoadAll($params['id']);
+        break;
 
     //közösségi oldal
     case "searchAdditionalByTitle":
@@ -122,6 +121,18 @@ switch ($url[0]){
 
     case "updateAdditional":
         updateAdditional($params['postID'], $params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['relatedPageID']);
+        break;
+
+    case "acceptAdditional":
+        acceptAdditional($params['postID'], $params['accepted']);
+        break;
+
+    case "likeAdditional":
+        likeAdditional($params['postID']);
+        break;
+
+    case "dislikeAdditional":
+        dislikeAdditional($params['postID']);
         break;
 
     case "deleteAdditional":
@@ -171,11 +182,6 @@ function queryChangeCheck($query){
 
 
 //játék
-function gameLoadAll($gameId){
-    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
-    queryGetCheck($query);
-}
-
 function gameList(){
     $query = adatokLekerese("SELECT * FROM jatek ORDER BY jatek.jatekID");
     queryGetCheck($query);
@@ -280,6 +286,10 @@ function deleteUser($email){
 
 
 //főoldal
+function gameLoadAll($gameId){
+    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = {$gameId}");
+    queryGetCheck($query);
+}
 
 
 //közösségi oldal
@@ -327,6 +337,22 @@ function updateAdditional($postID, $jatekID, $typeID, $title, $body, $relatedPag
     $query = adatokValtozasa("UPDATE `additionallore` SET `jatekID`={$jatekID}, `typeID`={$typeID}, `title`='{$title}', `body`='{$body}', `relatedPageID`={$relatedPageID} WHERE postID = {$postID}");
     queryChangeCheck($query);
 }
+
+function acceptAdditional($postID, $accepted){
+    $query = adatokValtozasa("UPDATE additionallore SET accepted={$accepted} WHERE postID = {$postID}");
+    queryChangeCheck($query);
+}
+
+function likeAdditional($postID){
+    $query = adatokValtozasa("UPDATE additionallore SET likeCounter = likeCounter + 1 WHERE postID = {$postID}");
+    queryChangeCheck($query);
+}
+
+function dislikeAdditional($postID){
+    $query = adatokValtozasa("UPDATE additionallore SET likeCounter = likeCounter - 1 WHERE postID = {$postID}");
+    queryChangeCheck($query);
+}
+
 
 function deleteAdditional($postID){
     $query = adatokValtozasa("DELETE FROM `additionallore` WHERE postID = {$postID}");
