@@ -1,4 +1,4 @@
-import { callphpFunction } from "./index.js";
+import { callphpFunction, getCookie } from "./index.js";
 import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
 import { steamRequest } from "./index.js";
@@ -20,10 +20,14 @@ async function jatekAdatBetolt() {
 
     document.getElementById("communityLink").href = `./communityPage.html?gameId=${gameId}`
 
+    let gameData = await callphpFunction("gameNameGet", {id : gameId});
+    let userData = await callphpFunction("getUserByEmail", {email : getCookie("email")});
+
+
     let kiiras = $("chapters");
     let tartalomJegy = $("chapter-nav");
-    let userAdatok = await steamRequest();
-    let jatekAdatok = await callphpFunction("gameloadall", {id : gameId});
+    let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
+    let jatekAdatok = await callphpFunction("gameLoadAll", {id : gameId});
     
     for (let i = 0; i < userAdatok.length; i++) {
         for (let j = 0; j < jatekAdatok.length; j++) {

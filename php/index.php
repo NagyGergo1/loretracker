@@ -14,7 +14,7 @@ $params = $bodyContent['params'];
 
 switch ($url[0]){
     //játék
-    case "gameloadall":
+    case "gameLoadAll":
         gameLoadAll($params['id']);
         break;
 
@@ -22,9 +22,17 @@ switch ($url[0]){
         gameList();
         break;
 
+    case "gameNameGet":
+        gameNameGet($params['id']);
+        break;
+
     //típus
     case "getAlltipus":
         getAlltipus();
+        break;
+
+    case "getTipusById":
+        getTipusById($params['id']);
         break;
 
     //tracker
@@ -42,6 +50,10 @@ switch ($url[0]){
 
     case "updateTracker":
         updateTracker($params['trackerID'], $params['mainAcCounter'], $params['optional']);
+        break;
+
+    case "deleteTracker":
+        deleteTracker($params['userID']);
         break;
 
     //felhasználó
@@ -76,6 +88,10 @@ switch ($url[0]){
     //főoldal
 
     //közösségi oldal
+    case "getAdditionalByUser":
+        getAdditionalByUser($userID);
+        break;
+
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc();
         break;
@@ -100,7 +116,15 @@ switch ($url[0]){
         getAdditionalByTitleAsc();
         break;
 
-    //logok
+    case "createAdditional":
+        createAdditional($params['jatekID'], $params['typeID'], $params['title'], $params['body'], $params['publisher'], $params['relatedPageID']);
+        break;
+
+    case "deleteAdditional":
+        deleteAdditional($postID);
+        break;
+
+    //log
     case "getUserLog":
         getUserLog();
         break;
@@ -153,9 +177,19 @@ function gameList(){
     queryGetCheck($query);
 }
 
+function gameNameGet($gameId)  {
+    $query = adatokLekerese("SELECT * FROM jatek WHERE jatekID = {$gameId}");
+    queryGetCheck($query);
+}
+
 //típus
 function getAlltipus(){
     $query = adatokLekerese("SELECT * FROM loretype ORDER BY loretype.typeID");
+    queryGetCheck($query);
+}
+
+function getTipusById($id){
+    $query = adatokLekerese("SELECT * FROM loretype WHERE typeID = {$id}");
     queryGetCheck($query);
 }
 
@@ -193,6 +227,11 @@ function updateTracker($trackerID, $mainAcCounter, $optional){
     queryChangeCheck($query);
 }
 
+function deleteTracker($userID){
+    $query = adatokValtozasa("DELETE FROM `jatekloretracker` WHERE userID = {$userID}");
+    queryChangeCheck($query);
+}
+
 
 //felhasználó
 function getUserData($userID){
@@ -227,12 +266,24 @@ function modifyUser($userName, $password, $email, $steamID, $currentEmail){
 }
 
 function deleteUser($email){
-    $query = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
-    queryChangeCheck($query);
+    $query1 = adatokLekerese("SELECT userID FROM user WHERE email = '{$email}'");
+    adatokValtozasa("DELETE FROM jatekloretracker WHERE userID = {$query1[0]['userID']}");
+    adatokValtozasa("DELETE FROM additionallore WHERE publisher = {$query1[0]['userID']}");
+
+    $query3 = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
+    queryChangeCheck($query3);
 }
 
 
+//főoldal
+
+
 //közösségi oldal
+function getAdditionalByUser($userID){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID}");
+    queryGetCheck($query);
+}
+
 function getAdditionalByTimeDesc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.created_at DESC");
     queryGetCheck($query);
@@ -261,6 +312,16 @@ function getAdditionalByTitleDesc(){
 function getAdditionalByTitleAsc(){
     $query = adatokLekerese("SELECT * FROM additionallore ORDER BY additionallore.title ASC");
     queryGetCheck($query);
+}
+
+function createAdditional($jatekID, $typeID, $title, $body, $publisher, $relatedPageID){
+    $query = adatokValtozasa("INSERT INTO `additionallore`(`jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES ({$jatekID}, {$typeID}, '{$title}', '{$body}', {$publisher}, 0, NOW(), 0, {$relatedPageID})");
+    queryChangeCheck($query);
+}
+
+function deleteAdditional($postID){
+    $query = adatokValtozasa("DELETE FROM `additionallore` WHERE postID = {$postID}");
+    queryChangeCheck($query);
 }
 
 

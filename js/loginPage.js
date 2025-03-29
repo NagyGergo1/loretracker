@@ -66,13 +66,19 @@ async function loadPage() {
         button2.type = "submit";
         button2.innerHTML = "Log Out";
         button2.style = "margin-left: 2.5px";
-        button2.onclick = () => {deleteCookie("email")};
+        button2.onclick = () => {logOut()};
         
         //$("form-content").appendChild(button2);
         div.appendChild(button2);
 
         $("form-content").appendChild(div);
     }
+}
+
+function logOut() {
+    deleteCookie("name");
+    deleteCookie("email");
+    deleteCookie("userId");
 }
 
 async function userDelete() {
@@ -112,6 +118,7 @@ async function bejelentkezes() {
         if (userAdatok && userAdatok.userName) {
             setCookie("name", userAdatok.userName);
             setCookie("email", userAdatok.email);
+            setCookie("userId", userAdatok.userID)
             console.log(getCookie("name"));
             checkCookie("name");
             location.replace(location.href);

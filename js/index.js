@@ -72,9 +72,9 @@ export function deleteCookie(cname){
     document.cookie = `loretracker_${cname}=none; expires=Mon, 17 Mar 2025 00:00:00 UTC`
 }
 
-export async function steamRequest() {
+export async function steamRequest(jatekAzon, steamAzon) {
     try {
-        let valasz1 = await fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=2215430&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=76561198811836115`)
+        let valasz1 = await fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=${jatekAzon}&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=${steamAzon}`)
         //let valasz2 = await fetch(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=525020EAA6719FA15214AF6D447A5FC7&appid=2215430`)
 
         let adatok1 = await valasz1.json()
