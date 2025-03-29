@@ -89,6 +89,19 @@ switch ($url[0]){
     case "getChapterTitle":
         getChapterTitle($params['gameId'], $params['pageId']);
         break;
+
+    case "createLorepage":
+        createLorepage($params['jatekID'], $params['typeID'], $params['title'], $params['chapterName'], $params['body']);
+        break;
+
+    case "updateLorepage":
+        updateLorepage($params['pageId'], $params['typeID'], $params['title'], $params['chapterName'], $params['body']);
+        break;
+
+    case "deleteLorepage":
+        deleteLorepage($params['pageId']);
+        break;
+
     //közösségi oldal
     case "searchAdditionalByTitle":
         searchAdditionalByTitle($params['title']);
@@ -297,6 +310,23 @@ function gameLoadAll($gameId){
 function getChapterTitle($gameId, $pageId) {
     $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = $gameId AND pageID = $pageId;");
     queryGetCheck($query);
+}
+
+function createLorepage($jatekID, $typeID, $title, $chapterName, $body){
+    $query = adatokValtozasa("INSERT INTO `lorepage`(`jatekID`, `typeID`, `title`, `chapterName`, `body`) VALUES ({$jatekID}, {$typeID}, '{$title}', '{$chapterName}', '{$body}')");
+    queryChangeCheck($query);
+}
+
+function updateLorepage($pageId, $typeID, $title, $chapterName, $body){
+    $query = adatokValtozasa("UPDATE `lorepage` SET `typeID`={$typeID}, `title`='{$title}', `chapterName`='{$chapterName}', `body`='{$body}' WHERE pageID = {$pageId}");
+    queryChangeCheck($query);
+}
+
+function deleteLorepage($pageId){
+    adatokValtozasa("DELETE FROM additionallore WHERE relatedPageID = {$pageId}");
+
+    $query = adatokValtozasa("DELETE FROM lorepage WHERE pageID = {$pageId}");
+    queryChangeCheck($query);
 }
 
 
