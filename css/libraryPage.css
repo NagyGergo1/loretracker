@@ -1,0 +1,64 @@
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
+#text_libraryPageSearch,
+#filter_icon,
+#startButton_libraryFilter {
+    font-family: 'FontAwesome';
+}
+
+.horizontal-sidebar {
+    background-color: #e1e1e1;
+    padding: 5px;
+    width: 100%;
+}
+
+.horizontal-sidebar-content {
+    display: flex;
+    align-items: center;
+    float: left;
+}
+
+.horizontal-sidebar-content > * {
+    margin-right: 10px;
+    text-align: center;
+}
+
+.horizontal-sidebar-content button {
+    height: 37.14px;
+}
+
+.horizontal-sidebar-content > *:last-child {
+    margin-right: 0;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 5px;
+}
+
+.jatek_kartya {
+    width: 150px;
+    height: 200px;
+    text-decoration: none;
+}
+
+.card-footer {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.jatek_kartya:hover .card-footer {
+    visibility: visible;
+    opacity: 1;
+}

@@ -1,0 +1,124 @@
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
+#text_gamePageSearch,
+#text_communitySearch {
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 10px;
+    font-family: 'FontAwesome';
+}
+
+#filter_icon,
+#startButton_communityFilter {
+    font-family: 'FontAwesome';
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #e1e1e1;
+    padding: 10px;
+}
+
+.chapter-navbar {
+    width: 150px;
+    background-color: #d1d1d1;
+    padding: 10px;
+}
+
+.button-container {
+    background-color: #c1c1c1;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.button-container h5 {
+    width: 25%;
+    margin: 5px;
+    padding: 10px;
+    background-color: orange;
+    border: none;
+    text-align: center;
+}
+
+.button-container a {
+    display: block;
+    width: 37.5%;
+    margin: 5px;
+    padding: 10px;
+    background-color: orange;
+    border: none;
+    cursor: pointer;
+}
+
+.content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    padding: 10px;
+}
+
+.sidebar button,
+.chapter-navbar button,
+.content button {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+}
+
+.chapter-navbar a {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #ccc;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+
+.content .chapter {
+    margin: 20px 0;
+}
+
+.content .chapter h2 {
+    margin: 10px 0;
+}
+
+.content .chapter p {
+    margin: 10px 0;
+}
+
+.content .image-placeholder {
+    width: 200px;
+    height: 200px;
+    background-color: #ddd;
+    margin: 20px 0;
+}
+
+.post-head {
+    display: inline;
+}
+
+.chapters h2 {
+    background-color: orange;
+}
+
+.scrollable-content {
+    height: 500px; 
+    overflow-y: auto; 
+}
+
+.nav-link.active {
+    background-color: orange !important;
+}
