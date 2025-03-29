@@ -22,7 +22,7 @@ async function steamIdGet() {
     if (steamID == "") {
         hibaKiir.innerHTML = `
             <div class="alert alert-danger" role="alert">
-                Cannot procceed without your SteamID!               
+                Cannot proceed without your SteamID!               
             </div>
         `;
     }
