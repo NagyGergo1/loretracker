@@ -75,17 +75,20 @@ async function loadCommunityPosts() {
                 <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
             </div>
         `;
-        
+
+        let deletePostButton = document.createElement("button");
+        deletePostButton.type = "submit";
+        deletePostButton.classList.add("btn");
+        deletePostButton.classList.add("btn-danger");
+        deletePostButton.classList.add("postDeleteButton");
+        deletePostButton.style = "display: inline;";
+        deletePostButton.innerHTML = "Delete Post";
+        deletePostButton.onclick = () => {callphpFunction("deleteAdditional", {postID : getPosts[i].postID}), location.reload()};
+        cardHeaderContent.appendChild(deletePostButton);
+
+        cardHeader.appendChild(cardHeaderContent);
+
         communityPostCard.appendChild(cardHeader);
-
-        // let deletePostButton = document.createElement("button");
-        // deletePostButton.type = "button";
-        // deletePostButton.classList.add("btn");
-        // deletePostButton.classList.add("btn-danger");
-        // deletePostButton.innerHTML = "Delete Post";
-        // deletePostButton.onclick = () => {callphpFunction("deleteAdditional", {postID : getPosts[i].postID})};
-
-        // $(`card${getPosts[i].postID}HeaderContet`).appendChild(deletePostButton);
 
         let cardBody = document.createElement("div");
         cardBody.classList.add("card-body");

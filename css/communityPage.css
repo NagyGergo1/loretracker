@@ -71,8 +71,7 @@
 }
 
 .sidebar button,
-.chapter-navbar button,
-.content button {
+.chapter-navbar button {
     display: block;
     width: 100%;
     margin: 5px 0;
@@ -107,12 +106,15 @@
 
 .content .post-vote-btn {
     font-family: 'FontAwesome';
-    padding: 0px;
-    width: 35px;
     margin: 0px;
 }
 
 .upDownVote {
     float: right;
+}
+
+.content .postDeleteButton {
+    margin: 0px;
+    /* padding: 5px; */
 }
 
