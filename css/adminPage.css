@@ -1,0 +1,11 @@
+.button-container{
+    width: auto !important;
+}
+
+.btn, .btn:hover, .btn:visited{
+    background-color: orange;
+}
+
+.btn:active{
+    background-color: rgb(248, 138, 0) !important;
+}
