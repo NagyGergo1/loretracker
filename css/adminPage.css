@@ -4,6 +4,7 @@
 
 .btn, .btn:hover, .btn:visited{
     background-color: orange;
+    border-radius: 0%;
 }
 
 .btn:active{
