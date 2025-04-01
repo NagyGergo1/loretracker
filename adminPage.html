@@ -20,38 +20,71 @@
         </div>
         <div class="content-area">
             <div class="d-grid">
-                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#firstCollapse">Button</button>
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#mainlogCollapse" style="border-radius: 0px; background-color: orange;">Logs</button>
             </div>
-            <div class="row collapse mx-0" id="firstCollapse">
+            <div class="row collapse mx-0" id="mainlogCollapse">
+              <div class="d-grid">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#userlogCollapse" style="border-radius: 5px; background-color: rgb(0, 71, 171); margin-top: 3px;">User logs</button>
+              </div>
+              <div class="row collapse mx-0" id="userlogCollapse">
+                <table class="table" style="margin-bottom: 5px;">
+                  <thead>
+                    <tr>
+                      <th scope="col">Log ID</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">User ID</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Steam ID</th>
+                    </tr>
+                  </thead>
+                  <tbody id="userlogs"></tbody>
+                </table>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#additionallogCollapse" style="border-radius: 5px; background-color: rgb(0, 71, 171); margin-top: 3px;">Post logs</button>
+              </div>
+              <div class="row collapse mx-0" id="additionallogCollapse">
                 <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Log ID</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Post ID</th>
+                      <th scope="col">Publisher ID</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Accepted</th>
+                    </tr>
+                  </thead>
+                  <tbody id="additionallogs"></tbody>
+                </table>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#trackerlogCollapse" style="border-radius: 5px; background-color: rgb(0, 71, 171); margin-top: 3px; margin-bottom: 5px;">Tracker logs</button>
+              </div>
+              <div class="row collapse mx-0" id="trackerlogCollapse">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Log ID</th>
+                      <th scope="col">Method</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Tracker ID</th>
+                      <th scope="col">Main achievement</th>
+                      <th scope="col">Side achievement 1</th>
+                      <th scope="col">Side achievement 2</th>
+                      <th scope="col">Side achievement 3</th>
+                      <th scope="col">Side achievement 4</th>
+                    </tr>
+                  </thead>
+                  <tbody id="trackerlogs"></tbody>
+                </table>
+              </div>
             </div>
         </div>
     </div>

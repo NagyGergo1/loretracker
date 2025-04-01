@@ -409,16 +409,16 @@ function deleteAdditional($postID){
 
 //logok
 function getUserLog(){
-    $query = adatokLekerese("SELECT * FROM user_log ORDER BY ido DESC");
+    $query = adatokLekerese("SELECT * FROM user_log ORDER BY ido");
     queryGetCheck($query);
 }
 
 function getAdditionalLog(){
-    $query = adatokLekerese("SELECT * FROM additionallore_log ORDER BY ido DESC");
+    $query = adatokLekerese("SELECT * FROM additionallore_log ORDER BY ido");
     queryGetCheck($query);
 }
 
 function getTrackerLog(){
-    $query = adatokLekerese("SELECT * FROM jatekloretracker_log ORDER BY ido DESC");
+    $query = adatokLekerese("SELECT * FROM jatekloretracker_log ORDER BY ido");
     queryGetCheck($query);
 }

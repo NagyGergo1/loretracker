@@ -2,11 +2,15 @@
     width: auto !important;
 }
 
-.btn, .btn:hover, .btn:visited{
-    background-color: orange;
-    border-radius: 0%;
+button{
+    color: white !important;
 }
 
-.btn:active{
-    background-color: rgb(248, 138, 0) !important;
+#spoiler{
+    background-color: black;
+    color: black;
+}
+
+#spoiler:hover{
+    background-color: white;
 }
