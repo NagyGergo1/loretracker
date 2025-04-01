@@ -51,6 +51,9 @@
                             placeholder="&#xf002 Search">
                     </div>
                 </div>
+                <!-- <div id="searchError">
+
+                </div> -->
                 <div class="content" id="actual_page">
                     
                 </div>
@@ -59,11 +62,11 @@
     </div>
 
     <!-- New post modal -->
-    <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Community Post</h1>
+                    <h1 class="modal-title fs-5" id="newPostModalLabel">New Community Post</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -87,6 +90,40 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="newPostModalClose">Close</button>
                     <button type="submit" class="btn btn-primary" id="newPostSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Post Modal -->
+    <div class="modal fade" id="editPostModal" tabindex="-1" aria-labelledby="editPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editPostModalLabel">Edit Community Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editPostTitleLabel">Title: </span>
+                            <input type="text" class="form-control" id="editPostTitle" aria-describedby="editPostTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editPostSectionLabel">Section: </span>
+                            <select class="form-select" name="" id="editPostSection" aria-describedby="editPostSectionLabel">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <textarea class="form-control" name="editPostText" id="editPostText"></textarea>
+                    </form>
+                    <div id="editPostHiba">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editPostModalClose">Close</button>
+                    <button type="button" class="btn btn-primary" id="editPostSubmit">Submit</button>
                 </div>
             </div>
         </div>

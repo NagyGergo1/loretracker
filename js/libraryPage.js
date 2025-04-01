@@ -1,18 +1,69 @@
-import { steamRequest } from "./index.js";
+//import { steamRequest } from "./index.js";
 
 function $(id) {
     return document.getElementById(id);
 }
 
-async function jatek1Check() {
-    let vanJatek = await steamRequest();
-    console.log(vanJatek);
+function orderCards() {
+    let setConfig = $("select_libraryPageFilter").value;
+    let cardArea = $("kartya_row");
+    let cards = Array.from(document.querySelectorAll(".kartya"));
 
-    if (vanJatek == false) {
-        console.log("OK");
+    switch (setConfig) {
+        case "a-z":
+            cards.sort((game1, game2) => {
+                let title1 = game1.querySelector("h6").textContent.toLowerCase();
+                let title2 = game2.querySelector("h6").textContent.toLowerCase();
+                return title1.localeCompare(title2);
+            })
+
+            for (const card of cards) {
+                cardArea.appendChild(card);
+            }
+
+            break;
+
+        case "z-a":
+            cards.sort((game1, game2) => {
+                let title1 = game1.querySelector("h6").textContent.toLowerCase();
+                let title2 = game2.querySelector("h6").textContent.toLowerCase();
+                return title2.localeCompare(title1);
+            })
+
+            for (const card of cards) {
+                cardArea.appendChild(card);
+            }
+            
+            break;
+    }
+
+
+}
+
+function searchBar() {
+    let gameSearch = $("text_libraryPageSearch").value.toLowerCase();
+
+    let cards = document.querySelectorAll(".kartya");
+
+    console.log(cards);
+
+    for (const element of cards) {
+        if (element.id.toLowerCase() != gameSearch) {
+            element.setAttribute("hidden", true);
+        }
+        console.log(element.id.toLowerCase());
     }
 }
 
-window.addEventListener("load", function() {
-    jatek1Check();
+$("text_libraryPageSearch").addEventListener("keydown", function (press) {
+    if (press.key === "Enter") {
+        press.preventDefault();
+        searchBar();
+    }
+});
+
+$("startButton_libraryFilter").addEventListener("click", orderCards);
+
+window.addEventListener("load", function () {
+    //jatek1Check();
 });

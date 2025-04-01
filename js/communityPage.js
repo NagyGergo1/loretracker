@@ -16,7 +16,8 @@ async function newPostSections() {
     let gameData = await callphpFunction("gameNameGet", { id: gameId });
     let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
 
-    let select = $("newPostSection");
+    let newSelect = $("newPostSection");
+    let editSelect = $("editPostSection");
     let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
     let jatekAdatok = await callphpFunction("gameLoadAll", { id: gameId });
     for (let i = 0; i < userAdatok.length; i++) {
@@ -26,7 +27,8 @@ async function newPostSections() {
                 option.value = jatekAdatok[j].pageID;
                 option.innerHTML = `Chapter ${j + 1}: ${jatekAdatok[j].chapterName}`;
 
-                select.appendChild(option);
+                newSelect.appendChild(option);
+                editSelect.appendChild(option);
             }
         }
     }
@@ -47,7 +49,7 @@ async function loadCommunityPosts() {
         let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
         postPub = postPub.userName;
 
-        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId : getPosts[i].relatedPageID });
+        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts[i].relatedPageID });
         postSection = postSection.chapterName;
 
         console.log(postPub);
@@ -55,6 +57,7 @@ async function loadCommunityPosts() {
 
         let communityPostCard = document.createElement("div");
         communityPostCard.classList.add("card");
+        communityPostCard.classList.add("community-post-card");
         communityPostCard.style = "width: 100%; margin-bottom: 10px";
         communityPostCard.id = getPosts[i].postID;
 
@@ -80,12 +83,26 @@ async function loadCommunityPosts() {
         deletePostButton.type = "submit";
         deletePostButton.classList.add("btn");
         deletePostButton.classList.add("btn-danger");
-        deletePostButton.classList.add("postDeleteButton");
+        deletePostButton.classList.add("postButton");
         deletePostButton.style = "display: inline;";
         deletePostButton.innerHTML = "Delete Post";
-        deletePostButton.onclick = () => {callphpFunction("deleteAdditional", {postID : getPosts[i].postID}), location.reload()};
+        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts[i].postID }), location.reload() };
+
+
+        let editPostButton = document.createElement("button");
+        editPostButton.type = "button";
+        editPostButton.classList.add("btn");
+        editPostButton.classList.add("btn-primary");
+        editPostButton.classList.add("postButton");
+        editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+        editPostButton.innerHTML = "Edit Post";
+        editPostButton.onclick = () => {
+            loadEditPost(getPosts[i].postID);
+        }
+
 
         if (postPub == getCookie("name")) {
+            cardHeaderContent.appendChild(editPostButton);
             cardHeaderContent.appendChild(deletePostButton);
         }
 
@@ -132,7 +149,158 @@ async function ujPost() {
     }
 }
 
+
+async function loadEditPost(postId) {
+    try {
+        const editModal = new bootstrap.Modal(document.getElementById('editPostModal'));
+        editModal.show();
+        let postData = await callphpFunction("getAdditionalById", { postID: postId });
+
+        console.log(postData);
+        console.log(postData.title);
+
+        $("editPostTitle").value = postData.title;
+        $("editPostSection").value = postData.relatedPageID
+        $("editPostText").value = postData.body;
+        $("editPostSubmit").onclick = () => {
+            editPost(postData.postID, postData.jatekID, postData.typeID);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function editPost(postId, jatekId, typeId) {
+    try {
+        let editPostTitle = $("editPostTitle").value;
+        let editPostPublisher = getCookie("userId");
+        let editPostSection = $("editPostSection").value;
+        let editPostText = $("editPostText").value;
+
+        if (editPostTitle == "" || editPostSection == "" || editPostText == "") {
+            $("editPostHiba").innerHTML = `
+                <div class="alert alert-danger mt-3" role="alert">
+                    Please fill all the blanks!
+                </div>
+            `;
+        } else {
+            console.log("I'm running!");
+            let postMod = await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
+
+            location.reload();
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function searchBar() {
+    try {
+        let kiiras = $("actual_page");
+        kiiras.innerHTML = "";
+
+        let findGameName = $("text_communitySearch").value;
+
+        if (findGameName == "") {
+            loadCommunityPosts();
+        //     $("searchError").innerHTML = `
+        //     <div class="alert alert-danger mt-3" role="alert">
+        //         Please fill all the blanks!
+        //     </div>
+        // `;
+        } else {
+            let findGameData = await callphpFunction("searchAdditionalByTitle", { title: findGameName });
+
+            console.log(findGameData);
+
+            let postPub = await callphpFunction("getUserData", { id: findGameData.publisher });
+            postPub = postPub.userName;
+
+            let postSection = await callphpFunction("getChapterTitle", { gameId: findGameData.jatekID, pageId: findGameData.relatedPageID });
+            postSection = postSection.chapterName;
+
+            console.log(postPub);
+            console.log(postSection);
+
+            let communityPostCard = document.createElement("div");
+            communityPostCard.classList.add("card");
+            communityPostCard.classList.add("community-post-card");
+            communityPostCard.style = "width: 100%; margin-bottom: 10px";
+            communityPostCard.id = findGameData.postID;
+
+            let cardHeader = document.createElement("div");
+            cardHeader.classList.add("card-header");
+
+            let cardHeaderContent = document.createElement("div");
+            cardHeaderContent.innerHTML = `
+            <h5 style="display: inline;">${findGameData.title}</h5>
+            <div class="vr"></div>
+            <h6 style="display: inline;">By: ${postPub}</h6>
+            <div class="vr"></div>
+            <h6 style="display: inline;">${postSection}</h6>
+            <div class="vr"></div>
+            <h6 style="display: inline;">${findGameData.created_at}</h6>
+            <div class="btn-group upDownVote">
+                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+            </div>
+            `;
+
+            let deletePostButton = document.createElement("button");
+            deletePostButton.type = "submit";
+            deletePostButton.classList.add("btn");
+            deletePostButton.classList.add("btn-danger");
+            deletePostButton.classList.add("postButton");
+            deletePostButton.style = "display: inline;";
+            deletePostButton.innerHTML = "Delete Post";
+            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findGameData.postID }), location.reload() };
+
+
+            let editPostButton = document.createElement("button");
+            editPostButton.type = "button";
+            editPostButton.classList.add("btn");
+            editPostButton.classList.add("btn-primary");
+            editPostButton.classList.add("postButton");
+            editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+            editPostButton.innerHTML = "Edit Post";
+            editPostButton.onclick = () => {
+                loadEditPost(findGameData.postID);
+            }
+
+
+            if (postPub == getCookie("name")) {
+                cardHeaderContent.appendChild(editPostButton);
+                cardHeaderContent.appendChild(deletePostButton);
+            }
+
+            cardHeader.appendChild(cardHeaderContent);
+
+            communityPostCard.appendChild(cardHeader);
+
+            let cardBody = document.createElement("div");
+            cardBody.classList.add("card-body");
+            cardBody.innerHTML = `
+            <div class="card-text">
+                <p>${findGameData.body}</p>
+            </div>
+        `;
+            communityPostCard.appendChild(cardBody);
+
+            kiiras.appendChild(communityPostCard);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 $("newPostSubmit").addEventListener("click", ujPost);
+
+$("text_communitySearch").addEventListener("keydown", function (press) {
+    if (press.key === "Enter") {
+        press.preventDefault();
+        searchBar();
+    }
+});
 
 window.addEventListener("load", function () {
     newPostSections();

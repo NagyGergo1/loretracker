@@ -111,6 +111,10 @@ switch ($url[0]){
         getAdditionalByUser($params['userID']);
         break;
 
+    case "getAdditionalById":
+        getAdditionalById($params['postID']);
+        break;
+
     case "getAdditionalByUserAndGame":
         getAdditionalByUserAndGame($params['userID'], $params['gameId']);
         break;
@@ -338,6 +342,11 @@ function searchAdditionalByTitle($title){
 
 function getAdditionalByUser($userID){
     $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID}");
+    queryGetCheck($query);
+}
+
+function getAdditionalById($postID){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE postID = {$postID}");
     queryGetCheck($query);
 }
 
