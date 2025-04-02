@@ -4,6 +4,7 @@ import { getCookie } from "./index.js";
 import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
 import { deleteCookie } from "./index.js";
+import { removeSession } from "./index.js";
 
 function $(id) {
     return document.getElementById(id);
@@ -102,7 +103,7 @@ async function userDelete() {
     $("kilepes").click();
 }
 
-async function bejelentkezes() {
+async function logIn() {
     let userEmail = $("loginEmail").value;
     let userPass = $("loginPassword").value;
 
@@ -132,6 +133,7 @@ async function bejelentkezes() {
             setCookie("userId", userAdatok.userID)
             console.log(getCookie("name"));
             checkCookie("name");
+            removeSession("tempSteamID");
             location.replace(location.href);
         } else {
             $("hibakiir").innerHTML = `
@@ -156,4 +158,4 @@ window.addEventListener("load", function() {
 
 $("deleteAccountButton").addEventListener("click", userDelete);
 
-$("inditas").addEventListener("click", bejelentkezes);
+$("inditas").addEventListener("click", logIn);

@@ -1,4 +1,5 @@
 //import { steamRequest } from "./index.js";
+import { getCookie, getSession } from "./index.js";
 
 function $(id) {
     return document.getElementById(id);
@@ -63,6 +64,21 @@ function searchBar() {
 
 }
 
+function adjustNavbar() {
+    const loginEmail = getCookie("email");
+
+    if (loginEmail) {
+        $("toBookmarks").removeAttribute("hidden");
+        $("toMyArticles").removeAttribute("hidden");
+    } else {
+        const tempSteamID = getSession("tempSteamID");
+        if (tempSteamID) {
+            $("toBookmarks").setAttribute("hidden", true);
+            $("toMyArticles").setAttribute("hidden", true);
+        }
+    }
+}
+
 $("text_libraryPageSearch").addEventListener("keydown", function (press) {
     if (press.key === "Enter") {
         press.preventDefault();
@@ -74,4 +90,5 @@ $("startButton_libraryFilter").addEventListener("click", orderCards);
 
 window.addEventListener("load", function () {
     //jatek1Check();
+    adjustNavbar();
 });

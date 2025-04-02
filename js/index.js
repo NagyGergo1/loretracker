@@ -97,3 +97,15 @@ export async function steamRequest(jatekAzon, steamAzon) {
         console.log(error)
     }
 }
+
+export function setSession(key, value) {
+    sessionStorage.setItem(key, value);
+}
+
+export function getSession(key) {
+    return sessionStorage.getItem(key);
+}
+
+export function removeSession(key) {
+    sessionStorage.removeItem(key);
+}

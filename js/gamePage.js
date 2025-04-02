@@ -1,4 +1,4 @@
-import { callphpFunction, getCookie } from "./index.js";
+import { callphpFunction, getCookie, getSession } from "./index.js";
 import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
 import { steamRequest } from "./index.js";
@@ -20,13 +20,21 @@ async function jatekAdatBetolt() {
 
     document.getElementById("communityLink").href = `./communityPage.html?gameId=${gameId}`
 
+    console.log(getSession("tempSteamID"));
+
     let gameData = await callphpFunction("gameNameGet", {id : gameId});
-    let userData = await callphpFunction("getUserByEmail", {email : getCookie("email")});
-
-
+    
+    
     let kiiras = $("chapters");
     let tartalomJegy = $("chapter-nav");
-    let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
+    let userAdatok;
+    if (loginStat == true) {
+        let userData = await callphpFunction("getUserByEmail", {email : getCookie("email")});
+        userAdatok = await steamRequest(gameData.steamID, userData.steamID);
+    } else {
+        userAdatok = await steamRequest(gameData.steamID, getSession("tempSteamID"));
+        console.log(userAdatok);
+    }
     let jatekAdatok = await callphpFunction("gameLoadAll", {id : gameId});
     
     for (let i = 0; i < userAdatok.length; i++) {
@@ -64,8 +72,24 @@ async function jatekAdatBetolt() {
         target: '#chapter-nav',
         offset: 100
     });
+
+    let tempSteamID = getSession("tempSteamID");
+    if (tempSteamID) {
+        $("communityLink").style.pointerEvents = "none";
+        $("communityLink").style.opacity = "0.5";
+    }
+}
+
+function adjustNavbar() {
+    const loginEmail = getCookie("email");
+
+    if (!loginEmail) {
+        $("toBookmarks").setAttribute("hidden", true);
+        $("toMyArticles").setAttribute("hidden", true);
+    } 
 }
 
 window.addEventListener("load", function() {
     jatekAdatBetolt();
+    adjustNavbar();
 })
