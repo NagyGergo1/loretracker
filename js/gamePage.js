@@ -44,7 +44,8 @@ async function jatekAdatBetolt() {
                 chapter.id = "chapter" + (j + 1) + "Section";
 
                 let chapterTitle = document.createElement("h2");
-                chapterTitle.innerHTML = `Chapter ${j + 1}`;
+                chapterTitle.innerHTML = jatekAdatok[j].chapterName;
+                chapterTitle.style = "padding: 5px"
                 chapter.appendChild(chapterTitle);
 
                 let chapterText = document.createElement("p");
@@ -58,7 +59,7 @@ async function jatekAdatBetolt() {
                 chapterGomb.classList.add("nav-link");
                 chapterGomb.type = "button";
                 chapterGomb.href = "#chapter" + (j + 1) + "Section";
-                chapterGomb.innerHTML = `Chapter ${j + 1}`;
+                chapterGomb.innerHTML = jatekAdatok[j].chapterName;
                 navDiv.appendChild(chapterGomb);
 
                 tartalomJegy.appendChild(navDiv);

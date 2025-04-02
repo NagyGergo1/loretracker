@@ -101,11 +101,26 @@ async function loadCommunityPosts() {
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${getPosts.created_at}</h6>
-                <div class="btn-group upDownVote">
-                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                </div>
             `;
+        let upDownVote = document.createElement("div")
+        upDownVote.classList = "btn-group upDownVote"
+
+        let upvote = document.createElement("button")
+        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }) }
+        upvote.type = "button"
+        upvote.classList = "btn btn-success post-vote-btn"
+        upvote.innerHTML = "&#xf062"
+        upDownVote.appendChild(upvote)
+
+        let downvote = document.createElement("button")
+        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }) }
+        downvote.type = "button"
+        downvote.classList = "btn btn-danger post-vote-btn"
+        downvote.innerHTML = "&#xf063"
+        upDownVote.appendChild(downvote)
+
+        cardHeaderContent.appendChild(upDownVote)
+
 
         let deletePostButton = document.createElement("button");
         deletePostButton.type = "submit";
@@ -174,11 +189,26 @@ async function loadCommunityPosts() {
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${getPosts[i].created_at}</h6>
-                <div class="btn-group upDownVote">
-                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                </div>
             `;
+            let upDownVote = document.createElement("div")
+            upDownVote.classList = "btn-group upDownVote"
+    
+            let upvote = document.createElement("button")
+            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }) }
+            upvote.type = "button"
+            upvote.classList = "btn btn-success post-vote-btn"
+            upvote.innerHTML = "&#xf062"
+            upDownVote.appendChild(upvote)
+    
+            let downvote = document.createElement("button")
+            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }) }
+            downvote.type = "button"
+            downvote.classList = "btn btn-danger post-vote-btn"
+            downvote.innerHTML = "&#xf063"
+            upDownVote.appendChild(downvote)
+    
+            cardHeaderContent.appendChild(upDownVote)
+            
 
             let deletePostButton = document.createElement("button");
             deletePostButton.type = "submit";
@@ -342,11 +372,26 @@ async function searchBar() {
                             <h6 style="display: inline;">${postSection}</h6>
                             <div class="vr"></div>
                             <h6 style="display: inline;">${findPostDataUser.created_at}</h6>
-                            <div class="btn-group upDownVote">
-                                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                            </div>
                         `;
+                        let upDownVote = document.createElement("div")
+                        upDownVote.classList = "btn-group upDownVote"
+                
+                        let upvote = document.createElement("button")
+                        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }) }
+                        upvote.type = "button"
+                        upvote.classList = "btn btn-success post-vote-btn"
+                        upvote.innerHTML = "&#xf062"
+                        upDownVote.appendChild(upvote)
+                
+                        let downvote = document.createElement("button")
+                        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }) }
+                        downvote.type = "button"
+                        downvote.classList = "btn btn-danger post-vote-btn"
+                        downvote.innerHTML = "&#xf063"
+                        upDownVote.appendChild(downvote)
+                
+                        cardHeaderContent.appendChild(upDownVote)
+
 
                         let deletePostButton = document.createElement("button");
                         deletePostButton.type = "submit";
@@ -418,11 +463,26 @@ async function searchBar() {
                                 <h6 style="display: inline;">${postSection}</h6>
                                 <div class="vr"></div>
                                 <h6 style="display: inline;">${element.created_at}</h6>
-                                <div class="btn-group upDownVote">
-                                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                                </div>
                             `;
+                            let upDownVote = document.createElement("div")
+                            upDownVote.classList = "btn-group upDownVote"
+                    
+                            let upvote = document.createElement("button")
+                            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }) }
+                            upvote.type = "button"
+                            upvote.classList = "btn btn-success post-vote-btn"
+                            upvote.innerHTML = "&#xf062"
+                            upDownVote.appendChild(upvote)
+                    
+                            let downvote = document.createElement("button")
+                            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }) }
+                            downvote.type = "button"
+                            downvote.classList = "btn btn-danger post-vote-btn"
+                            downvote.innerHTML = "&#xf063"
+                            upDownVote.appendChild(downvote)
+                    
+                            cardHeaderContent.appendChild(upDownVote)
+
 
                             let deletePostButton = document.createElement("button");
                             deletePostButton.type = "submit";
@@ -493,11 +553,26 @@ async function searchBar() {
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${findPostDataTitle.created_at}</h6>
-                <div class="btn-group upDownVote">
-                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-                </div>
                 `;
+                let upDownVote = document.createElement("div")
+                upDownVote.classList = "btn-group upDownVote"
+        
+                let upvote = document.createElement("button")
+                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataTitle.postID }) }
+                upvote.type = "button"
+                upvote.classList = "btn btn-success post-vote-btn"
+                upvote.innerHTML = "&#xf062"
+                upDownVote.appendChild(upvote)
+        
+                let downvote = document.createElement("button")
+                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataTitle.postID }) }
+                downvote.type = "button"
+                downvote.classList = "btn btn-danger post-vote-btn"
+                downvote.innerHTML = "&#xf063"
+                upDownVote.appendChild(downvote)
+        
+                cardHeaderContent.appendChild(upDownVote)
+
 
                 let deletePostButton = document.createElement("button");
                 deletePostButton.type = "submit";
