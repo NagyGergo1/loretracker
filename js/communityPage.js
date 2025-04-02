@@ -11,26 +11,36 @@ function getQueryParam(param) {
 }
 
 async function newPostSections() {
-    const gameId = getQueryParam("gameId");
+    try {
+        const gameId = getQueryParam("gameId");
 
-    let gameData = await callphpFunction("gameNameGet", { id: gameId });
-    let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
+        let gameData = await callphpFunction("gameNameGet", { id: gameId });
+        let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
 
-    let newSelect = $("newPostSection");
-    let editSelect = $("editPostSection");
-    let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
-    let jatekAdatok = await callphpFunction("gameLoadAll", { id: gameId });
-    for (let i = 0; i < userAdatok.length; i++) {
-        for (let j = 0; j < jatekAdatok.length; j++) {
-            if (userAdatok[i].name == jatekAdatok[j].title) {
-                let option = document.createElement("option");
-                option.value = jatekAdatok[j].pageID;
-                option.innerHTML = `Chapter ${j + 1}: ${jatekAdatok[j].chapterName}`;
+        console.log();
 
-                newSelect.appendChild(option);
-                editSelect.appendChild(option);
+        let newSelect = $("newPostSection");
+        let editSelect = $("editPostSection");
+        let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
+        let jatekAdatok = await callphpFunction("gameLoadAll", { id: gameId });
+        for (let i = 0; i < userAdatok.length; i++) {
+            for (let j = 0; j < jatekAdatok.length; j++) {
+                if (userAdatok[i].name == jatekAdatok[j].title) {
+                    let optionNew = document.createElement("option");
+                    optionNew.value = jatekAdatok[j].pageID;
+                    optionNew.innerHTML = `Chapter ${j + 1}: ${jatekAdatok[j].chapterName}`;
+
+                    let optionEdit = document.createElement("option");
+                    optionEdit.value = jatekAdatok[j].pageID;
+                    optionEdit.innerHTML = `Chapter ${j + 1}: ${jatekAdatok[j].chapterName}`;
+
+                    newSelect.appendChild(optionNew);
+                    editSelect.appendChild(optionEdit);
+                }
             }
         }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -40,44 +50,62 @@ async function loadCommunityPosts() {
     document.getElementById("lorePageLink").href = `./gamePage.html?gameId=${gameId}`;
 
     let kiiras = $("actual_page");
+    kiiras.innerHTML = "";
 
-    let getPosts = await callphpFunction("getAdditionalByTimeAsc", { gameId: gameId });
+    let getPosts;
 
-    console.log(getPosts);
+    let aktFilter = $("communityFilter").value;
 
-    for (let i = 0; i < getPosts.length; i++) {
-        let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
+    switch (aktFilter) {
+        case "timeAsc":
+            getPosts = await callphpFunction("getAdditionalByTimeAsc", { gameId: gameId });
+            break;
+
+        case "timeDesc":
+            getPosts = await callphpFunction("getAdditionalByTimeDesc", { gameId: gameId });
+            break;
+
+            break;
+
+        case "aToz":
+            getPosts = await callphpFunction("getAdditionalByTitleAsc", { gameId: gameId });
+            break;
+
+        case "zToa":
+            getPosts = await callphpFunction("getAdditionalByTitleDesc", { gameId: gameId });
+            break;
+    }
+
+    if (!(Array.isArray(getPosts))) {
+        let postPub = await callphpFunction("getUserData", { id: getPosts.publisher });
         postPub = postPub.userName;
 
-        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts[i].relatedPageID });
+        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts.relatedPageID });
         postSection = postSection.chapterName;
-
-        console.log(postPub);
-        console.log(postSection);
 
         let communityPostCard = document.createElement("div");
         communityPostCard.classList.add("card");
         communityPostCard.classList.add("community-post-card");
         communityPostCard.style = "width: 100%; margin-bottom: 10px";
-        communityPostCard.id = getPosts[i].postID;
+        communityPostCard.id = getPosts.postID;
 
         let cardHeader = document.createElement("div");
         cardHeader.classList.add("card-header");
 
         let cardHeaderContent = document.createElement("div");
         cardHeaderContent.innerHTML = `
-            <h5 style="display: inline;">${getPosts[i].title}</h5>
-            <div class="vr"></div>
-            <h6 style="display: inline;">By: ${postPub}</h6>
-            <div class="vr"></div>
-            <h6 style="display: inline;">${postSection}</h6>
-            <div class="vr"></div>
-            <h6 style="display: inline;">${getPosts[i].created_at}</h6>
-            <div class="btn-group upDownVote">
-                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-            </div>
-        `;
+                <h5 style="display: inline;">${getPosts.title}</h5>
+                <div class="vr"></div>
+                <h6 style="display: inline;">By: ${postPub}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${postSection}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${getPosts.created_at}</h6>
+                <div class="btn-group upDownVote">
+                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                </div>
+            `;
 
         let deletePostButton = document.createElement("button");
         deletePostButton.type = "submit";
@@ -86,7 +114,7 @@ async function loadCommunityPosts() {
         deletePostButton.classList.add("postButton");
         deletePostButton.style = "display: inline;";
         deletePostButton.innerHTML = "Delete Post";
-        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts[i].postID }), location.reload() };
+        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts.postID }), location.reload() };
 
 
         let editPostButton = document.createElement("button");
@@ -97,7 +125,7 @@ async function loadCommunityPosts() {
         editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
         editPostButton.innerHTML = "Edit Post";
         editPostButton.onclick = () => {
-            loadEditPost(getPosts[i].postID);
+            loadEditPost(getPosts.postID);
         }
 
 
@@ -113,13 +141,87 @@ async function loadCommunityPosts() {
         let cardBody = document.createElement("div");
         cardBody.classList.add("card-body");
         cardBody.innerHTML = `
-            <div class="card-text">
-                <p>${getPosts[i].body}</p>
-            </div>
-        `;
+                <div class="card-text">
+                    <p>${getPosts.body}</p>
+                </div>
+            `;
         communityPostCard.appendChild(cardBody);
 
         kiiras.appendChild(communityPostCard);
+    } else {
+        for (let i = 0; i < getPosts.length; i++) {
+            let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
+            postPub = postPub.userName;
+
+            let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts[i].relatedPageID });
+            postSection = postSection.chapterName;
+
+            let communityPostCard = document.createElement("div");
+            communityPostCard.classList.add("card");
+            communityPostCard.classList.add("community-post-card");
+            communityPostCard.style = "width: 100%; margin-bottom: 10px";
+            communityPostCard.id = getPosts[i].postID;
+
+            let cardHeader = document.createElement("div");
+            cardHeader.classList.add("card-header");
+
+            let cardHeaderContent = document.createElement("div");
+            cardHeaderContent.innerHTML = `
+                <h5 style="display: inline;">${getPosts[i].title}</h5>
+                <div class="vr"></div>
+                <h6 style="display: inline;">By: ${postPub}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${postSection}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${getPosts[i].created_at}</h6>
+                <div class="btn-group upDownVote">
+                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                </div>
+            `;
+
+            let deletePostButton = document.createElement("button");
+            deletePostButton.type = "submit";
+            deletePostButton.classList.add("btn");
+            deletePostButton.classList.add("btn-danger");
+            deletePostButton.classList.add("postButton");
+            deletePostButton.style = "display: inline;";
+            deletePostButton.innerHTML = "Delete Post";
+            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts[i].postID }), location.reload() };
+
+
+            let editPostButton = document.createElement("button");
+            editPostButton.type = "button";
+            editPostButton.classList.add("btn");
+            editPostButton.classList.add("btn-primary");
+            editPostButton.classList.add("postButton");
+            editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+            editPostButton.innerHTML = "Edit Post";
+            editPostButton.onclick = () => {
+                loadEditPost(getPosts[i].postID);
+            }
+
+
+            if (postPub == getCookie("name")) {
+                cardHeaderContent.appendChild(editPostButton);
+                cardHeaderContent.appendChild(deletePostButton);
+            }
+
+            cardHeader.appendChild(cardHeaderContent);
+
+            communityPostCard.appendChild(cardHeader);
+
+            let cardBody = document.createElement("div");
+            cardBody.classList.add("card-body");
+            cardBody.innerHTML = `
+                <div class="card-text">
+                    <p>${getPosts[i].body}</p>
+                </div>
+            `;
+            communityPostCard.appendChild(cardBody);
+
+            kiiras.appendChild(communityPostCard);
+        }
     }
 }
 
@@ -140,10 +242,8 @@ async function ujPost() {
         } else {
             let postUpload = await callphpFunction("createAdditional", { jatekID: gameId, typeID: 1, title: ujPostTitle, body: ujPostText, publisher: ujPostPublisher, relatedPageID: ujPostSection });
 
-            //$("newPostModalClose").click();
             location.reload();
         }
-        console.log(ujPostPublisher);
     } catch (error) {
         console.log(error);
     }
@@ -156,8 +256,8 @@ async function loadEditPost(postId) {
         editModal.show();
         let postData = await callphpFunction("getAdditionalById", { postID: postId });
 
-        console.log(postData);
-        console.log(postData.title);
+        //console.log(postData);
+        //console.log(postData.title);
 
         $("editPostTitle").value = postData.title;
         $("editPostSection").value = postData.relatedPageID
@@ -184,7 +284,7 @@ async function editPost(postId, jatekId, typeId) {
                 </div>
             `;
         } else {
-            console.log("I'm running!");
+            //console.log("I'm running!");
             let postMod = await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
 
             location.reload();
@@ -196,124 +296,260 @@ async function editPost(postId, jatekId, typeId) {
 
 async function searchBar() {
     try {
+        const gameId = getQueryParam("gameId");
+
         let kiiras = $("actual_page");
         kiiras.innerHTML = "";
 
-        let findGameName = $("text_communitySearch").value;
+        let findGameSearch = $("text_communitySearch").value;
 
-        if (findGameName == "") {
+        if (findGameSearch == "") {
+            $("communityFilter").value = "timeDesc";
             loadCommunityPosts();
         } else {
-            let findPostData = await callphpFunction("searchAdditionalByTitle", { title: findGameName });
+            let findPostDataTitle = await callphpFunction("searchAdditionalByTitle", { title: findGameSearch });
 
-            console.log(findPostData);
+            if (findPostDataTitle == "Nincsenek találatok!") {
+                let userNameCheck = await callphpFunction("getUserByName", { name: findGameSearch });
+                if (userNameCheck == "Nincsenek találatok!") {
+                    kiiras.innerHTML = `
+                        <div class="alert alert-danger mt-3" role="alert">
+                            ${userNameCheck}
+                        </div>
+                    `;
+                } else {
+                    let findPostDataUser = await callphpFunction("getAdditionalByUserAndGame", { userID: userNameCheck.userID, gameId: gameId });
 
-            let postPub = await callphpFunction("getUserData", { id: findPostData.publisher });
-            postPub = postPub.userName;
+                    if (!(Array.isArray(findPostDataUser))) {
+                        let postPub = await callphpFunction("getUserData", { id: findPostDataUser.publisher });
+                        postPub = postPub.userName;
 
-            let postSection = await callphpFunction("getChapterTitle", { gameId: findPostData.jatekID, pageId: findPostData.relatedPageID });
-            postSection = postSection.chapterName;
+                        let postSection = await callphpFunction("getChapterTitle", { gameId: findPostDataUser.jatekID, pageId: findPostDataUser.relatedPageID });
+                        postSection = postSection.chapterName;
 
-            console.log(postPub);
-            console.log(postSection);
+                        let communityPostCard = document.createElement("div");
+                        communityPostCard.classList.add("card");
+                        communityPostCard.classList.add("community-post-card");
+                        communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                        communityPostCard.id = findPostDataUser.postID;
 
-            let communityPostCard = document.createElement("div");
-            communityPostCard.classList.add("card");
-            communityPostCard.classList.add("community-post-card");
-            communityPostCard.style = "width: 100%; margin-bottom: 10px";
-            communityPostCard.id = findPostData.postID;
+                        let cardHeader = document.createElement("div");
+                        cardHeader.classList.add("card-header");
 
-            let cardHeader = document.createElement("div");
-            cardHeader.classList.add("card-header");
+                        let cardHeaderContent = document.createElement("div");
+                        cardHeaderContent.innerHTML = `
+                            <h5 style="display: inline;">${findPostDataUser.title}</h5>
+                            <div class="vr"></div>
+                            <h6 style="display: inline;">By: ${postPub}</h6>
+                            <div class="vr"></div>
+                            <h6 style="display: inline;">${postSection}</h6>
+                            <div class="vr"></div>
+                            <h6 style="display: inline;">${findPostDataUser.created_at}</h6>
+                            <div class="btn-group upDownVote">
+                                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                            </div>
+                        `;
 
-            let cardHeaderContent = document.createElement("div");
-            cardHeaderContent.innerHTML = `
-                <h5 style="display: inline;">${findPostData.title}</h5>
+                        let deletePostButton = document.createElement("button");
+                        deletePostButton.type = "submit";
+                        deletePostButton.classList.add("btn");
+                        deletePostButton.classList.add("btn-danger");
+                        deletePostButton.classList.add("postButton");
+                        deletePostButton.style = "display: inline;";
+                        deletePostButton.innerHTML = "Delete Post";
+                        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostDataUser.postID }), location.reload() };
+
+
+                        let editPostButton = document.createElement("button");
+                        editPostButton.type = "button";
+                        editPostButton.classList.add("btn");
+                        editPostButton.classList.add("btn-primary");
+                        editPostButton.classList.add("postButton");
+                        editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                        editPostButton.innerHTML = "Edit Post";
+                        editPostButton.onclick = () => {
+                            loadEditPost(findPostDataUser.postID);
+                        }
+
+
+                        if (postPub == getCookie("name")) {
+                            cardHeaderContent.appendChild(editPostButton);
+                            cardHeaderContent.appendChild(deletePostButton);
+                        }
+
+                        cardHeader.appendChild(cardHeaderContent);
+
+                        communityPostCard.appendChild(cardHeader);
+
+                        let cardBody = document.createElement("div");
+                        cardBody.classList.add("card-body");
+                        cardBody.innerHTML = `
+                            <div class="card-text">
+                                <p>${findPostDataUser.body}</p>
+                            </div>
+                        `;
+                        communityPostCard.appendChild(cardBody);
+
+                        kiiras.appendChild(communityPostCard);
+                    } else {
+                        for (const element of findPostDataUser) {
+                            let postPub = await callphpFunction("getUserData", { id: element.publisher });
+                            postPub = postPub.userName;
+
+                            console.log(postPub);
+                            //postPub = postPub.userName;
+
+                            let postSection = await callphpFunction("getChapterTitle", { gameId: element.jatekID, pageId: element.relatedPageID });
+                            postSection = postSection.chapterName;
+
+                            let communityPostCard = document.createElement("div");
+                            communityPostCard.classList.add("card");
+                            communityPostCard.classList.add("community-post-card");
+                            communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                            communityPostCard.id = element.postID;
+
+                            let cardHeader = document.createElement("div");
+                            cardHeader.classList.add("card-header");
+
+                            let cardHeaderContent = document.createElement("div");
+                            cardHeaderContent.innerHTML = `
+                                <h5 style="display: inline;">${element.title}</h5>
+                                <div class="vr"></div>
+                                <h6 style="display: inline;">By: ${postPub}</h6>
+                                <div class="vr"></div>
+                                <h6 style="display: inline;">${postSection}</h6>
+                                <div class="vr"></div>
+                                <h6 style="display: inline;">${element.created_at}</h6>
+                                <div class="btn-group upDownVote">
+                                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                                </div>
+                            `;
+
+                            let deletePostButton = document.createElement("button");
+                            deletePostButton.type = "submit";
+                            deletePostButton.classList.add("btn");
+                            deletePostButton.classList.add("btn-danger");
+                            deletePostButton.classList.add("postButton");
+                            deletePostButton.style = "display: inline;";
+                            deletePostButton.innerHTML = "Delete Post";
+                            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: element.postID }), location.reload() };
+
+
+                            let editPostButton = document.createElement("button");
+                            editPostButton.type = "button";
+                            editPostButton.classList.add("btn");
+                            editPostButton.classList.add("btn-primary");
+                            editPostButton.classList.add("postButton");
+                            editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                            editPostButton.innerHTML = "Edit Post";
+                            editPostButton.onclick = () => {
+                                loadEditPost(element.postID);
+                            }
+
+
+                            if (postPub == getCookie("name")) {
+                                cardHeaderContent.appendChild(editPostButton);
+                                cardHeaderContent.appendChild(deletePostButton);
+                            }
+
+                            cardHeader.appendChild(cardHeaderContent);
+
+                            communityPostCard.appendChild(cardHeader);
+
+                            let cardBody = document.createElement("div");
+                            cardBody.classList.add("card-body");
+                            cardBody.innerHTML = `
+                                <div class="card-text">
+                                    <p>${element.body}</p>
+                                </div>
+                            `;
+                            communityPostCard.appendChild(cardBody);
+
+                            kiiras.appendChild(communityPostCard);
+                        }
+                    }
+                }
+            } else {
+                let postPub = await callphpFunction("getUserData", { id: findPostDataTitle.publisher });
+                postPub = postPub.userName;
+
+                let postSection = await callphpFunction("getChapterTitle", { gameId: findPostDataTitle.jatekID, pageId: findPostDataTitle.relatedPageID });
+                postSection = postSection.chapterName;
+
+                let communityPostCard = document.createElement("div");
+                communityPostCard.classList.add("card");
+                communityPostCard.classList.add("community-post-card");
+                communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                communityPostCard.id = findPostDataTitle.postID;
+
+                let cardHeader = document.createElement("div");
+                cardHeader.classList.add("card-header");
+
+                let cardHeaderContent = document.createElement("div");
+                cardHeaderContent.innerHTML = `
+                <h5 style="display: inline;">${findPostDataTitle.title}</h5>
                 <div class="vr"></div>
                 <h6 style="display: inline;">By: ${postPub}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
-                <h6 style="display: inline;">${findPostData.created_at}</h6>
+                <h6 style="display: inline;">${findPostDataTitle.created_at}</h6>
                 <div class="btn-group upDownVote">
                     <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
                     <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
                 </div>
                 `;
 
-            let deletePostButton = document.createElement("button");
-            deletePostButton.type = "submit";
-            deletePostButton.classList.add("btn");
-            deletePostButton.classList.add("btn-danger");
-            deletePostButton.classList.add("postButton");
-            deletePostButton.style = "display: inline;";
-            deletePostButton.innerHTML = "Delete Post";
-            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostData.postID }), location.reload() };
+                let deletePostButton = document.createElement("button");
+                deletePostButton.type = "submit";
+                deletePostButton.classList.add("btn");
+                deletePostButton.classList.add("btn-danger");
+                deletePostButton.classList.add("postButton");
+                deletePostButton.style = "display: inline;";
+                deletePostButton.innerHTML = "Delete Post";
+                deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostDataTitle.postID }), location.reload() };
 
 
-            let editPostButton = document.createElement("button");
-            editPostButton.type = "button";
-            editPostButton.classList.add("btn");
-            editPostButton.classList.add("btn-primary");
-            editPostButton.classList.add("postButton");
-            editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
-            editPostButton.innerHTML = "Edit Post";
-            editPostButton.onclick = () => {
-                loadEditPost(findPostData.postID);
-            }
+                let editPostButton = document.createElement("button");
+                editPostButton.type = "button";
+                editPostButton.classList.add("btn");
+                editPostButton.classList.add("btn-primary");
+                editPostButton.classList.add("postButton");
+                editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                editPostButton.innerHTML = "Edit Post";
+                editPostButton.onclick = () => {
+                    loadEditPost(findPostDataTitle.postID);
+                }
 
 
-            if (postPub == getCookie("name")) {
-                cardHeaderContent.appendChild(editPostButton);
-                cardHeaderContent.appendChild(deletePostButton);
-            }
+                if (postPub == getCookie("name")) {
+                    cardHeaderContent.appendChild(editPostButton);
+                    cardHeaderContent.appendChild(deletePostButton);
+                }
 
-            cardHeader.appendChild(cardHeaderContent);
+                cardHeader.appendChild(cardHeaderContent);
 
-            communityPostCard.appendChild(cardHeader);
+                communityPostCard.appendChild(cardHeader);
 
-            let cardBody = document.createElement("div");
-            cardBody.classList.add("card-body");
-            cardBody.innerHTML = `
+                let cardBody = document.createElement("div");
+                cardBody.classList.add("card-body");
+                cardBody.innerHTML = `
                     <div class="card-text">
-                        <p>${findPostData.body}</p>
+                        <p>${findPostDataTitle.body}</p>
                     </div>
                 `;
-            communityPostCard.appendChild(cardBody);
+                communityPostCard.appendChild(cardBody);
 
-            kiiras.appendChild(communityPostCard);
-
-
-
-            // console.log(findPostData.valasz);
-            // kiiras.innerHTML = `
-            //     <div class="alert alert-danger mt-3" role="alert">
-            //         Nincs ilyen nevezetű poszt!
-            //     </div>
-            // `;
+                kiiras.appendChild(communityPostCard);
+            }
         }
     } catch (error) {
         console.log(error);
     }
 }
 
-/*
-async function postFilters() {
-    try {
-        let getFilter = $("communityFilter").value;
-
-        switch (getFilter) {
-            case "timeAsc":
-                loadCommunityPosts();
-                break;
-
-            case "timeDesc":
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-*/
 
 $("newPostSubmit").addEventListener("click", ujPost);
 
@@ -323,6 +559,8 @@ $("text_communitySearch").addEventListener("keydown", function (press) {
         searchBar();
     }
 });
+
+$("startButton_communityFilter").addEventListener("click", loadCommunityPosts);
 
 window.addEventListener("load", function () {
     newPostSections();
