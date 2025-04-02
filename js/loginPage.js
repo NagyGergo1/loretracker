@@ -44,6 +44,21 @@ async function loadPage() {
         `;        
         $("form-content").appendChild(table);
 
+        if (userData.admin == 1) {
+            let adminDiv = document.createElement("div");
+
+            let adminButton = document.createElement("a");
+            adminButton.href = "./adminPage.html";
+            adminButton.type = "button";
+            adminButton.classList.add("btn");
+            adminButton.classList.add("btn-warning");
+            adminButton.style = "margin-bottom: 5px; width: 100%"
+            adminButton.innerHTML = "To Admin page";
+
+            adminDiv.appendChild(adminButton);
+            $("form-content").appendChild(adminDiv);
+        }
+
         let div = document.createElement("div");
         div.style.display = "flex";
         
@@ -51,24 +66,22 @@ async function loadPage() {
         button1.classList.add("btn");
         button1.classList.add("btn-danger");
         button1.id = "torles";
-        button1.type = "submit";
+        button1.type = "button";
         button1.style = "margin-right: 2.5px;";
         button1.innerHTML = "Delete Account";
-        button1.onclick = () => {userDelete()};
+        button1.onclick = () => {openDeleteConfirm()};
         
-        //$("form-content").appendChild(button1);
         div.appendChild(button1);
         
         let button2 = document.createElement("button");
         button2.classList.add("btn");
-        button2.classList.add("btn-warning");
+        button2.classList.add("btn-primary");
         button2.id = "kilepes";
         button2.type = "submit";
         button2.innerHTML = "Log Out";
         button2.style = "margin-left: 2.5px";
         button2.onclick = () => {logOut()};
         
-        //$("form-content").appendChild(button2);
         div.appendChild(button2);
 
         $("form-content").appendChild(div);
@@ -86,9 +99,7 @@ async function userDelete() {
     let deleteUser = await callphpFunction("deleteUser", {email : userEmail});
 
     deleteUser;
-    deleteCookie("email");
-    deleteCookie("name");
-    //location.reload();
+    $("kilepes").click();
 }
 
 async function bejelentkezes() {
@@ -132,11 +143,17 @@ async function bejelentkezes() {
     } catch (error) {
         console.log(error);
     }
+}
 
+function openDeleteConfirm() {
+    const deletModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    deletModal.show();
 }
 
 window.addEventListener("load", function() {
     loadPage();
 })
+
+$("deleteAccountButton").addEventListener("click", userDelete);
 
 $("inditas").addEventListener("click", bejelentkezes);

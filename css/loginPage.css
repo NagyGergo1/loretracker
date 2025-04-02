@@ -30,3 +30,22 @@
 .form-container button {
     width: 100%;
 }
+
+#deleteConfirmModal .modal-body {
+    background-color: #dc3545;
+    vertical-align: middle;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
+
+#deleteConfirmModal .modal-header {
+    background-color: #dc3545;
+    color: white;
+    justify-content: center;
+    border-bottom: 0;
+}
+
+.modal-footer {
+    justify-content: center;
+}

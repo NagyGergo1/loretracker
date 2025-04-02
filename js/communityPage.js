@@ -256,9 +256,6 @@ async function loadEditPost(postId) {
         editModal.show();
         let postData = await callphpFunction("getAdditionalById", { postID: postId });
 
-        //console.log(postData);
-        //console.log(postData.title);
-
         $("editPostTitle").value = postData.title;
         $("editPostSection").value = postData.relatedPageID
         $("editPostText").value = postData.body;
