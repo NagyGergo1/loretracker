@@ -38,7 +38,11 @@
                             <span class="input-group-text" id="filter_icon">&#xf0b0</span>
                             <select name="communityFilter" id="communityFilter" class="form-select"
                                 aria-describedby="filter_icon">
-                                <option value=""></option>
+                                <option value="timeAsc">Latest</option>
+                                <option value="timeDesc">Oldest</option>
+                                <option value="a-z">A to Z</option>
+                                <option value="z-a">Z to A</option>
+                                <option value="byUser">By User</option>
                             </select>
                             <button type="button" class="btn btn-warning"
                                 id="startButton_communityFilter">&#xf002</button>
@@ -51,9 +55,6 @@
                             placeholder="&#xf002 Search">
                     </div>
                 </div>
-                <!-- <div id="searchError">
-
-                </div> -->
                 <div class="content" id="actual_page">
                     
                 </div>

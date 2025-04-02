@@ -203,20 +203,15 @@ async function searchBar() {
 
         if (findGameName == "") {
             loadCommunityPosts();
-        //     $("searchError").innerHTML = `
-        //     <div class="alert alert-danger mt-3" role="alert">
-        //         Please fill all the blanks!
-        //     </div>
-        // `;
         } else {
-            let findGameData = await callphpFunction("searchAdditionalByTitle", { title: findGameName });
+            let findPostData = await callphpFunction("searchAdditionalByTitle", { title: findGameName });
 
-            console.log(findGameData);
+            console.log(findPostData);
 
-            let postPub = await callphpFunction("getUserData", { id: findGameData.publisher });
+            let postPub = await callphpFunction("getUserData", { id: findPostData.publisher });
             postPub = postPub.userName;
 
-            let postSection = await callphpFunction("getChapterTitle", { gameId: findGameData.jatekID, pageId: findGameData.relatedPageID });
+            let postSection = await callphpFunction("getChapterTitle", { gameId: findPostData.jatekID, pageId: findPostData.relatedPageID });
             postSection = postSection.chapterName;
 
             console.log(postPub);
@@ -226,25 +221,25 @@ async function searchBar() {
             communityPostCard.classList.add("card");
             communityPostCard.classList.add("community-post-card");
             communityPostCard.style = "width: 100%; margin-bottom: 10px";
-            communityPostCard.id = findGameData.postID;
+            communityPostCard.id = findPostData.postID;
 
             let cardHeader = document.createElement("div");
             cardHeader.classList.add("card-header");
 
             let cardHeaderContent = document.createElement("div");
             cardHeaderContent.innerHTML = `
-            <h5 style="display: inline;">${findGameData.title}</h5>
-            <div class="vr"></div>
-            <h6 style="display: inline;">By: ${postPub}</h6>
-            <div class="vr"></div>
-            <h6 style="display: inline;">${postSection}</h6>
-            <div class="vr"></div>
-            <h6 style="display: inline;">${findGameData.created_at}</h6>
-            <div class="btn-group upDownVote">
-                <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
-                <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
-            </div>
-            `;
+                <h5 style="display: inline;">${findPostData.title}</h5>
+                <div class="vr"></div>
+                <h6 style="display: inline;">By: ${postPub}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${postSection}</h6>
+                <div class="vr"></div>
+                <h6 style="display: inline;">${findPostData.created_at}</h6>
+                <div class="btn-group upDownVote">
+                    <button type="button" class="btn btn-success post-vote-btn">&#xf062</button>
+                    <button type="button" class="btn btn-danger post-vote-btn">&#xf063</button>
+                </div>
+                `;
 
             let deletePostButton = document.createElement("button");
             deletePostButton.type = "submit";
@@ -253,7 +248,7 @@ async function searchBar() {
             deletePostButton.classList.add("postButton");
             deletePostButton.style = "display: inline;";
             deletePostButton.innerHTML = "Delete Post";
-            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findGameData.postID }), location.reload() };
+            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostData.postID }), location.reload() };
 
 
             let editPostButton = document.createElement("button");
@@ -264,7 +259,7 @@ async function searchBar() {
             editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
             editPostButton.innerHTML = "Edit Post";
             editPostButton.onclick = () => {
-                loadEditPost(findGameData.postID);
+                loadEditPost(findPostData.postID);
             }
 
 
@@ -280,18 +275,45 @@ async function searchBar() {
             let cardBody = document.createElement("div");
             cardBody.classList.add("card-body");
             cardBody.innerHTML = `
-            <div class="card-text">
-                <p>${findGameData.body}</p>
-            </div>
-        `;
+                    <div class="card-text">
+                        <p>${findPostData.body}</p>
+                    </div>
+                `;
             communityPostCard.appendChild(cardBody);
 
             kiiras.appendChild(communityPostCard);
+
+
+
+            // console.log(findPostData.valasz);
+            // kiiras.innerHTML = `
+            //     <div class="alert alert-danger mt-3" role="alert">
+            //         Nincs ilyen nevezetű poszt!
+            //     </div>
+            // `;
         }
     } catch (error) {
         console.log(error);
     }
 }
+
+/*
+async function postFilters() {
+    try {
+        let getFilter = $("communityFilter").value;
+
+        switch (getFilter) {
+            case "timeAsc":
+                loadCommunityPosts();
+                break;
+
+            case "timeDesc":
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+*/
 
 $("newPostSubmit").addEventListener("click", ujPost);
 

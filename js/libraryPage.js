@@ -47,12 +47,20 @@ function searchBar() {
 
     console.log(cards);
 
-    for (const element of cards) {
-        if (element.id.toLowerCase() != gameSearch) {
-            element.setAttribute("hidden", true);
+    if (gameSearch != "") {
+        for (const element of cards) {
+            element.removeAttribute("hidden");
+            if (element.id.toLowerCase() != gameSearch) {
+                element.setAttribute("hidden", true);
+            }
+            console.log(element.id.toLowerCase());
         }
-        console.log(element.id.toLowerCase());
+    } else {
+        for (const element of cards) {
+            element.removeAttribute("hidden");
+        }
     }
+
 }
 
 $("text_libraryPageSearch").addEventListener("keydown", function (press) {
