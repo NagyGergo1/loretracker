@@ -4,6 +4,80 @@ function $(id){
     return document.getElementById(id);
 }
 
+async function profilesLoad() {
+    try {
+        let adminKiiras = $("adminList");
+        let userKiiras = $("userList");
+
+        let profilesData = await callphpFunction("getAllUserData");
+
+        for (const data of profilesData) {
+            let row = document.createElement("tr");
+
+            let userId = document.createElement("td");
+            let userName = document.createElement("td");
+            let userPassW = document.createElement("td");
+            let userEmail = document.createElement("td");
+            let userSteamId = document.createElement("td");
+            let userRank = document.createElement("td");
+            let userActions = document.createElement("td");
+
+            userId.innerHTML = data.userID;
+            userName.innerHTML = data.userName;
+            userPassW.innerHTML = data.password;
+            userEmail.innerHTML = data.email;
+            userSteamId.innerHTML = data.steamID;
+
+            userPassW.id = "spoiler";
+            
+            //Admin modifier
+            let select = document.createElement("select");
+            select.classList.add("form-select");
+
+            let adminTrue = document.createElement("option");
+            adminTrue.value = 1;
+            adminTrue.innerHTML = "Yes";
+            let adminFalse = document.createElement("option");
+            adminFalse.value = 0;
+            adminFalse.innerHTML = "No";
+
+            select.appendChild(adminTrue);
+            select.appendChild(adminFalse);
+
+            select.value = data.admin;
+
+            userRank.appendChild(select);
+
+            //User delete button
+            let deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.classList.add("btn");
+            deleteButton.classList.add("btn-danger");
+            deleteButton.innerHTML = "Delete";
+            deleteButton.onclick = () => {callphpFunction("deleteUser", {email: data.email})};
+
+            userActions.appendChild(deleteButton);
+
+            row.appendChild(userId);
+            row.appendChild(userName);
+            row.appendChild(userPassW);
+            row.appendChild(userEmail);
+            row.appendChild(userSteamId);
+            row.appendChild(userRank);
+            row.appendChild(userActions);
+
+            if (data.admin == 1) {
+                adminKiiras.appendChild(row);
+            } else {
+                userKiiras.appendChild(row);
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
 async function userlogs(){
     let kiiras = $("userlogs")
     kiiras.innerHTML = ""
@@ -120,4 +194,4 @@ async function trackerlogs(){
     }
 }
 
-window.addEventListener('load', () => { userlogs(), additionallogs(), trackerlogs() })
+window.addEventListener('load', () => { userlogs(), additionallogs(), trackerlogs(), profilesLoad() })

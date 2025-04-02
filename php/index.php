@@ -53,6 +53,10 @@ switch ($url[0]){
         break;
 
     //felhasználó
+    case "getAllUserData":
+        getAllUserData();
+        break;
+
     case "getUserData":
         getUserData($params['id']);
         break;
@@ -264,6 +268,10 @@ function deleteTracker($userID){
 
 
 //felhasználó
+function getAllUserData() {
+    $query = adatokLekerese("SELECT * FROM user;");
+    queryGetCheck($query);
+}
 function getUserData($userID){
     $query = adatokLekerese("SELECT * FROM user WHERE user.userID = {$userID}");
     queryGetCheck($query);

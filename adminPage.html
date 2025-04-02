@@ -16,6 +16,58 @@
             </div>
         </div>
         <div class="content-area">
+            <!-- Profiles -->
+            <div class="d-grid">
+                <button type="button" class="btn" data-bs-toggle="collapse" data-bs-target="#profilesCollapse" style="border-radius: 0px; background-color: orange;">Profiles</button>
+            </div>
+            <div class="row collapse mx-0" id="profilesCollapse">
+              <!-- Admins -->
+              <div class="d-grid">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#adminsCollapse" style="border-radius: 5px; background-color: rgb(0, 71, 171); margin-top: 3px;">Admins</button>
+              </div>
+              <div class="row collapse mx-0" id="adminsCollapse">
+                <table class="table" style="margin-bottom: 5px;">
+                  <thead>
+                    <tr>
+                      <th scope="col">User ID</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Steam ID</th>
+                      <th scope="col">Admin</th>
+                      <th scope="col">Options</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminList"></tbody>
+                </table>
+                <button type="button" class="btn btn-success">+ Add User</button>
+              </div>
+
+              <!-- Users -->
+              <div class="d-grid">
+                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#usersCollapse" style="border-radius: 5px; background-color: rgb(0, 71, 171); margin-top: 3px; margin-bottom: 3px;">Users</button>
+              </div>
+              <div class="row collapse mx-0" id="usersCollapse">
+                <table class="table" style="margin-bottom: 5px;">
+                  <thead>
+                    <tr>
+                      <th scope="col">User ID</th>
+                      <th scope="col">Username</th>
+                      <th scope="col">Password</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Steam ID</th>
+                      <th scope="col">Admin</th>
+                      <th scope="col">Options</th>
+                    </tr>
+                  </thead>
+                  <tbody id="userList"></tbody>
+                </table>
+                <button type="button" class="btn btn-success" style="margin-bottom: 3px;">+ Add User</button>
+              </div>
+            </div>
+
+
+            <!-- Logs -->
             <div class="d-grid">
                 <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#mainlogCollapse" style="border-radius: 0px; background-color: orange;">Logs</button>
             </div>
