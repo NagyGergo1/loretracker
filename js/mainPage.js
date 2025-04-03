@@ -22,16 +22,22 @@ function loadPage() {
 }
 
 async function steamIdGet() {
-    let hibaKiir = $("hibaKiir");
+    let eredmKiir = $("eredmKiir");
+    eredmKiir.innerHTML = ""
     let steamID = $("steamID_input").value;
 
     if (steamID === "") {
-        hibaKiir.innerHTML = `
+        eredmKiir.innerHTML = `
             <div class="alert alert-danger" role="alert">
-                Cannot proceed without your SteamID!
+                Cannot proceed without your Steam ID!
             </div>
         `;
     } else {
+        eredmKiir.innerHTML = `
+            <div class="alert alert-success" role="alert">
+                Successful tracking!
+            </div>
+        `;
         setSession("tempSteamID", steamID);
         $("toLibrary").removeAttribute("hidden");
     }

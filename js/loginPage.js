@@ -53,7 +53,7 @@ async function loadPage() {
             adminButton.type = "button";
             adminButton.classList.add("btn");
             adminButton.classList.add("btn-warning");
-            adminButton.style = "margin-bottom: 5px; width: 100%"
+            adminButton.style = "margin-bottom: 5px; width: 100%; color: white; background-color: orange"
             adminButton.innerHTML = "To Admin page";
 
             adminDiv.appendChild(adminButton);

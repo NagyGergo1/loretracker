@@ -26,7 +26,6 @@ body {
 }
 
 .left-items {
-    background-color: orange;
     display: flex;
     align-items: stretch;
     padding: 5px;
