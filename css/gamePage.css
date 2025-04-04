@@ -36,7 +36,8 @@
     width: 25%;
     margin: 5px;
     padding: 10px;
-    background-color: orange;
+    color: orange;
+    background-color: #333 !important;
     border: none;
     text-align: center;
 }
@@ -120,5 +121,9 @@
 }
 
 .nav-link.active {
+    background-color: orange !important;
+}
+
+.btn:hover, .btn:active{
     background-color: orange !important;
 }

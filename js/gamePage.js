@@ -23,9 +23,11 @@ async function jatekAdatBetolt() {
     console.log(getSession("tempSteamID"));
 
     let gameData = await callphpFunction("gameNameGet", {id : gameId});
-    
+    let gameName = document.getElementById("gameName");
+    gameName.innerHTML = gameData.nev
     
     let kiiras = $("chapters");
+    kiiras.innerHTML = ""
     let tartalomJegy = $("chapter-nav");
     let userAdatok;
     if (loginStat == true) {
@@ -35,6 +37,11 @@ async function jatekAdatBetolt() {
         userAdatok = await steamRequest(gameData.steamID, getSession("tempSteamID"));
         console.log(userAdatok);
     }
+
+    if(userAdatok == ""){
+        return document.getElementById("chapters").innerHTML = "<div class='alert alert-danger' role='alert' style='width: max-content;'>You haven't reached any achievements for this game yet.</div>"
+    }
+
     let jatekAdatok = await callphpFunction("gameLoadAll", {id : gameId});
     
     for (let i = 0; i < userAdatok.length; i++) {
@@ -42,6 +49,7 @@ async function jatekAdatBetolt() {
             if (userAdatok[i].name == jatekAdatok[j].title) {
                 let chapter = document.createElement("div");
                 chapter.id = "chapter" + (j + 1) + "Section";
+                chapter.style.marginBottom = "40px"
 
                 let chapterTitle = document.createElement("h2");
                 chapterTitle.innerHTML = jatekAdatok[j].chapterName;

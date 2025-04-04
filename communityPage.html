@@ -13,22 +13,21 @@
 
 <body>
     <div class="container">
-        <div class="navbar">
+        <div class="navbar" style="box-shadow: none;">
             <div class="left-items">
-                <div><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 150px;"></a></div>
-                <div><a href="./libraryPage.html" style="font-family: FontAwesome;" class="active">&#xf02d Library</a>
-                </div>
-                <div style="font-family: FontAwesome;">&#xf02e Bookmarks</div>
-                <div id="toMyArticles" style="font-family: FontAwesome;"><a href="./myArticlesPage.html">My Articles</a></div>
+                <div><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
+                <div><a href="./libraryPage.html" style="font-family: FontAwesome;" class="active">&#xf02d Library</a></div>
+                <div><a href="" style="font-family: FontAwesome;">&#xf02e Bookmarks</a></div>
+                <div id="toMyArticles" style="font-family: FontAwesome;"><a href="./myArticlesPage.html">&#xf044 My Articles</a></div>
             </div>
             <div class="right-items">
-                <div><a href="./loginPage.html" class="active">Profile</a></div>
+                <div><a href="./loginPage.html" class="active" style="font-family: FontAwesome; margin: 15px;">&#xf007 Profile</a></div>
             </div>
         </div>
-        <div class="button-container">
-            <h5 class="form-label">Game Name</h5>
-            <a href="./gamePage.html" type="button" class="btn" id="lorePageLink">Lore Page</a>
-            <a href="#" type="button" class="btn">Community Page</a>
+        <div class="button-container" style="background-color: #333;">
+            <h5 class="form-label" id="gameName"></h5>
+            <a href="./gamePage.html" type="button" class="btn changeBtn" id="lorePageLink" style="background-color: #FFDB91;">Lore Page</a>
+            <a href="#" type="button" class="btn changeBtn">Community Page</a>
         </div>
         <div class="main">
             <div class="content-area" id="content-area">
@@ -126,6 +125,19 @@
                     <button type="button" class="btn btn-primary" id="editPostSubmit">Submit</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- up/down vote toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Message</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            You liked this post!
+        </div>
         </div>
     </div>
 

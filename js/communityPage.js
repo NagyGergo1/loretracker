@@ -17,6 +17,9 @@ async function newPostSections() {
         let gameData = await callphpFunction("gameNameGet", { id: gameId });
         let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
 
+        let gameName = document.getElementById("gameName");
+        gameName.innerHTML = gameData.nev
+
         console.log();
 
         let newSelect = $("newPostSection");
@@ -110,6 +113,7 @@ async function loadCommunityPosts() {
         upvote.type = "button"
         upvote.classList = "btn btn-success post-vote-btn"
         upvote.innerHTML = "&#xf062"
+        upvote.id = "upVote"
         upDownVote.appendChild(upvote)
 
         let downvote = document.createElement("button")
@@ -117,6 +121,7 @@ async function loadCommunityPosts() {
         downvote.type = "button"
         downvote.classList = "btn btn-danger post-vote-btn"
         downvote.innerHTML = "&#xf063"
+        downvote.id = "downVote"
         upDownVote.appendChild(downvote)
 
         cardHeaderContent.appendChild(upDownVote)
@@ -198,6 +203,7 @@ async function loadCommunityPosts() {
             upvote.type = "button"
             upvote.classList = "btn btn-success post-vote-btn"
             upvote.innerHTML = "&#xf062"
+            upvote.id = "upVote"
             upDownVote.appendChild(upvote)
     
             let downvote = document.createElement("button")
@@ -205,6 +211,7 @@ async function loadCommunityPosts() {
             downvote.type = "button"
             downvote.classList = "btn btn-danger post-vote-btn"
             downvote.innerHTML = "&#xf063"
+            downvote.id = "downVote"
             upDownVote.appendChild(downvote)
     
             cardHeaderContent.appendChild(upDownVote)
@@ -381,6 +388,7 @@ async function searchBar() {
                         upvote.type = "button"
                         upvote.classList = "btn btn-success post-vote-btn"
                         upvote.innerHTML = "&#xf062"
+                        upvote.id = "upVote"
                         upDownVote.appendChild(upvote)
                 
                         let downvote = document.createElement("button")
@@ -388,6 +396,7 @@ async function searchBar() {
                         downvote.type = "button"
                         downvote.classList = "btn btn-danger post-vote-btn"
                         downvote.innerHTML = "&#xf063"
+                        downvote.id = "downVote"
                         upDownVote.appendChild(downvote)
                 
                         cardHeaderContent.appendChild(upDownVote)
@@ -472,6 +481,7 @@ async function searchBar() {
                             upvote.type = "button"
                             upvote.classList = "btn btn-success post-vote-btn"
                             upvote.innerHTML = "&#xf062"
+                            upvote.id = "upVote"
                             upDownVote.appendChild(upvote)
                     
                             let downvote = document.createElement("button")
@@ -479,6 +489,7 @@ async function searchBar() {
                             downvote.type = "button"
                             downvote.classList = "btn btn-danger post-vote-btn"
                             downvote.innerHTML = "&#xf063"
+                            downvote.id = "downVote"
                             upDownVote.appendChild(downvote)
                     
                             cardHeaderContent.appendChild(upDownVote)
@@ -562,6 +573,7 @@ async function searchBar() {
                 upvote.type = "button"
                 upvote.classList = "btn btn-success post-vote-btn"
                 upvote.innerHTML = "&#xf062"
+                upvote.id = "upVote"
                 upDownVote.appendChild(upvote)
         
                 let downvote = document.createElement("button")
@@ -569,6 +581,7 @@ async function searchBar() {
                 downvote.type = "button"
                 downvote.classList = "btn btn-danger post-vote-btn"
                 downvote.innerHTML = "&#xf063"
+                downvote.id = "downVote"
                 upDownVote.appendChild(downvote)
         
                 cardHeaderContent.appendChild(upDownVote)
@@ -634,7 +647,26 @@ $("text_communitySearch").addEventListener("keydown", function (press) {
 
 $("startButton_communityFilter").addEventListener("click", loadCommunityPosts);
 
+function toaster(){
+    const toasttrigger = document.getElementById("upVote")
+    const livetoast = document.getElementById("liveToastUp")
+
+    if(toasttrigger){
+        const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+        toasttrigger.addEventListener('click', () => {
+            toast.show()
+        })
+    }
+}
+
 window.addEventListener("load", function () {
     newPostSections();
     loadCommunityPosts();
+
+    toaster();
 })
+
+
+// document.getElementById("downVote").addEventListener('click', () => {
+
+// })
