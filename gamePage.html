@@ -11,45 +11,64 @@
     <link rel="stylesheet" href="./css/gamePage.css">
 </head>
 
-<body>
-    <div class="container">
-        <div class="navbar" style="box-shadow: none;">
-            <div class="left-items">
-                <div id="toMain"><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
-                <div id="toLibrary"><a href="./libraryPage.html" style="font-family: FontAwesome;" class="active">&#xf02d Library</a>
+<body style="height: 100vh;">
+    <div class="container" style="height: 100%; box-shadow: none;">
+        <div class="navbar navbar-expand-md navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px;">
+            <div class="container-fluid">
+                <div id="toMain" class="navbar-brand"><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li id="toLibrary" class="nav-item" style="margin: 10px;"><div><a href="./libraryPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf02d Library</a></div></li>
+                        <li id="toBookmarks" class="nav-item" style="margin: 10px;"><div><a href="" class="nav-item" style="font-family: FontAwesome;">&#xf02e Bookmarks</a></div></li>
+                        <li id="toMyArticles" class="nav-item" style="margin: 10px;"><div><a href="./myArticlesPage.html" class="nav-item" style="font-family: FontAwesome;">&#xf044 My Articles</a></div></li>
+                    </ul>
+
+                    <ul class="navbar-nav mb-2 mb-md-0">
+                        <li class="nav-item" style="margin: 8px;"><div><a href="./loginPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf007 Profile</a></div></li>
+                    </ul>
                 </div>
-                <div id="toBookmarks" style="font-family: FontAwesome;">&#xf02e Bookmarks</div>
-                <div id="toMyArticles" style="font-family: FontAwesome;"><a href="./myArticlesPage.html">&#xf044 My Articles</a></div>
-            </div>
-            <div class="right-items">
-                <div id="toMyArticles"><a href="./loginPage.html" class="active" style="font-family: FontAwesome;">&#xf007 Profile</a></div>
             </div>
         </div>
+
         <div class="button-container" style="background-color: #333;">
             <h5 class="form-label" id="gameName"></h5>
-            <a href="#" type="button" class="btn">Lore Page</a>
-            <a href="./communityPage.html" type="button" class="btn" id="communityLink" style="background-color: #FFDB91;">Community Page</a>
+            <a href="#" type="button" class="btn" style="height: fit-content; margin-top: auto; margin-bottom: auto;">Lore Page</a>
+            <a href="./communityPage.html" type="button" class="btn" id="communityLink" style="background-color: #FFDB91; height: fit-content; margin-top: auto; margin-bottom: auto;">Community Page</a>
         </div>
+
         <div class="main">
-            <div class="sidebar">
-                <input type="text" name="text_gamePageSearch" id="text_gamePageSearch" class="form-control"
-                    placeholder="&#xf002 Search">
-                <button>Main Quest</button>
-                <button>Side Quests</button>
-                <button>World</button>
-                <button>Characters</button>
-            </div>
-            <nav class="chapter-navbar" 
-            id="chapter-nav">
-                
-            </nav>
-            <div class="content-area">
-                <div class="content" id="actual_page">
-                    <div class="card" style="width: 100%; height: 80%;">
-                        <div class="card-body scrollable-content">
-                            <h1>Main Quest</h1>
-                            <div class="chapters" id="chapters" data-spy="scroll" data-target="#chapter-nav" data-offset="0">
-                                
+            <div class="container" style="max-height: 100%; height: unset;">
+                <div class="row" style="width: 100%; height: 100%;">
+
+                    <div class="col-12 col-xxl-1 col-xl-1 col-lg-2 col-md-12 col-sm-12 col-xs-12" style="background-color: #e1e1e1;">
+                        <div class="sidebar" style="width: 100%;">
+                            <div style="width: 100%;">
+                                <input type="text" name="text_gamePageSearch" id="text_gamePageSearch" class="form-control"
+                                placeholder="&#xf002 Search">
+                                <button>Main Quest</button>
+                                <button>Side Quests</button>
+                                <button>World</button>
+                                <button>Characters</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-xxl-1 col-xl-1 col-lg-2 col-md-4 col-sm-12 col-xs-12" style="background-color: #e1e1e1;"><nav style="width: 100%; background-color: #e1e1e1;" class="chapter-navbar" id="chapter-nav"></nav></div>
+                    
+                    <div class="content-area col-12 col-xxl-10 col-xl-10 col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="content" id="actual_page" style="width: 100%;">
+                            <div class="card" style="width: 100%; height: 90%;">
+                                <div class="card-body scrollable-content">
+                                    <h1>Main Quest</h1>
+                                    <div class="chapters" id="chapters" data-spy="scroll" data-target="#chapter-nav" data-offset="0">
+                                        
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

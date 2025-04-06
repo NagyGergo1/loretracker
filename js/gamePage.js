@@ -38,7 +38,7 @@ async function jatekAdatBetolt() {
         console.log(userAdatok);
     }
 
-    if(userAdatok == ""){
+    if(userAdatok == "" || userAdatok == undefined){
         return document.getElementById("chapters").innerHTML = "<div class='alert alert-danger' role='alert' style='width: max-content;'>You haven't reached any achievements for this game yet.</div>"
     }
 

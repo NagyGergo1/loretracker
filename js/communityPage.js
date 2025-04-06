@@ -89,7 +89,7 @@ async function loadCommunityPosts() {
         let communityPostCard = document.createElement("div");
         communityPostCard.classList.add("card");
         communityPostCard.classList.add("community-post-card");
-        communityPostCard.style = "width: 100%; margin-bottom: 10px";
+        communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
         communityPostCard.id = getPosts.postID;
 
         let cardHeader = document.createElement("div");
@@ -109,7 +109,7 @@ async function loadCommunityPosts() {
         upDownVote.classList = "btn-group upDownVote"
 
         let upvote = document.createElement("button")
-        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }) }
+        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }), toastUp() }
         upvote.type = "button"
         upvote.classList = "btn btn-success post-vote-btn"
         upvote.innerHTML = "&#xf062"
@@ -117,7 +117,7 @@ async function loadCommunityPosts() {
         upDownVote.appendChild(upvote)
 
         let downvote = document.createElement("button")
-        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }) }
+        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }), toastDown() }
         downvote.type = "button"
         downvote.classList = "btn btn-danger post-vote-btn"
         downvote.innerHTML = "&#xf063"
@@ -134,7 +134,17 @@ async function loadCommunityPosts() {
         deletePostButton.classList.add("postButton");
         deletePostButton.style = "display: inline;";
         deletePostButton.innerHTML = "Delete Post";
-        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts.postID }), location.reload() };
+        deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+        function callLocal(){
+            callphpFunction("deleteAdditional", { postID: getPosts.postID }), location.reload()
+        }
+
+        function localDeletePost(){
+            document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+
+            document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+        }
 
 
         let editPostButton = document.createElement("button");
@@ -179,7 +189,7 @@ async function loadCommunityPosts() {
             let communityPostCard = document.createElement("div");
             communityPostCard.classList.add("card");
             communityPostCard.classList.add("community-post-card");
-            communityPostCard.style = "width: 100%; margin-bottom: 10px";
+            communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
             communityPostCard.id = getPosts[i].postID;
 
             let cardHeader = document.createElement("div");
@@ -199,7 +209,7 @@ async function loadCommunityPosts() {
             upDownVote.classList = "btn-group upDownVote"
     
             let upvote = document.createElement("button")
-            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }) }
+            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }), toastUp() }
             upvote.type = "button"
             upvote.classList = "btn btn-success post-vote-btn"
             upvote.innerHTML = "&#xf062"
@@ -207,7 +217,7 @@ async function loadCommunityPosts() {
             upDownVote.appendChild(upvote)
     
             let downvote = document.createElement("button")
-            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }) }
+            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }), toastDown() }
             downvote.type = "button"
             downvote.classList = "btn btn-danger post-vote-btn"
             downvote.innerHTML = "&#xf063"
@@ -224,7 +234,17 @@ async function loadCommunityPosts() {
             deletePostButton.classList.add("postButton");
             deletePostButton.style = "display: inline;";
             deletePostButton.innerHTML = "Delete Post";
-            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: getPosts[i].postID }), location.reload() };
+            deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+            function callLocal(){
+                callphpFunction("deleteAdditional", { postID: getPosts[i].postID }), location.reload()
+            }
+    
+            function localDeletePost(){
+                document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+    
+                document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+            }
 
 
             let editPostButton = document.createElement("button");
@@ -364,7 +384,7 @@ async function searchBar() {
                         let communityPostCard = document.createElement("div");
                         communityPostCard.classList.add("card");
                         communityPostCard.classList.add("community-post-card");
-                        communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                        communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
                         communityPostCard.id = findPostDataUser.postID;
 
                         let cardHeader = document.createElement("div");
@@ -384,7 +404,7 @@ async function searchBar() {
                         upDownVote.classList = "btn-group upDownVote"
                 
                         let upvote = document.createElement("button")
-                        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }) }
+                        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }), toastUp() }
                         upvote.type = "button"
                         upvote.classList = "btn btn-success post-vote-btn"
                         upvote.innerHTML = "&#xf062"
@@ -392,7 +412,7 @@ async function searchBar() {
                         upDownVote.appendChild(upvote)
                 
                         let downvote = document.createElement("button")
-                        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }) }
+                        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }), toastDown() }
                         downvote.type = "button"
                         downvote.classList = "btn btn-danger post-vote-btn"
                         downvote.innerHTML = "&#xf063"
@@ -409,7 +429,17 @@ async function searchBar() {
                         deletePostButton.classList.add("postButton");
                         deletePostButton.style = "display: inline;";
                         deletePostButton.innerHTML = "Delete Post";
-                        deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostDataUser.postID }), location.reload() };
+                        deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+                        function callLocal(){
+                            callphpFunction("deleteAdditional", { postID: findPostDataUser.postID }), location.reload()
+                        }
+                
+                        function localDeletePost(){
+                            document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+                
+                            document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+                        }
 
 
                         let editPostButton = document.createElement("button");
@@ -457,7 +487,7 @@ async function searchBar() {
                             let communityPostCard = document.createElement("div");
                             communityPostCard.classList.add("card");
                             communityPostCard.classList.add("community-post-card");
-                            communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                            communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
                             communityPostCard.id = element.postID;
 
                             let cardHeader = document.createElement("div");
@@ -477,7 +507,7 @@ async function searchBar() {
                             upDownVote.classList = "btn-group upDownVote"
                     
                             let upvote = document.createElement("button")
-                            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }) }
+                            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }), toastUp() }
                             upvote.type = "button"
                             upvote.classList = "btn btn-success post-vote-btn"
                             upvote.innerHTML = "&#xf062"
@@ -485,7 +515,7 @@ async function searchBar() {
                             upDownVote.appendChild(upvote)
                     
                             let downvote = document.createElement("button")
-                            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }) }
+                            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }), toastDown() }
                             downvote.type = "button"
                             downvote.classList = "btn btn-danger post-vote-btn"
                             downvote.innerHTML = "&#xf063"
@@ -502,7 +532,17 @@ async function searchBar() {
                             deletePostButton.classList.add("postButton");
                             deletePostButton.style = "display: inline;";
                             deletePostButton.innerHTML = "Delete Post";
-                            deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: element.postID }), location.reload() };
+                            deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+                            function callLocal(){
+                                callphpFunction("deleteAdditional", { postID: element.postID }), location.reload()
+                            }
+                    
+                            function localDeletePost(){
+                                document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+                    
+                                document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+                            }
 
 
                             let editPostButton = document.createElement("button");
@@ -549,7 +589,7 @@ async function searchBar() {
                 let communityPostCard = document.createElement("div");
                 communityPostCard.classList.add("card");
                 communityPostCard.classList.add("community-post-card");
-                communityPostCard.style = "width: 100%; margin-bottom: 10px";
+                communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
                 communityPostCard.id = findPostDataTitle.postID;
 
                 let cardHeader = document.createElement("div");
@@ -569,7 +609,7 @@ async function searchBar() {
                 upDownVote.classList = "btn-group upDownVote"
         
                 let upvote = document.createElement("button")
-                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataTitle.postID }) }
+                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataTitle.postID }), toastUp() }
                 upvote.type = "button"
                 upvote.classList = "btn btn-success post-vote-btn"
                 upvote.innerHTML = "&#xf062"
@@ -577,7 +617,7 @@ async function searchBar() {
                 upDownVote.appendChild(upvote)
         
                 let downvote = document.createElement("button")
-                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataTitle.postID }) }
+                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataTitle.postID }), toastDown() }
                 downvote.type = "button"
                 downvote.classList = "btn btn-danger post-vote-btn"
                 downvote.innerHTML = "&#xf063"
@@ -594,7 +634,17 @@ async function searchBar() {
                 deletePostButton.classList.add("postButton");
                 deletePostButton.style = "display: inline;";
                 deletePostButton.innerHTML = "Delete Post";
-                deletePostButton.onclick = () => { callphpFunction("deleteAdditional", { postID: findPostDataTitle.postID }), location.reload() };
+                deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+                function callLocal(){
+                    callphpFunction("deleteAdditional", { postID: findPostDataTitle.postID }), location.reload()
+                }
+        
+                function localDeletePost(){
+                    document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+        
+                    document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+                }
 
 
                 let editPostButton = document.createElement("button");
@@ -647,26 +697,24 @@ $("text_communitySearch").addEventListener("keydown", function (press) {
 
 $("startButton_communityFilter").addEventListener("click", loadCommunityPosts);
 
-function toaster(){
-    const toasttrigger = document.getElementById("upVote")
+function toastUp(){
     const livetoast = document.getElementById("liveToastUp")
+    const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+    toast.show()
+}
 
-    if(toasttrigger){
-        const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
-        toasttrigger.addEventListener('click', () => {
-            toast.show()
-        })
-    }
+function toastDown(){
+    const livetoast = document.getElementById("liveToastDown")
+    const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+    toast.show()
+}
+
+function openDeleteConfirm() {
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    deleteModal.show();
 }
 
 window.addEventListener("load", function () {
     newPostSections();
     loadCommunityPosts();
-
-    toaster();
 })
-
-
-// document.getElementById("downVote").addEventListener('click', () => {
-
-// })

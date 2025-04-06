@@ -13,24 +13,35 @@
 
 <body>
     <div class="container">
-        <div class="navbar" style="box-shadow: none;">
-            <div class="left-items">
-                <div><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
-                <div><a href="./libraryPage.html" style="font-family: FontAwesome;" class="active">&#xf02d Library</a></div>
-                <div><a href="" style="font-family: FontAwesome;">&#xf02e Bookmarks</a></div>
-                <div id="toMyArticles" style="font-family: FontAwesome;"><a href="./myArticlesPage.html">&#xf044 My Articles</a></div>
-            </div>
-            <div class="right-items">
-                <div><a href="./loginPage.html" class="active" style="font-family: FontAwesome; margin: 15px;">&#xf007 Profile</a></div>
+        <div class="navbar navbar-expand-md navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px; box-shadow: none;">
+            <div class="container-fluid">
+                <div id="toMain" class="navbar-brand"><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <li id="toLibrary" class="nav-item" style="margin: 10px;"><div><a href="./libraryPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf02d Library</a></div></li>
+                        <li id="toBookmarks" class="nav-item" style="margin: 10px;"><div><a href="" class="nav-item" style="font-family: FontAwesome;">&#xf02e Bookmarks</a></div></li>
+                        <li id="toMyArticles" class="nav-item" style="margin: 10px;"><div><a href="./myArticlesPage.html" class="nav-item" style="font-family: FontAwesome;">&#xf044 My Articles</a></div></li>
+                    </ul>
+
+                    <ul class="navbar-nav mb-2 mb-md-0">
+                        <li class="nav-item" style="margin: 8px;"><div><a href="./loginPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf007 Profile</a></div></li>
+                    </ul>
+                </div>
             </div>
         </div>
+
         <div class="button-container" style="background-color: #333;">
             <h5 class="form-label" id="gameName"></h5>
-            <a href="./gamePage.html" type="button" class="btn changeBtn" id="lorePageLink" style="background-color: #FFDB91;">Lore Page</a>
-            <a href="#" type="button" class="btn changeBtn">Community Page</a>
+            <a href="./gamePage.html" type="button" class="btn changeBtn" id="lorePageLink" style="background-color: #FFDB91; height: fit-content; margin-top: auto; margin-bottom: auto;">Lore Page</a>
+            <a href="#" type="button" class="btn changeBtn" style="height: fit-content; margin-top: auto; margin-bottom: auto;">Community Page</a>
         </div>
-        <div class="main">
-            <div class="content-area" id="content-area">
+        <div class="main" style="max-width: 100%;">
+            <div class="content-area" id="content-area" style="max-width: 100%;">
                 <div class="community-container">
                     <div class="left-side">
                         <div class="input-group">
@@ -128,16 +139,51 @@
         </div>
     </div>
 
+    <!-- post delete modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="deleteModalLabel"><b>Are you sure?</b></h3>
+                </div>
+                <div class="modal-body">
+                    <h6>
+                        You are about to delete this post.
+                        <br>
+                        Once it has been deleted, it cannot be recovered.
+                    </h6>
+                    <h6><b>Do you want to proceed?</b></h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deletePostButton">Delete Post</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancelDelete">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- up/down vote toast -->
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToastUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Message</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <div class="toast-header">
+                <strong class="me-auto">Message</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                You liked this post!
+            </div>
         </div>
-        <div class="toast-body">
-            You liked this post!
-        </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToastDown" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Message</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                You disliked this post!
+            </div>
         </div>
     </div>
 
