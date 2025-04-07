@@ -119,8 +119,8 @@ CREATE TABLE `jatek` (
 
 INSERT INTO `jatek` (`jatekID`, `nev`, `steamID`) VALUES
 (1, 'Ghost of Tsushima', 2215430),
-(2, 'Team Fortress 2', 440),
-(4, 'Horizon Zero Dawn', 2561580);
+(3, 'Team Fortress 2', 440),
+(2, 'Horizon Zero Dawn', 2561580);
 
 -- --------------------------------------------------------
 

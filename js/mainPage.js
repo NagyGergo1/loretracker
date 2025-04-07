@@ -29,7 +29,7 @@ async function steamIdGet() {
     if (steamID === "") {
         eredmKiir.innerHTML = `
             <div class="alert alert-danger" role="alert">
-                Cannot proceed without your Steam ID!
+                Can not proceed without your Steam ID!
             </div>
         `;
     } else {
