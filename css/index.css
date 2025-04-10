@@ -103,3 +103,9 @@ img {
     align-items: center;
     font-size: 17px;
 }
+
+.btn{
+    margin-top: auto;
+    margin-bottom: auto;
+    height: fit-content;
+}
