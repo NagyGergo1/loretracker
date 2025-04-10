@@ -104,8 +104,13 @@ img {
     font-size: 17px;
 }
 
+<<<<<<< HEAD
 .btn{
     margin-top: auto;
     margin-bottom: auto;
     height: fit-content;
+=======
+ul, li, .navbar-brand, .container-fluid, #navbarMenu{
+    cursor: default !important;
+>>>>>>> 9e427801a8651a3940fb3565e04e9600adbdc499
 }
