@@ -68,12 +68,10 @@ function adjustNavbar() {
     const loginEmail = getCookie("email");
 
     if (loginEmail) {
-        $("toBookmarks").removeAttribute("hidden");
         $("toMyArticles").removeAttribute("hidden");
     } else {
         const tempSteamID = getSession("tempSteamID");
         if (tempSteamID) {
-            $("toBookmarks").setAttribute("hidden", true);
             $("toMyArticles").setAttribute("hidden", true);
         }
     }

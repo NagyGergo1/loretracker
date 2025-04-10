@@ -13,7 +13,7 @@
 
 <body style="height: 100vh;">
     <div class="container" style="height: 100%">
-        <div class="navbar navbar-expand-md navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px; box-shadow: none;">
+        <div class="navbar navbar-expand-sm navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px; box-shadow: none;">
             <div class="container-fluid">
                 <div id="toMain" class="navbar-brand"><a href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
 
@@ -24,7 +24,6 @@
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0" style="margin-bottom: 0px !important;">
                         <li id="toLibrary" class="nav-item" style="margin: 10px;"><div><a href="./libraryPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf02d Library</a></div></li>
-                        <li id="toBookmarks" class="nav-item" style="margin: 10px;"><div><a href="" class="nav-item" style="font-family: FontAwesome;">&#xf02e Bookmarks</a></div></li>
                         <li id="toMyArticles" class="nav-item" style="margin: 10px;"><div><a href="./myArticlesPage.html" class="nav-item" style="font-family: FontAwesome;">&#xf044 My Articles</a></div></li>
                     </ul>
 
@@ -45,25 +44,23 @@
             <div class="container" style="max-height: 100%; height: unset;">
                 <div class="row" style="width: 100%; height: 100%;">
 
-                    <div class="col-12 col-xxl-1 col-xl-1 col-lg-2 col-md-12 col-sm-12 col-xs-12" style="background-color: #e1e1e1; padding-bottom: 30px;">
+                    <div class="col-12 col-xxl-1 col-xl-2 col-lg-2 col-md-12 col-sm-12 col-xs-12" style="background-color: #e1e1e1; padding-bottom: 30px;">
                         <div class="sidebar" style="width: 100%;">
                             <div style="width: 100%;">
-                                <!-- <input type="text" name="text_gamePageSearch" id="text_gamePageSearch" class="form-control"
-                                placeholder="&#xf002 Search"> -->
-                                <button>Main Quest</button>
-                                <button>Side Quests</button>
-                                <button>Characters</button>
+                                <button id="mainQuestBtn" type="button">Main Quest</button>
+                                <button id="sideQuestBtn" type="button">Side Quests</button>
+                                <button id="charactersBtn" type="button">Characters</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-12 col-xxl-2 col-xl-2 col-lg-2 col-md-4 col-sm-12 col-xs-12" style="background-color: #e1e1e1;"><nav style="width: 100%; background-color: #e1e1e1;" class="chapter-navbar" id="chapter-nav"></nav></div>
                     
-                    <div class="content-area col-12 col-xxl-9 col-xl-9 col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <div class="content-area col-12 col-xxl-9 col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12">
                         <div class="content" id="actual_page" style="width: 100%;">
                             <div class="card" style="width: 100%; height: 80vh;">
                                 <div class="card-body scrollable-content">
-                                    <h1>Main Quest</h1>
+                                    <h1 id="typeTitle"></h1>
                                     <div class="chapters" id="chapters" data-spy="scroll" data-target="#chapter-nav" data-offset="0">
                                         
                                     </div>

@@ -103,3 +103,7 @@ img {
     align-items: center;
     font-size: 17px;
 }
+
+ul, li, .navbar-brand, .container-fluid, #navbarMenu{
+    cursor: default !important;
+}

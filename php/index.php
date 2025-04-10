@@ -22,6 +22,10 @@ switch ($url[0]){
         gameNameGet($params['id']);
         break;
 
+    case "gameSearch":
+        gameSearch($params['name']);
+        break;
+
     //típus
     case "getAlltipus":
         getAlltipus();
@@ -216,6 +220,11 @@ function gameNameGet($gameId) {
     queryGetCheck($query);
 }
 
+function gameSearch($name){
+    $query = adatokLekerese("SELECT * FROM jatek WHERE nev LIKE '%{$name}%'");
+    queryGetCheck($query);
+}
+
 //típus
 function getAlltipus(){
     $query = adatokLekerese("SELECT * FROM loretype ORDER BY loretype.typeID");
@@ -226,7 +235,6 @@ function getTipusById($id){
     $query = adatokLekerese("SELECT * FROM loretype WHERE typeID = {$id}");
     queryGetCheck($query);
 }
-
 
 //tracker
 function getUserTracker($trackerID){

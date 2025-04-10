@@ -4,6 +4,8 @@ import { loginStat } from "./index.js";
 import { steamRequest } from "./index.js";
 
 
+var typeID = 1
+
 checkCookie("email");
 console.log(loginStat);
 function $(id) {
@@ -29,7 +31,15 @@ async function jatekAdatBetolt() {
     let kiiras = $("chapters");
     kiiras.innerHTML = ""
     let tartalomJegy = $("chapter-nav");
+    tartalomJegy.innerHTML = ""
     let userAdatok;
+
+    let typeTitle = $("typeTitle")
+    typeTitle.innerHTML = ""
+    if(typeID == 1) typeTitle.innerHTML = "Main Quest"
+    else if(typeID == 2) typeTitle.innerHTML = "Side Quests"
+    else if(typeID == 3) typeTitle.innerHTML = "Characters"
+
     if (loginStat == true) {
         let userData = await callphpFunction("getUserByEmail", {email : getCookie("email")});
         userAdatok = await steamRequest(gameData.steamID, userData.steamID);
@@ -37,6 +47,7 @@ async function jatekAdatBetolt() {
         userAdatok = await steamRequest(gameData.steamID, getSession("tempSteamID"));
         console.log(userAdatok);
     }
+    
 
     if(userAdatok == "" || userAdatok == undefined){
         return document.getElementById("chapters").innerHTML = "<div class='alert alert-danger' role='alert' style='width: max-content;'>You haven't reached any achievements for this game yet.</div>"
@@ -46,7 +57,7 @@ async function jatekAdatBetolt() {
     
     for (let i = 0; i < userAdatok.length; i++) {
         for (let j = 0; j < jatekAdatok.length; j++) {
-            if (userAdatok[i].name == jatekAdatok[j].title) {
+            if (userAdatok[i].name == jatekAdatok[j].title && userAdatok[i].achieved && jatekAdatok[j].typeID == typeID) {
                 let chapter = document.createElement("div");
                 chapter.id = "chapter" + (j + 1) + "Section";
                 chapter.style.marginBottom = "40px"
@@ -93,7 +104,6 @@ function adjustNavbar() {
     const loginEmail = getCookie("email");
 
     if (!loginEmail) {
-        $("toBookmarks").setAttribute("hidden", true);
         $("toMyArticles").setAttribute("hidden", true);
     } 
 }
@@ -101,4 +111,19 @@ function adjustNavbar() {
 window.addEventListener("load", function() {
     jatekAdatBetolt();
     adjustNavbar();
+})
+
+$("mainQuestBtn").addEventListener('click', () => {
+    typeID = 1
+    jatekAdatBetolt()
+})
+
+$("sideQuestBtn").addEventListener('click', () => {
+    typeID = 2
+    jatekAdatBetolt()
+})
+
+$("charactersBtn").addEventListener('click', () => {
+    typeID = 3
+    jatekAdatBetolt()
 })

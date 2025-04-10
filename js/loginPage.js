@@ -15,7 +15,6 @@ async function loadPage() {
     console.log(loginStat);
     if (loginStat == true) {
         $("toLibrary").removeAttribute("hidden");
-        $("toBookmarks").removeAttribute("hidden");
         $("toMyArticles").removeAttribute("hidden");
         $("form-content").innerHTML = "";
         let userEmail = getCookie("email");
