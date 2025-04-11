@@ -1,4 +1,5 @@
 import { callphpFunction } from "./index.js";
+import { getCookie } from "./index.js";
 
 function $(id){
     return document.getElementById(id);
@@ -6,12 +7,20 @@ function $(id){
 
 async function profilesLoad() {
     try {
+        sessionStorage.removeItem("profileReload");
+        sessionStorage.removeItem("mainlogCollapse")
+        sessionStorage.removeItem("userlogCollapse")
+        sessionStorage.removeItem("additionallogCollapse")
+        sessionStorage.removeItem("trackerlogCollapse")
+
         let adminKiiras = $("adminList");
         let userKiiras = $("userList");
 
         let profilesData = await callphpFunction("getAllUserData");
 
         for (const data of profilesData) {
+            
+            
             let row = document.createElement("tr");
 
             let userId = document.createElement("td");
@@ -20,7 +29,6 @@ async function profilesLoad() {
             let userEmail = document.createElement("td");
             let userSteamId = document.createElement("td");
             let userRank = document.createElement("td");
-            let userActions = document.createElement("td");
 
             userId.innerHTML = data.userID;
             userName.innerHTML = data.userName;
@@ -37,6 +45,7 @@ async function profilesLoad() {
             let adminTrue = document.createElement("option");
             adminTrue.value = 1;
             adminTrue.innerHTML = "Yes";
+
             let adminFalse = document.createElement("option");
             adminFalse.value = 0;
             adminFalse.innerHTML = "No";
@@ -45,18 +54,20 @@ async function profilesLoad() {
             select.appendChild(adminFalse);
 
             select.value = data.admin;
+            select.addEventListener('change', () => {
+                callphpFunction("userAdmin", {email: data.email, state: select.value})
+                sessionStorage.setItem("profileReload", "true");
+
+                sessionStorage.setItem("mainlogCollapse", $("mainlogCollapse").classList.toString())
+                sessionStorage.setItem("userlogCollapse", $("userlogCollapse").classList.toString())
+                sessionStorage.setItem("additionallogCollapse", $("additionallogCollapse").classList.toString())
+                sessionStorage.setItem("trackerlogCollapse", $("trackerlogCollapse").classList.toString())
+                
+
+                location.reload()
+            })
 
             userRank.appendChild(select);
-
-            //User delete button
-            let deleteButton = document.createElement("button");
-            deleteButton.type = "button";
-            deleteButton.classList.add("btn");
-            deleteButton.classList.add("btn-danger");
-            deleteButton.innerHTML = "Delete";
-            deleteButton.onclick = () => {callphpFunction("deleteUser", {email: data.email})};
-
-            userActions.appendChild(deleteButton);
 
             row.appendChild(userId);
             row.appendChild(userName);
@@ -64,11 +75,24 @@ async function profilesLoad() {
             row.appendChild(userEmail);
             row.appendChild(userSteamId);
             row.appendChild(userRank);
-            row.appendChild(userActions);
 
             if (data.admin == 1) {
                 adminKiiras.appendChild(row);
+
             } else {
+                let userActions = document.createElement("td");
+
+                //User delete button
+                let deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.classList.add("btn");
+                deleteButton.classList.add("btn-danger");
+                deleteButton.innerHTML = "Delete";
+                deleteButton.onclick = () => {callphpFunction("deleteUser", {email: data.email})};
+
+                userActions.appendChild(deleteButton);
+                row.appendChild(userActions);
+
                 userKiiras.appendChild(row);
             }
         }
@@ -194,4 +218,28 @@ async function trackerlogs(){
     }
 }
 
-window.addEventListener('load', () => { userlogs(), additionallogs(), trackerlogs(), profilesLoad() })
+window.addEventListener('load', async function() {
+    let email = getCookie("email")
+    let prof_data = await callphpFunction("getUserByEmail", {email: email})
+    console.log(prof_data)
+
+    if(prof_data.admin == 0){
+        alert("You don't have access to this page!")
+        window.location.replace("./loginPage.html")
+    }
+})
+
+window.addEventListener('load', () => {
+    if(sessionStorage.getItem("profileReload")){
+        $("profilesCollapse").classList = "row collapse show mx-0"
+        $("adminsCollapse").classList = "row collapse show mx-0"
+        $("usersCollapse").classList = "row collapse show mx-0"
+
+        $("mainlogCollapse").classList = sessionStorage.getItem("mainlogCollapse")
+        $("userlogCollapse").classList = sessionStorage.getItem("userlogCollapse")
+        $("additionallogCollapse").classList = sessionStorage.getItem("additionallogCollapse")
+        $("trackerlogCollapse").classList = sessionStorage.getItem("trackerlogCollapse")
+    }
+
+    userlogs(), additionallogs(), trackerlogs(), profilesLoad()
+})

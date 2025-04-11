@@ -108,3 +108,10 @@ export function getSession(key) {
 export function removeSession(key) {
     sessionStorage.removeItem(key);
 }
+
+export function loginCheck(){
+    if(getCookie("email") != ""){
+        let tomain = $("toMainLink")
+        tomain.href = "./libraryPage.html"
+    }
+}

@@ -2,7 +2,9 @@ import { callphpFunction, getCookie, getSession } from "./index.js";
 import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
 import { steamRequest } from "./index.js";
+import { loginCheck } from "./index.js";
 
+window.addEventListener('load', loginCheck)
 
 var typeID = 1
 
@@ -19,6 +21,13 @@ function getQueryParam(param) {
 
 async function jatekAdatBetolt() {
     const gameId = getQueryParam("gameId");
+
+    if(gameId == 1){
+        $("footerLink").href = "https://ghostoftsushima.fandom.com/"
+    }
+    else if(gameId == 2){
+        $("footerLink").href = "https://horizon.fandom.com/"
+    }
 
     document.getElementById("communityLink").href = `./communityPage.html?gameId=${gameId}`
 
@@ -115,15 +124,24 @@ window.addEventListener("load", function() {
 
 $("mainQuestBtn").addEventListener('click', () => {
     typeID = 1
+    $("mainQuestBtn").style.backgroundColor = "orange"
+    $("sideQuestBtn").style.backgroundColor = "#ccc"
+    $("charactersBtn").style.backgroundColor = "#ccc"
     jatekAdatBetolt()
 })
 
 $("sideQuestBtn").addEventListener('click', () => {
     typeID = 2
+    $("mainQuestBtn").style.backgroundColor = "#ccc"
+    $("sideQuestBtn").style.backgroundColor = "orange"
+    $("charactersBtn").style.backgroundColor = "#ccc"
     jatekAdatBetolt()
 })
 
 $("charactersBtn").addEventListener('click', () => {
     typeID = 3
+    $("mainQuestBtn").style.backgroundColor = "#ccc"
+    $("sideQuestBtn").style.backgroundColor = "#ccc"
+    $("charactersBtn").style.backgroundColor = "orange"
     jatekAdatBetolt()
 })

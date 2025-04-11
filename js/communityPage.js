@@ -1,6 +1,8 @@
 import { $ } from "./index.js";
 import { callphpFunction } from "./index.js";
-import { steamRequest, loginStat, checkCookie, getCookie } from "./index.js";
+import { steamRequest, loginStat, checkCookie, getCookie, loginCheck } from "./index.js";
+
+window.addEventListener('load', loginCheck)
 
 checkCookie("email");
 console.log(loginStat);
@@ -112,7 +114,7 @@ async function loadCommunityPosts() {
         upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }), toastUp() }
         upvote.type = "button"
         upvote.classList = "btn btn-success post-vote-btn"
-        upvote.innerHTML = "&#xf062"
+        upvote.innerHTML = "&#xf087"
         upvote.id = "upVote"
         upDownVote.appendChild(upvote)
 
@@ -120,7 +122,7 @@ async function loadCommunityPosts() {
         downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }), toastDown() }
         downvote.type = "button"
         downvote.classList = "btn btn-danger post-vote-btn"
-        downvote.innerHTML = "&#xf063"
+        downvote.innerHTML = "&#xf088"
         downvote.id = "downVote"
         upDownVote.appendChild(downvote)
 
@@ -212,7 +214,7 @@ async function loadCommunityPosts() {
             upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }), toastUp() }
             upvote.type = "button"
             upvote.classList = "btn btn-success post-vote-btn"
-            upvote.innerHTML = "&#xf062"
+            upvote.innerHTML = "&#xf087"
             upvote.id = "upVote"
             upDownVote.appendChild(upvote)
     
@@ -220,7 +222,7 @@ async function loadCommunityPosts() {
             downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }), toastDown() }
             downvote.type = "button"
             downvote.classList = "btn btn-danger post-vote-btn"
-            downvote.innerHTML = "&#xf063"
+            downvote.innerHTML = "&#xf088"
             downvote.id = "downVote"
             upDownVote.appendChild(downvote)
     
@@ -407,7 +409,7 @@ async function searchBar() {
                         upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }), toastUp() }
                         upvote.type = "button"
                         upvote.classList = "btn btn-success post-vote-btn"
-                        upvote.innerHTML = "&#xf062"
+                        upvote.innerHTML = "&#xf087"
                         upvote.id = "upVote"
                         upDownVote.appendChild(upvote)
                 
@@ -415,7 +417,7 @@ async function searchBar() {
                         downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }), toastDown() }
                         downvote.type = "button"
                         downvote.classList = "btn btn-danger post-vote-btn"
-                        downvote.innerHTML = "&#xf063"
+                        downvote.innerHTML = "&#xf088"
                         downvote.id = "downVote"
                         upDownVote.appendChild(downvote)
                 
@@ -510,7 +512,7 @@ async function searchBar() {
                             upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }), toastUp() }
                             upvote.type = "button"
                             upvote.classList = "btn btn-success post-vote-btn"
-                            upvote.innerHTML = "&#xf062"
+                            upvote.innerHTML = "&#xf087"
                             upvote.id = "upVote"
                             upDownVote.appendChild(upvote)
                     
@@ -518,7 +520,7 @@ async function searchBar() {
                             downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }), toastDown() }
                             downvote.type = "button"
                             downvote.classList = "btn btn-danger post-vote-btn"
-                            downvote.innerHTML = "&#xf063"
+                            downvote.innerHTML = "&#xf088"
                             downvote.id = "downVote"
                             upDownVote.appendChild(downvote)
                     
@@ -612,7 +614,7 @@ async function searchBar() {
                 upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataTitle.postID }), toastUp() }
                 upvote.type = "button"
                 upvote.classList = "btn btn-success post-vote-btn"
-                upvote.innerHTML = "&#xf062"
+                upvote.innerHTML = "&#xf087"
                 upvote.id = "upVote"
                 upDownVote.appendChild(upvote)
         
@@ -620,7 +622,7 @@ async function searchBar() {
                 downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataTitle.postID }), toastDown() }
                 downvote.type = "button"
                 downvote.classList = "btn btn-danger post-vote-btn"
-                downvote.innerHTML = "&#xf063"
+                downvote.innerHTML = "&#xf088"
                 downvote.id = "downVote"
                 upDownVote.appendChild(downvote)
         

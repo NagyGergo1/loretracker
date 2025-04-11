@@ -1,4 +1,6 @@
-import { setCookie, getCookie, setSession, getSession, removeSession } from "./index.js";
+import { setCookie, getCookie, setSession, getSession, removeSession, loginCheck } from "./index.js";
+
+window.addEventListener('load', loginCheck)
 
 function $(id) {
     return document.getElementById(id);

@@ -1,5 +1,7 @@
 //import { steamRequest } from "./index.js";
-import { getCookie, getSession } from "./index.js";
+import { getCookie, getSession, loginCheck } from "./index.js";
+
+window.addEventListener('load', loginCheck)
 
 function $(id) {
     return document.getElementById(id);

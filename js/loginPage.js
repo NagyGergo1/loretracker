@@ -5,6 +5,9 @@ import { checkCookie } from "./index.js";
 import { loginStat } from "./index.js";
 import { deleteCookie } from "./index.js";
 import { removeSession } from "./index.js";
+import { loginCheck } from "./index.js";
+
+window.addEventListener('load', loginCheck)
 
 function $(id) {
     return document.getElementById(id);

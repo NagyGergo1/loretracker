@@ -89,6 +89,10 @@ switch ($url[0]){
         deleteUser($params['email']);
         break;
 
+    case "userAdmin":
+        userAdmin($params['email'], $params['state']);
+        break;
+
     //főoldal
     case "gameLoadAll":
         gameLoadAll($params['id']);
@@ -318,6 +322,11 @@ function deleteUser($email){
 
     $query3 = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
     queryChangeCheck($query3);
+}
+
+function userAdmin($email, $state){
+    $query = adatokValtozasa("UPDATE user SET admin = {$state} WHERE email = '{$email}'");
+    queryChangeCheck($query);
 }
 
 
