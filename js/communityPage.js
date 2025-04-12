@@ -5,24 +5,31 @@ import { steamRequest, loginStat, checkCookie, getCookie, loginCheck } from "./i
 window.addEventListener('load', loginCheck)
 
 checkCookie("email");
-console.log(loginStat);
 
 function getQueryParam(param) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
 }
 
+function adjustPage() {
+    const loginEmail = getCookie("email");
+
+    if (!loginEmail) {
+        $("toMyArticles").setAttribute("hidden", true);
+        $("newPostBtn").hidden = true
+    } 
+}
+
 async function newPostSections() {
+    let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
+
     try {
         const gameId = getQueryParam("gameId");
 
         let gameData = await callphpFunction("gameNameGet", { id: gameId });
-        let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
 
         let gameName = document.getElementById("gameName");
         gameName.innerHTML = gameData.nev
-
-        console.log();
 
         let newSelect = $("newPostSection");
         let editSelect = $("editPostSection");
@@ -47,9 +54,12 @@ async function newPostSections() {
     } catch (error) {
         console.log(error);
     }
+    adjustPage();
 }
 
 async function loadCommunityPosts() {
+    let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
+
     const gameId = getQueryParam("gameId");
 
     document.getElementById("lorePageLink").href = `./gamePage.html?gameId=${gameId}`;
@@ -70,8 +80,6 @@ async function loadCommunityPosts() {
             getPosts = await callphpFunction("getAdditionalByTimeDesc", { gameId: gameId });
             break;
 
-            break;
-
         case "aToz":
             getPosts = await callphpFunction("getAdditionalByTitleAsc", { gameId: gameId });
             break;
@@ -83,7 +91,7 @@ async function loadCommunityPosts() {
 
     if (!(Array.isArray(getPosts))) {
         let postPub = await callphpFunction("getUserData", { id: getPosts.publisher });
-        postPub = postPub.userName;
+        let postPubName = postPub.userName;
 
         let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts.relatedPageID });
         postSection = postSection.chapterName;
@@ -101,32 +109,38 @@ async function loadCommunityPosts() {
         cardHeaderContent.innerHTML = `
                 <h5 style="display: inline;">${getPosts.title}</h5>
                 <div class="vr"></div>
-                <h6 style="display: inline;">By: ${postPub}</h6>
+                <h6 style="display: inline;">By: ${postPubName}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${getPosts.created_at}</h6>
             `;
-        let upDownVote = document.createElement("div")
-        upDownVote.classList = "btn-group upDownVote"
 
-        let upvote = document.createElement("button")
-        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }), toastUp() }
-        upvote.type = "button"
-        upvote.classList = "btn btn-success post-vote-btn"
-        upvote.innerHTML = "&#xf087"
-        upvote.id = "upVote"
-        upDownVote.appendChild(upvote)
 
-        let downvote = document.createElement("button")
-        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }), toastDown() }
-        downvote.type = "button"
-        downvote.classList = "btn btn-danger post-vote-btn"
-        downvote.innerHTML = "&#xf088"
-        downvote.id = "downVote"
-        upDownVote.appendChild(downvote)
+        const loginEmail = getCookie("email");
+        if (loginEmail) {
+            let upDownVote = document.createElement("div")
+            upDownVote.classList = "btn-group upDownVote"
+            upDownVote.id = "updownvote"
 
-        cardHeaderContent.appendChild(upDownVote)
+            let upvote = document.createElement("button")
+            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts.postID }), toastUp() }
+            upvote.type = "button"
+            upvote.classList = "btn btn-success post-vote-btn"
+            upvote.innerHTML = "&#xf087"
+            upvote.id = "upVote"
+            upDownVote.appendChild(upvote)
+
+            let downvote = document.createElement("button")
+            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts.postID }), toastDown() }
+            downvote.type = "button"
+            downvote.classList = "btn btn-danger post-vote-btn"
+            downvote.innerHTML = "&#xf088"
+            downvote.id = "downVote"
+            upDownVote.appendChild(downvote)
+
+            cardHeaderContent.appendChild(upDownVote)
+        }
 
 
         let deletePostButton = document.createElement("button");
@@ -161,9 +175,13 @@ async function loadCommunityPosts() {
         }
 
 
-        if (postPub == getCookie("name")) {
+        if (postPubName == getCookie("name")) {
             cardHeaderContent.appendChild(editPostButton);
             cardHeaderContent.appendChild(deletePostButton);
+        }
+        else if(userData.admin == 1){
+            deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+            cardHeaderContent.appendChild(deletePostButton)
         }
 
         cardHeader.appendChild(cardHeaderContent);
@@ -183,7 +201,7 @@ async function loadCommunityPosts() {
     } else {
         for (let i = 0; i < getPosts.length; i++) {
             let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
-            postPub = postPub.userName;
+            let postPubName = postPub.userName;
 
             let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts[i].relatedPageID });
             postSection = postSection.chapterName;
@@ -201,32 +219,37 @@ async function loadCommunityPosts() {
             cardHeaderContent.innerHTML = `
                 <h5 style="display: inline;">${getPosts[i].title}</h5>
                 <div class="vr"></div>
-                <h6 style="display: inline;">By: ${postPub}</h6>
+                <h6 style="display: inline;">By: ${postPubName}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${postSection}</h6>
                 <div class="vr"></div>
                 <h6 style="display: inline;">${getPosts[i].created_at}</h6>
             `;
-            let upDownVote = document.createElement("div")
-            upDownVote.classList = "btn-group upDownVote"
-    
-            let upvote = document.createElement("button")
-            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }), toastUp() }
-            upvote.type = "button"
-            upvote.classList = "btn btn-success post-vote-btn"
-            upvote.innerHTML = "&#xf087"
-            upvote.id = "upVote"
-            upDownVote.appendChild(upvote)
-    
-            let downvote = document.createElement("button")
-            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }), toastDown() }
-            downvote.type = "button"
-            downvote.classList = "btn btn-danger post-vote-btn"
-            downvote.innerHTML = "&#xf088"
-            downvote.id = "downVote"
-            upDownVote.appendChild(downvote)
-    
-            cardHeaderContent.appendChild(upDownVote)
+
+            const loginEmail = getCookie("email");
+            if (loginEmail){
+                let upDownVote = document.createElement("div")
+                upDownVote.classList = "btn-group upDownVote"
+                upDownVote.id = "updownvote"
+        
+                let upvote = document.createElement("button")
+                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: getPosts[i].postID }), toastUp() }
+                upvote.type = "button"
+                upvote.classList = "btn btn-success post-vote-btn"
+                upvote.innerHTML = "&#xf087"
+                upvote.id = "upVote"
+                upDownVote.appendChild(upvote)
+        
+                let downvote = document.createElement("button")
+                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: getPosts[i].postID }), toastDown() }
+                downvote.type = "button"
+                downvote.classList = "btn btn-danger post-vote-btn"
+                downvote.innerHTML = "&#xf088"
+                downvote.id = "downVote"
+                upDownVote.appendChild(downvote)
+        
+                cardHeaderContent.appendChild(upDownVote)
+            }
             
 
             let deletePostButton = document.createElement("button");
@@ -261,8 +284,12 @@ async function loadCommunityPosts() {
             }
 
 
-            if (postPub == getCookie("name")) {
+            if (postPubName == getCookie("name")) {
                 cardHeaderContent.appendChild(editPostButton);
+                cardHeaderContent.appendChild(deletePostButton);
+            }
+            else if(userData.admin == 1){
+                deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                 cardHeaderContent.appendChild(deletePostButton);
             }
 
@@ -282,6 +309,7 @@ async function loadCommunityPosts() {
             kiiras.appendChild(communityPostCard);
         }
     }
+    adjustPage();
 }
 
 async function ujPost() {
@@ -306,6 +334,7 @@ async function ujPost() {
     } catch (error) {
         console.log(error);
     }
+    adjustPage();
 }
 
 
@@ -340,7 +369,6 @@ async function editPost(postId, jatekId, typeId) {
                 </div>
             `;
         } else {
-            //console.log("I'm running!");
             let postMod = await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
 
             location.reload();
@@ -348,9 +376,12 @@ async function editPost(postId, jatekId, typeId) {
     } catch (error) {
         console.log(error);
     }
+    adjustPage();
 }
 
 async function searchBar() {
+    let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
+
     try {
         const gameId = getQueryParam("gameId");
 
@@ -378,7 +409,7 @@ async function searchBar() {
 
                     if (!(Array.isArray(findPostDataUser))) {
                         let postPub = await callphpFunction("getUserData", { id: findPostDataUser.publisher });
-                        postPub = postPub.userName;
+                        let postPubName = postPub.userName;
 
                         let postSection = await callphpFunction("getChapterTitle", { gameId: findPostDataUser.jatekID, pageId: findPostDataUser.relatedPageID });
                         postSection = postSection.chapterName;
@@ -396,32 +427,37 @@ async function searchBar() {
                         cardHeaderContent.innerHTML = `
                             <h5 style="display: inline;">${findPostDataUser.title}</h5>
                             <div class="vr"></div>
-                            <h6 style="display: inline;">By: ${postPub}</h6>
+                            <h6 style="display: inline;">By: ${postPubName}</h6>
                             <div class="vr"></div>
                             <h6 style="display: inline;">${postSection}</h6>
                             <div class="vr"></div>
                             <h6 style="display: inline;">${findPostDataUser.created_at}</h6>
                         `;
-                        let upDownVote = document.createElement("div")
-                        upDownVote.classList = "btn-group upDownVote"
-                
-                        let upvote = document.createElement("button")
-                        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }), toastUp() }
-                        upvote.type = "button"
-                        upvote.classList = "btn btn-success post-vote-btn"
-                        upvote.innerHTML = "&#xf087"
-                        upvote.id = "upVote"
-                        upDownVote.appendChild(upvote)
-                
-                        let downvote = document.createElement("button")
-                        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }), toastDown() }
-                        downvote.type = "button"
-                        downvote.classList = "btn btn-danger post-vote-btn"
-                        downvote.innerHTML = "&#xf088"
-                        downvote.id = "downVote"
-                        upDownVote.appendChild(downvote)
-                
-                        cardHeaderContent.appendChild(upDownVote)
+
+                        const loginEmail = getCookie("email");
+                        if (loginEmail){
+                            let upDownVote = document.createElement("div")
+                            upDownVote.classList = "btn-group upDownVote"
+                            upDownVote.id = "updownvote"
+                    
+                            let upvote = document.createElement("button")
+                            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataUser.postID }), toastUp() }
+                            upvote.type = "button"
+                            upvote.classList = "btn btn-success post-vote-btn"
+                            upvote.innerHTML = "&#xf087"
+                            upvote.id = "upVote"
+                            upDownVote.appendChild(upvote)
+                    
+                            let downvote = document.createElement("button")
+                            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataUser.postID }), toastDown() }
+                            downvote.type = "button"
+                            downvote.classList = "btn btn-danger post-vote-btn"
+                            downvote.innerHTML = "&#xf088"
+                            downvote.id = "downVote"
+                            upDownVote.appendChild(downvote)
+                    
+                            cardHeaderContent.appendChild(upDownVote)
+                        }
 
 
                         let deletePostButton = document.createElement("button");
@@ -456,8 +492,12 @@ async function searchBar() {
                         }
 
 
-                        if (postPub == getCookie("name")) {
+                        if (postPubName == getCookie("name")) {
                             cardHeaderContent.appendChild(editPostButton);
+                            cardHeaderContent.appendChild(deletePostButton);
+                        }
+                        else if(userData.admin == 1){
+                            deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                             cardHeaderContent.appendChild(deletePostButton);
                         }
 
@@ -478,10 +518,7 @@ async function searchBar() {
                     } else {
                         for (const element of findPostDataUser) {
                             let postPub = await callphpFunction("getUserData", { id: element.publisher });
-                            postPub = postPub.userName;
-
-                            console.log(postPub);
-                            //postPub = postPub.userName;
+                            let postPubName = postPub.userName;
 
                             let postSection = await callphpFunction("getChapterTitle", { gameId: element.jatekID, pageId: element.relatedPageID });
                             postSection = postSection.chapterName;
@@ -499,32 +536,37 @@ async function searchBar() {
                             cardHeaderContent.innerHTML = `
                                 <h5 style="display: inline;">${element.title}</h5>
                                 <div class="vr"></div>
-                                <h6 style="display: inline;">By: ${postPub}</h6>
+                                <h6 style="display: inline;">By: ${postPubName}</h6>
                                 <div class="vr"></div>
                                 <h6 style="display: inline;">${postSection}</h6>
                                 <div class="vr"></div>
                                 <h6 style="display: inline;">${element.created_at}</h6>
                             `;
-                            let upDownVote = document.createElement("div")
-                            upDownVote.classList = "btn-group upDownVote"
-                    
-                            let upvote = document.createElement("button")
-                            upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }), toastUp() }
-                            upvote.type = "button"
-                            upvote.classList = "btn btn-success post-vote-btn"
-                            upvote.innerHTML = "&#xf087"
-                            upvote.id = "upVote"
-                            upDownVote.appendChild(upvote)
-                    
-                            let downvote = document.createElement("button")
-                            downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }), toastDown() }
-                            downvote.type = "button"
-                            downvote.classList = "btn btn-danger post-vote-btn"
-                            downvote.innerHTML = "&#xf088"
-                            downvote.id = "downVote"
-                            upDownVote.appendChild(downvote)
-                    
-                            cardHeaderContent.appendChild(upDownVote)
+
+                            const loginEmail = getCookie("email");
+                            if (loginEmail){
+                                let upDownVote = document.createElement("div")
+                                upDownVote.classList = "btn-group upDownVote"
+                                upDownVote.id = "updownvote"
+                        
+                                let upvote = document.createElement("button")
+                                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }), toastUp() }
+                                upvote.type = "button"
+                                upvote.classList = "btn btn-success post-vote-btn"
+                                upvote.innerHTML = "&#xf087"
+                                upvote.id = "upVote"
+                                upDownVote.appendChild(upvote)
+                        
+                                let downvote = document.createElement("button")
+                                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }), toastDown() }
+                                downvote.type = "button"
+                                downvote.classList = "btn btn-danger post-vote-btn"
+                                downvote.innerHTML = "&#xf088"
+                                downvote.id = "downVote"
+                                upDownVote.appendChild(downvote)
+                        
+                                cardHeaderContent.appendChild(upDownVote)
+                            }
 
 
                             let deletePostButton = document.createElement("button");
@@ -559,8 +601,12 @@ async function searchBar() {
                             }
 
 
-                            if (postPub == getCookie("name")) {
+                            if (postPubName == getCookie("name")) {
                                 cardHeaderContent.appendChild(editPostButton);
+                                cardHeaderContent.appendChild(deletePostButton);
+                            }
+                            else if(userData.admin == 1){
+                                deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                                 cardHeaderContent.appendChild(deletePostButton);
                             }
 
@@ -581,110 +627,133 @@ async function searchBar() {
                         }
                     }
                 }
-            } else {
-                let postPub = await callphpFunction("getUserData", { id: findPostDataTitle.publisher });
-                postPub = postPub.userName;
-
-                let postSection = await callphpFunction("getChapterTitle", { gameId: findPostDataTitle.jatekID, pageId: findPostDataTitle.relatedPageID });
-                postSection = postSection.chapterName;
-
-                let communityPostCard = document.createElement("div");
-                communityPostCard.classList.add("card");
-                communityPostCard.classList.add("community-post-card");
-                communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
-                communityPostCard.id = findPostDataTitle.postID;
-
-                let cardHeader = document.createElement("div");
-                cardHeader.classList.add("card-header");
-
-                let cardHeaderContent = document.createElement("div");
-                cardHeaderContent.innerHTML = `
-                <h5 style="display: inline;">${findPostDataTitle.title}</h5>
-                <div class="vr"></div>
-                <h6 style="display: inline;">By: ${postPub}</h6>
-                <div class="vr"></div>
-                <h6 style="display: inline;">${postSection}</h6>
-                <div class="vr"></div>
-                <h6 style="display: inline;">${findPostDataTitle.created_at}</h6>
-                `;
-                let upDownVote = document.createElement("div")
-                upDownVote.classList = "btn-group upDownVote"
-        
-                let upvote = document.createElement("button")
-                upvote.onclick = () => { callphpFunction('likeAdditional', { postID: findPostDataTitle.postID }), toastUp() }
-                upvote.type = "button"
-                upvote.classList = "btn btn-success post-vote-btn"
-                upvote.innerHTML = "&#xf087"
-                upvote.id = "upVote"
-                upDownVote.appendChild(upvote)
-        
-                let downvote = document.createElement("button")
-                downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: findPostDataTitle.postID }), toastDown() }
-                downvote.type = "button"
-                downvote.classList = "btn btn-danger post-vote-btn"
-                downvote.innerHTML = "&#xf088"
-                downvote.id = "downVote"
-                upDownVote.appendChild(downvote)
-        
-                cardHeaderContent.appendChild(upDownVote)
+            }
+            else {
+                async function searchIfFoundPost(element){
+                    let postPub = await callphpFunction("getUserData", { id: element.publisher });
+                    let postPubName = postPub.userName;
 
 
-                let deletePostButton = document.createElement("button");
-                deletePostButton.type = "submit";
-                deletePostButton.classList.add("btn");
-                deletePostButton.classList.add("btn-danger");
-                deletePostButton.classList.add("postButton");
-                deletePostButton.style = "display: inline;";
-                deletePostButton.innerHTML = "Delete Post";
-                deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+                    let postSection = await callphpFunction("getChapterTitle", { gameId: element.jatekID, pageId: element.relatedPageID });
+                    postSection = postSection.chapterName;
 
-                function callLocal(){
-                    callphpFunction("deleteAdditional", { postID: findPostDataTitle.postID }), location.reload()
+                    let communityPostCard = document.createElement("div");
+                    communityPostCard.classList.add("card");
+                    communityPostCard.classList.add("community-post-card");
+                    communityPostCard.style = "width: 100%; margin-bottom: 10px; max-width: 100%";
+                    communityPostCard.id = element.postID;
+
+                    let cardHeader = document.createElement("div");
+                    cardHeader.classList.add("card-header");
+
+                    let cardHeaderContent = document.createElement("div");
+                    cardHeaderContent.innerHTML = `
+                    <h5 style="display: inline;">${element.title}</h5>
+                    <div class="vr"></div>
+                    <h6 style="display: inline;">By: ${postPubName}</h6>
+                    <div class="vr"></div>
+                    <h6 style="display: inline;">${postSection}</h6>
+                    <div class="vr"></div>
+                    <h6 style="display: inline;">${element.created_at}</h6>
+                    `;
+
+                    const loginEmail = getCookie("email");
+                    if (loginEmail){
+                        let upDownVote = document.createElement("div")
+                        upDownVote.classList = "btn-group upDownVote"
+                        upDownVote.id = "updownvote"
+                
+                        let upvote = document.createElement("button")
+                        upvote.onclick = () => { callphpFunction('likeAdditional', { postID: element.postID }), toastUp() }
+                        upvote.type = "button"
+                        upvote.classList = "btn btn-success post-vote-btn"
+                        upvote.innerHTML = "&#xf087"
+                        upvote.id = "upVote"
+                        upDownVote.appendChild(upvote)
+                
+                        let downvote = document.createElement("button")
+                        downvote.onclick = () => { callphpFunction('dislikeAdditional', { postID: element.postID }), toastDown() }
+                        downvote.type = "button"
+                        downvote.classList = "btn btn-danger post-vote-btn"
+                        downvote.innerHTML = "&#xf088"
+                        downvote.id = "downVote"
+                        upDownVote.appendChild(downvote)
+                
+                        cardHeaderContent.appendChild(upDownVote)
+                    }
+
+
+                    let deletePostButton = document.createElement("button");
+                    deletePostButton.type = "submit";
+                    deletePostButton.classList.add("btn");
+                    deletePostButton.classList.add("btn-danger");
+                    deletePostButton.classList.add("postButton");
+                    deletePostButton.style = "display: inline;";
+                    deletePostButton.innerHTML = "Delete Post";
+                    deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost() };
+
+                    function callLocal(){
+                        callphpFunction("deleteAdditional", { postID: element.postID }), location.reload()
+                    }
+            
+                    function localDeletePost(){
+                        document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+            
+                        document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+                    }
+
+
+                    let editPostButton = document.createElement("button");
+                    editPostButton.type = "button";
+                    editPostButton.classList.add("btn");
+                    editPostButton.classList.add("btn-primary");
+                    editPostButton.classList.add("postButton");
+                    editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                    editPostButton.innerHTML = "Edit Post";
+                    editPostButton.onclick = () => {
+                        loadEditPost(element.postID);
+                    }
+
+
+                    if (postPubName == getCookie("name")) {
+                        cardHeaderContent.appendChild(editPostButton);
+                        cardHeaderContent.appendChild(deletePostButton);
+                    }
+                    else if(userData.admin == 1){
+                        deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                        cardHeaderContent.appendChild(deletePostButton);
+                    }
+
+                    cardHeader.appendChild(cardHeaderContent);
+
+                    communityPostCard.appendChild(cardHeader);
+
+                    let cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body");
+                    cardBody.innerHTML = `
+                        <div class="card-text">
+                            <p>${element.body}</p>
+                        </div>
+                    `;
+                    communityPostCard.appendChild(cardBody);
+
+                    kiiras.appendChild(communityPostCard);
                 }
-        
-                function localDeletePost(){
-                    document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
-        
-                    document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+
+                if(Array.isArray(findPostDataTitle)){
+                    for (let element of findPostDataTitle) {
+                        searchIfFoundPost(element)
+                    }
                 }
-
-
-                let editPostButton = document.createElement("button");
-                editPostButton.type = "button";
-                editPostButton.classList.add("btn");
-                editPostButton.classList.add("btn-primary");
-                editPostButton.classList.add("postButton");
-                editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
-                editPostButton.innerHTML = "Edit Post";
-                editPostButton.onclick = () => {
-                    loadEditPost(findPostDataTitle.postID);
+                else {
+                    searchIfFoundPost(findPostDataTitle)
                 }
-
-
-                if (postPub == getCookie("name")) {
-                    cardHeaderContent.appendChild(editPostButton);
-                    cardHeaderContent.appendChild(deletePostButton);
-                }
-
-                cardHeader.appendChild(cardHeaderContent);
-
-                communityPostCard.appendChild(cardHeader);
-
-                let cardBody = document.createElement("div");
-                cardBody.classList.add("card-body");
-                cardBody.innerHTML = `
-                    <div class="card-text">
-                        <p>${findPostDataTitle.body}</p>
-                    </div>
-                `;
-                communityPostCard.appendChild(cardBody);
-
-                kiiras.appendChild(communityPostCard);
             }
         }
     } catch (error) {
         console.log(error);
     }
+    adjustPage();
 }
 
 

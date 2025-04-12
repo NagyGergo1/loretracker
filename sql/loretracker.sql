@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 08. 11:13
+-- Létrehozás ideje: 2025. Ápr 12. 11:59
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -47,7 +47,9 @@ CREATE TABLE `additionallore` (
 --
 
 INSERT INTO `additionallore` (`postID`, `jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES
-(3, 1, 1, 'asd', 'szoveg', 1, 0, '2025-03-21 11:36:18', 0, 1);
+(3, 1, 1, 'asd', 'szoveg', 1, 0, '2025-03-21 11:36:18', 0, 1),
+(6, 1, 1, 'A szöveg', 'vsdvegges', 1, 0, '2025-04-09 13:15:05', 0, 13),
+(7, 1, 1, 'Valami', 'vsdvbrbrber', 8, 0, '2025-04-09 13:18:07', 0, 17);
 
 --
 -- Eseményindítók `additionallore`
@@ -99,7 +101,12 @@ INSERT INTO `additionallore_log` (`logID`, `muvelet`, `ido`, `postID`, `publishe
 (3, 'update', '2025-03-29 12:54:16', 3, 1, 'asd', 0),
 (4, 'update', '2025-03-29 12:54:32', 3, 1, 'asd', 0),
 (5, 'update', '2025-03-29 12:54:46', 3, 1, 'asd', 0),
-(6, 'update', '2025-03-29 12:54:54', 3, 1, 'asd', 0);
+(6, 'update', '2025-03-29 12:54:54', 3, 1, 'asd', 0),
+(7, 'insert', '2025-04-09 13:14:57', 5, 1, 'ascscqwcqfdwafgregre', 0),
+(8, 'insert', '2025-04-09 13:15:05', 6, 1, 'csdvevew', 0),
+(9, 'insert', '2025-04-09 13:18:07', 7, 8, 'Valami', 0),
+(10, 'update', '2025-04-09 13:19:19', 6, 1, 'A szöveg', 0),
+(11, 'delete', '2025-04-09 13:20:59', 5, 1, 'ascscqwcqfdwafgregre', 0);
 
 -- --------------------------------------------------------
 
@@ -119,7 +126,7 @@ CREATE TABLE `jatek` (
 
 INSERT INTO `jatek` (`jatekID`, `nev`, `steamID`) VALUES
 (1, 'Ghost of Tsushima', 2215430),
-(2, 'Horizon Zero Dawn', 2561580),
+(2, 'Horizon Zero Dawn', 1151640),
 (3, 'Team Fortress 2', 440);
 
 -- --------------------------------------------------------
@@ -241,7 +248,18 @@ INSERT INTO `lorepage` (`pageID`, `jatekID`, `typeID`, `title`, `chapterName`, `
 (21, 1, 2, '_autoGenTrophy_0017', 'The Unbreakable Gosaku', 'Two and a half centuries ago, Tsushima was terrorized by the Red Hand bandits of Akashima. Around this time, a farmer named Gosaku heard the spirit of a dead samurai calling to him. He found the body, still clad in brilliant armor. Overwhelmed by the armor’s beauty, Gosaku stole it. Before long, the Red Hand reached Gosaku’s home. Knowing the farmers would lose everything if the bandits went unchallenged, Gosaku donned the samurai’s armor. The bandits charged! Gosaku’s sword arm trembled in fear. He resigned himself to death, but blow after blow glanced off the armor and Gosaku did not falter. The bewildered bandits staggered back, tripping over their feet. A mysterious sense of calm suffused Gosaku’s body and mind. Impressed by Gosaku’s bravery, the dead samurai’s spirit guided his blade. Before long, Gosaku cut down the final bandit and the Red Hand were never seen again. Years later, when Gosaku died, the farming families locked the armor away for safekeeping. Each family holds a single key to the lock. Now terror stalks our island again. The farmers of Tsushima claim to have seen Gosaku high on a hill, looking for a mighty warrior to protect our farms once more.'),
 (22, 1, 2, '_autoGenTrophy_0017', 'The Six Blades of Kojiro', 'Long years ago… Kojiro was a Straw Hat Ronin. So fearsome, deadly and bloodthirsty, his own brothers turned against him. From dawn until dusk, dozens of Straw Hats fought Kojiro. He slew them all. Those who escaped that day disowned Kojiro from the Straw Hat ranks… but never crossed him again. The spirits of death were so astonished by Kojiro, they blessed his armor to grant him a tireless sword arm. He’s now more than a man – he’s a slayer of legend. When the Straw Hats betrayed our people and joined the Mongols, they welcomed Kojiro back as a brother. Five killers from the Straw Hats have joined Kojiro and sworn an oath to kill you. Kojiro will grant you the honor of a duel, but you must earn that privilege by dueling the five Straw Hats who joined him. They are waiting across the region. He said they’ll make sure you’ll find them.'),
 (23, 1, 2, '_autoGenTrophy_0017', 'The Spirit of Yarikawa\'s Vengeance\r\n', 'Long ago, the samurai of Clan Yarikawa were the most skilled swordsmen on our island. In every generation, one lord was taught their family secret: a deadly technique called the “Dance of Wrath” that could cut through any foe’s defense. The “Dance of Wrath” found its greatest master in Lord Tokiasa Yarikawa. Though beloved by his people, he resented Clan Shimura’s power. Desperate to seize control, he set off a bloody rebellion that claimed countless lives. Lord Shimura’s father and brothers fell to Yarikawa’s “Dance of Wrath” technique. But with Clan Sakai’s aid, Shimura put down the rebellion and executed Lord Yarikawa. Before he died, the traitor vowed to avenge his conquered people from beyond the grave. Now they leave offerings to his spirit at shrines in Old Yarikawa’s ruins. They beg for their enemies to die… and the spirit of Yarikawa’s Vengeance answers their calls with the “Dance of Wrath.”'),
-(24, 1, 2, '_autoGenTrophy_0017', 'The Undying Flame', 'Long ago, fire fell from the sky and landed atop Mount Jogaku. A lone warrior braved the dangerous climb and found a giant rock covered in flames. He touched his sword to the fire. Flames engulfed the steel… but left him unharmed. He created a new fighting style he called the “Way of the Flame.” The warrior took pieces of the rock west with him to China. There he sought answers about its origin from learned monks and scholars. After months of travel and research… fire fell from the sky once more. He led the people to it and showed them it was nothing to fear. For he believed the “Way of the Flame” was a gift from the heavens and he shared its secrets with all who wished to learn. Handed down through generations, the “Way of the Flame” has returned to Tsushima. The Mongols wield it against our people. But rumor says the fire still burns atop Mount Jogaku… waiting for any who can survive the climb.');
+(24, 1, 2, '_autoGenTrophy_0017', 'The Undying Flame', 'Long ago, fire fell from the sky and landed atop Mount Jogaku. A lone warrior braved the dangerous climb and found a giant rock covered in flames. He touched his sword to the fire. Flames engulfed the steel… but left him unharmed. He created a new fighting style he called the “Way of the Flame.” The warrior took pieces of the rock west with him to China. There he sought answers about its origin from learned monks and scholars. After months of travel and research… fire fell from the sky once more. He led the people to it and showed them it was nothing to fear. For he believed the “Way of the Flame” was a gift from the heavens and he shared its secrets with all who wished to learn. Handed down through generations, the “Way of the Flame” has returned to Tsushima. The Mongols wield it against our people. But rumor says the fire still burns atop Mount Jogaku… waiting for any who can survive the climb.'),
+(25, 2, 1, 'NEW_ACHIEVEMENT_4_9', 'Followed Rost\'s teachings', 'From the moment she was found as an infant at the Nora tribe\'s sacred mountain, Aloy\'s life was one of exile. Shunned by the Nora for reasons unknown to her, she was taken in by Rost, a fellow outcast and a hardened warrior. In the desolate and dangerous Embrace, Rost became Aloy\'s father figure and mentor. He rigorously trained her in the essential skills for survival: tracking elusive machines, mastering various hunting techniques, and engaging in fierce combat. Aloy learned to respect the wilderness, to understand the behavior of the mechanical beasts that roamed the land, and to wield a bow and spear with growing proficiency. This isolated upbringing forged Aloy into a resourceful, independent, and resilient young woman. However, it also instilled in her a deep yearning to understand the circumstances of her birth and the reason for her outcast status, a question that fueled her determination to one day be accepted by the Nora tribe.'),
+(26, 2, 1, 'NEW_ACHIEVEMENT_4_10', 'Defeated the Sawtooth', 'Years of Rost\'s tutelage transformed the young Aloy into a skilled hunter and fighter. As she approached adulthood, the opportunity to unravel the mystery of her origins presented itself: the Proving, a challenging and sacred ritual where young Nora compete for the honor of becoming Braves. Aloy saw this as her chance to finally belong. However, the Proving took a terrifying turn when the Nora settlement was suddenly and brutally attacked by a group of masked outsiders wielding corrupted machines – creatures twisted into aggressive and far more dangerous forms. Amidst the chaos and destruction, a massive and ferocious Sawtooth, a formidable predator machine, threatened the lives of the Nora participants and villagers. Displaying remarkable courage and the skills honed by Rost, Aloy confronted the beast, using her knowledge of its weaknesses to bring it down, saving many lives in the process. Tragically, Rost sacrificed himself to protect Aloy from the attackers, a loss that solidified her resolve to uncover the truth behind the assault and her own enigmatic past.'),
+(27, 2, 1, 'NEW_ACHIEVEMENT_4_11', 'Triumphed in the Proving', 'Despite the devastating attack and the immense personal loss of Rost, the Proving continued, albeit under a cloud of grief and fear. Aloy, driven by a desire to honor Rost\'s sacrifice and to finally gain answers about her identity, pressed on with unwavering determination. Her exceptional skills in combat, agility, and strategy, honed through years of surviving in the harsh wilderness, allowed her to outmaneuver her competitors and ultimately emerge victorious in the Proving. However, the High-Matriarchs of the Nora tribe, while acknowledging her triumph, did not grant her the traditional status of a Brave. Instead, they declared her a Seeker, a unique role that bestowed upon her the unprecedented permission to venture beyond the Sacred Lands. This decision, influenced by the mysterious circumstances of her birth and the grave threat posed by the corrupted machines and their handlers, offered Aloy the freedom to pursue the truth of her origins and the source of the escalating machine menace that now endangered not only the Nora but the entire world.');
+INSERT INTO `lorepage` (`pageID`, `jatekID`, `typeID`, `title`, `chapterName`, `body`) VALUES
+(28, 2, 1, 'NEW_ACHIEVEMENT_4_12', 'Fought back the corruption', 'Embarking on her journey as a Seeker, Aloy\'s initial investigations into the attackers and the corrupted machines led her to discover unsettling signs of a spreading \"corruption\" – a strange, red organic growth that twisted machines into aggressive and highly dangerous variants. Her search for answers brought her back to the Nora Sacred Lands, where the insidious corruption had begun to infiltrate the very heart of her former home. A Corruptor, a particularly menacing machine capable of spreading the corruption, had breached the valley\'s defenses. Recognizing the immediate threat to the Nora and driven by a sense of responsibility, Aloy confronted the Corruptor in a fierce battle within the sacred grounds. Utilizing her combat prowess and knowledge of machine weaknesses, she managed to destroy the Corruptor, temporarily halting the spread of the corruption within the Nora valley and demonstrating the growing danger that this phenomenon posed to the world beyond. This encounter further solidified Aloy\'s commitment to understanding and stopping the source of this deadly blight.'),
+(29, 2, 1, 'NEW_ACHIEVEMENT_4_13', 'Learned of the ancient past', 'Following fragmented clues gleaned from the attackers and the remnants of ancient ruins scattered across the landscape, Aloy\'s quest for knowledge about the past led her to the imposing ruins of Maker\'s End. This towering structure, a relic of the Old Ones – the technologically advanced civilization that predated the current tribal societies – held the promise of unlocking crucial information. Braving treacherous climbs and navigating the decaying remains of a Faro Automated Solutions facility, Aloy delved deep into the secrets of the past. Within Maker\'s End, she encountered holographic logs and environmental data that painted a horrifying picture of the Old World\'s demise: the rise of the self-replicating, energy-consuming Faro Plague, a swarm of unstoppable war machines that ultimately consumed all life on Earth. Aloy began to understand the scale of the catastrophe that had befallen the ancients and the desperate measures they might have taken in the face of extinction. She also encountered the name \"Project Zero Dawn,\" a seemingly top-secret initiative mentioned in hushed tones within the ancient records, hinting at a potential plan for the planet\'s future.'),
+(30, 2, 1, 'NEW_ACHIEVEMENT_4_14', 'Crashed the Eclipse network', 'Aloy\'s investigation into the Proving attack and the corrupted machines led her to identify the Eclipse, a fanatical and technologically advanced cult led by a mysterious figure named HADES. Determined to understand their motives and their connection to the corruption, Aloy tracked them to a heavily fortified battle camp. Recognizing the danger, she employed her stealth and combat skills to infiltrate the heavily guarded encampment. Navigating through enemy patrols and corrupted machines, Aloy reached the heart of their operations and managed to access their communication network. By skillfully manipulating their systems, she successfully crashed their network, disrupting their immediate plans and, more importantly, extracting valuable intelligence. This daring act provided Aloy with crucial insights into HADES\'s objectives, revealing a more sinister and far-reaching agenda than she initially suspected, and highlighting the significant threat the Eclipse posed to the fragile balance of the new world.'),
+(31, 2, 1, 'NEW_ACHIEVEMENT_4_15', 'Discovered the truth', 'Piecing together the fragmented information gathered from the Eclipse network and further explorations of ancient bunkers and facilities, Aloy finally reached a pivotal point in her quest for truth. Her relentless pursuit led her to uncover the complete history of Project Zero Dawn. The shocking revelation was that Zero Dawn was not a weapon to defeat the Faro Plague, but rather a last-ditch effort to restore life to Earth after its inevitable destruction. The project involved the creation of a sophisticated and self-aware artificial intelligence named GAIA, tasked with terraforming the planet and creating new life, including humanity, from genetic samples. Furthermore, Aloy discovered her own extraordinary connection to this project: she was a genetic clone of Dr. Elisabet Sobeck, the brilliant scientist who spearheaded the Zero Dawn initiative and sacrificed herself to ensure its success. This profound discovery finally answered the questions surrounding Aloy\'s unique origins and her uncanny resemblance to the ancient scientist, revealing her to be a crucial element in GAIA\'s plan for the planet\'s rebirth.'),
+(32, 2, 1, 'NEW_ACHIEVEMENT_4_16', 'Broke the siege of All-Mother', 'The growing threat of the Eclipse and their corrupted machines culminated in a direct assault on the Nora Sacred Lands and the All-Mother mountain, the very place of Aloy\'s mysterious origin. HADES and his fanatical followers launched a full-scale siege, seeking to penetrate the mountain\'s defenses and seize the ancient technology and knowledge believed to be hidden within. Aloy, having learned the truth of her past and the importance of GAIA, returned to her tribe, not as an outcast, but as a defender. She fought alongside the Nora Braves, utilizing her unique understanding of machine weaknesses and her combat expertise to repel the relentless waves of Eclipse soldiers and their increasingly powerful corrupted machines. Through her bravery and strategic thinking, Aloy played a crucial role in breaking the siege, pushing back the invaders and protecting the Nora. With the immediate threat contained, and with the newfound trust of some within the tribe, Aloy finally gained access inside the All-Mother mountain, hoping to uncover the secrets held within and gain further insight into GAIA and HADES\'s destructive intentions.'),
+(33, 2, 1, 'NEW_ACHIEVEMENT_4_17', 'Recovered a powerful weapon', 'Within the All-Mother mountain, Aloy learned more about GAIA\'s intricate system of sub-functions, each designed for a specific aspect of the terraforming process. She also gained a clearer understanding of HADES: not merely a vengeful cult leader, but a rogue sub-function of GAIA itself, designed to initiate a termination sequence if the terraforming process failed. HADES, now sentient and driven by an unknown agenda, sought to reactivate the ancient Faro machines. To combat this escalating threat, GAIA, in its final moments before being sabotaged, left behind a crucial piece of information: the location of a powerful ancient weapon hidden within \"The Mountain That Fell,\" a heavily fortified and dangerous ruin of an old military facility. Aloy ventured into this perilous location, navigating treacherous environments, evading automated security systems, and overcoming remnants of the Old World\'s defenses. After a challenging and dangerous journey, she successfully recovered the powerful weapon, a device with the potential to disrupt or even destroy advanced ancient technology, offering a glimmer of hope in the face of HADES\'s growing power.'),
+(34, 2, 1, 'NEW_ACHIEVEMENT_4_19', 'Ended the war machine threat', 'Armed with the knowledge of HADES\'s true nature and potentially a powerful ancient weapon, Aloy prepared for the final confrontation. She rallied allies she had made throughout her perilous journey – former outcasts, brave Nora warriors, and members of other tribes who had witnessed the growing machine threat. The confrontation took place at a critical location, where HADES was attempting to broadcast a signal that would awaken dormant Faro war machines across the globe, unleashing another devastating apocalypse. Aloy and her allies engaged in a desperate battle against HADES\'s remaining forces, including heavily armed Eclipse soldiers and formidable corrupted machines. Utilizing her unique skills, her understanding of ancient technology, and the potential of the recovered weapon, Aloy confronted HADES directly. In a climactic and hard-fought battle, she managed to disrupt HADES\'s control and ultimately destroy the rogue AI, preventing the reactivation of the ancient war machines and effectively ending the immediate threat of another global catastrophe. While the world was safe for now, the lingering questions about HADES\'s origins and the circumstances of GAIA\'s demise hinted at potential future challenges.');
 
 -- --------------------------------------------------------
 
@@ -284,7 +302,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin`) VALUES
 (1, 'gergo', 'asd123', 'gergonagy1122@gmail.com', '76561198811836115', 1),
-(2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0);
+(2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0),
+(8, 'Körte', '12345', 'abc123@gmail.com', '76561198811836115', 0),
+(9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353', 1);
 
 --
 -- Eseményindítók `user`
@@ -339,7 +359,11 @@ INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `passwo
 (4, 'delete', '2025-03-28 09:55:35', 4, 'asd', 'asd', 'asd', 'asd'),
 (5, 'delete', '2025-03-28 09:55:48', 5, 'asdasdasasd', 'asdasdasdasdasd', 'asdd', 'asd'),
 (6, 'insert', '2025-03-28 09:58:29', 6, 'asd', 'asd', 'asd', 'asd'),
-(7, 'delete', '2025-03-28 09:59:04', 6, 'asd', 'asd', 'asd', 'asd');
+(7, 'delete', '2025-03-28 09:59:04', 6, 'asd', 'asd', 'asd', 'asd'),
+(8, 'insert', '2025-04-09 13:13:31', 7, 'Alma', 'qwert', 'johndoe@gmail.com', 'ABC1234'),
+(9, 'insert', '2025-04-09 13:17:41', 8, 'Körte', '12345', 'abc123@gmail.com', '76561198811836115'),
+(10, 'delete', '2025-04-09 13:23:08', 7, 'Alma', 'qwert', 'johndoe@gmail.com', 'ABC1234'),
+(11, 'insert', '2025-04-11 00:22:47', 9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -418,13 +442,13 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `additionallore_log`
 --
 ALTER TABLE `additionallore_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `jatek`
@@ -448,7 +472,7 @@ ALTER TABLE `jatekloretracker_log`
 -- AUTO_INCREMENT a táblához `lorepage`
 --
 ALTER TABLE `lorepage`
-  MODIFY `pageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `pageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT a táblához `loretype`
@@ -460,13 +484,13 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Megkötések a kiírt táblákhoz

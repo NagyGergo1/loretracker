@@ -284,14 +284,17 @@ function getAllUserData() {
     $query = adatokLekerese("SELECT * FROM user;");
     queryGetCheck($query);
 }
+
 function getUserData($userID){
     $query = adatokLekerese("SELECT * FROM user WHERE user.userID = {$userID}");
     queryGetCheck($query);
 }
 
 function createUserData($userName, $password, $email, $steamID){
+    $hashed_password = md5($password);
+
     $query = adatokValtozasa("INSERT IGNORE INTO `user`(`userName`, `password`, `email`, `steamID`, `admin`)
-    VALUES ('{$userName}', '{$password}', '{$email}', '{$steamID}', 0)");
+    VALUES ('{$userName}', '{$hashed_password}', '{$email}', '{$steamID}', 0)");
     queryChangeCheck($query);
 }
 
@@ -306,12 +309,16 @@ function getUserByEmail($email){
 }
 
 function getUserLogin($email, $password){
-    $query = adatokLekerese("SELECT * FROM user WHERE user.email = '{$email}' AND user.password = '{$password}'");
+    $hashed_password = md5($password);
+
+    $query = adatokLekerese("SELECT * FROM user WHERE user.email = '{$email}' AND user.password = '{$hashed_password}'");
     queryGetCheck($query);
 }
 
 function modifyUser($userName, $password, $email, $steamID, $currentEmail){
-    $query = adatokValtozasa("UPDATE user SET userName = '{$userName}', password = '{$password}', email = '{$email}', steamID = '{$steamID}' WHERE email = '{$currentEmail}'");
+    $hashed_password = md5($password);
+
+    $query = adatokValtozasa("UPDATE user SET userName = '{$userName}', password = '{$hashed_password}', email = '{$email}', steamID = '{$steamID}' WHERE email = '{$currentEmail}'");
     queryChangeCheck($query);
 }
 

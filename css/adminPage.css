@@ -6,11 +6,6 @@ button{
     color: white !important;
 }
 
-#spoiler{
-    background-color: black;
-    color: black;
-}
-
-#spoiler:hover{
-    background-color: white;
+select{
+    max-width: fit-content !important;
 }

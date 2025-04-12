@@ -31,7 +31,6 @@
                     <tr>
                       <th scope="col">User ID</th>
                       <th scope="col">Username</th>
-                      <th scope="col">Password</th>
                       <th scope="col">Email</th>
                       <th scope="col">Steam ID</th>
                       <th scope="col">Admin</th>
@@ -51,7 +50,6 @@
                     <tr>
                       <th scope="col">User ID</th>
                       <th scope="col">Username</th>
-                      <th scope="col">Password</th>
                       <th scope="col">Email</th>
                       <th scope="col">Steam ID</th>
                       <th scope="col">Admin</th>
@@ -81,7 +79,6 @@
                       <th scope="col">Time</th>
                       <th scope="col">User ID</th>
                       <th scope="col">Username</th>
-                      <th scope="col">Password</th>
                       <th scope="col">E-mail</th>
                       <th scope="col">Steam ID</th>
                     </tr>
@@ -135,9 +132,21 @@
         </div>
     </div>
 
+    <!-- Successful deletion toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToastDeleted" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+              <strong class="me-auto">Message:</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+              Successful deletion!
+          </div>
+      </div>
+  </div>
+
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static"
-        data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -153,7 +162,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="deleteAccountButton">Delete Account</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancelDelete">Cancel</button>
                 </div>
             </div>
         </div>

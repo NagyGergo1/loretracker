@@ -54,7 +54,7 @@
                             <button type="button" class="btn btn-warning" id="startButton_communityFilter" style="font-family: FontAwesome;">&#xf002;</button>
                         </div>
                         
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal">+New</button>
+                        <button id="newPostBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPostModal">+New</button>
                     </div>
                     <div class="right-side">
                         <input type="text" name="text_communitySearch" style="width: 200px; margin-left: 140px;" id="text_communitySearch" class="form-control"
@@ -163,7 +163,7 @@
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
         <div id="liveToastUp" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">Message</strong>
+                <strong class="me-auto">Message:</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">

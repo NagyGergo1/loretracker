@@ -7,7 +7,14 @@ function $(id){
 
 async function profilesLoad() {
     try {
+        sessionStorage.removeItem("deleteReload")
+
+        sessionStorage.removeItem("profilesCollapse")
+        sessionStorage.removeItem("adminsCollapse")
+        sessionStorage.removeItem("usersCollapse")
+
         sessionStorage.removeItem("profileReload");
+
         sessionStorage.removeItem("mainlogCollapse")
         sessionStorage.removeItem("userlogCollapse")
         sessionStorage.removeItem("additionallogCollapse")
@@ -25,18 +32,15 @@ async function profilesLoad() {
 
             let userId = document.createElement("td");
             let userName = document.createElement("td");
-            let userPassW = document.createElement("td");
             let userEmail = document.createElement("td");
             let userSteamId = document.createElement("td");
             let userRank = document.createElement("td");
 
             userId.innerHTML = data.userID;
             userName.innerHTML = data.userName;
-            userPassW.innerHTML = data.password;
             userEmail.innerHTML = data.email;
             userSteamId.innerHTML = data.steamID;
 
-            userPassW.id = "spoiler";
             
             //Admin modifier
             let select = document.createElement("select");
@@ -62,8 +66,6 @@ async function profilesLoad() {
                 sessionStorage.setItem("userlogCollapse", $("userlogCollapse").classList.toString())
                 sessionStorage.setItem("additionallogCollapse", $("additionallogCollapse").classList.toString())
                 sessionStorage.setItem("trackerlogCollapse", $("trackerlogCollapse").classList.toString())
-                
-
                 location.reload()
             })
 
@@ -71,7 +73,6 @@ async function profilesLoad() {
 
             row.appendChild(userId);
             row.appendChild(userName);
-            row.appendChild(userPassW);
             row.appendChild(userEmail);
             row.appendChild(userSteamId);
             row.appendChild(userRank);
@@ -88,7 +89,33 @@ async function profilesLoad() {
                 deleteButton.classList.add("btn");
                 deleteButton.classList.add("btn-danger");
                 deleteButton.innerHTML = "Delete";
-                deleteButton.onclick = () => {callphpFunction("deleteUser", {email: data.email})};
+                deleteButton.onclick = () => {openDeleteConfirm(), localDeleteUser()}
+
+                function callLocal(){
+                    callphpFunction("deleteUser", {email: data.email})
+                }
+
+                function localDeleteUser(){
+                    $("deleteAccountButton").addEventListener('click', callLocal, { once: true })
+
+                    $("cancelDelete").addEventListener('click', () => {
+                        $("deleteAccountButton").removeEventListener('click', callLocal, false)
+                    })
+                }
+
+                $("deleteAccountButton").addEventListener('click', () => {
+                    sessionStorage.setItem("deleteReload", "true")
+
+                    sessionStorage.setItem("profilesCollapse", $("profilesCollapse").classList.toString())
+                    sessionStorage.setItem("adminsCollapse", $("adminsCollapse").classList.toString())
+                    sessionStorage.setItem("usersCollapse", $("usersCollapse").classList.toString())
+
+                    sessionStorage.setItem("mainlogCollapse", $("mainlogCollapse").classList.toString())
+                    sessionStorage.setItem("userlogCollapse", $("userlogCollapse").classList.toString())
+                    sessionStorage.setItem("additionallogCollapse", $("additionallogCollapse").classList.toString())
+                    sessionStorage.setItem("trackerlogCollapse", $("trackerlogCollapse").classList.toString())
+                    location.reload()
+                })
 
                 userActions.appendChild(deleteButton);
                 row.appendChild(userActions);
@@ -115,7 +142,6 @@ async function userlogs(){
         let time = document.createElement("td")
         let userid = document.createElement("td")
         let username = document.createElement("td")
-        let password = document.createElement("td")
         let email = document.createElement("td")
         let steamid = document.createElement("td")
 
@@ -124,18 +150,14 @@ async function userlogs(){
         time.innerHTML = adat.ido
         userid.innerHTML = adat.userID
         username.innerHTML = adat.userName
-        password.innerHTML = adat.password
         email.innerHTML = adat.email
         steamid.innerHTML = adat.steamID
-
-        password.id = "spoiler"
 
         sor.appendChild(logid)
         sor.appendChild(method)
         sor.appendChild(time)
         sor.appendChild(userid)
         sor.appendChild(username)
-        sor.appendChild(password)
         sor.appendChild(email)
         sor.appendChild(steamid)
         kiiras.appendChild(sor)
@@ -218,10 +240,20 @@ async function trackerlogs(){
     }
 }
 
+function openDeleteConfirm() {
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    deleteModal.show();
+}
+
+function toastDeleted(){
+    const livetoast = document.getElementById("liveToastDeleted")
+    const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+    toast.show()
+}
+
 window.addEventListener('load', async function() {
     let email = getCookie("email")
     let prof_data = await callphpFunction("getUserByEmail", {email: email})
-    console.log(prof_data)
 
     if(prof_data.admin == 0){
         alert("You don't have access to this page!")
@@ -239,6 +271,18 @@ window.addEventListener('load', () => {
         $("userlogCollapse").classList = sessionStorage.getItem("userlogCollapse")
         $("additionallogCollapse").classList = sessionStorage.getItem("additionallogCollapse")
         $("trackerlogCollapse").classList = sessionStorage.getItem("trackerlogCollapse")
+    }
+    else if(sessionStorage.getItem("deleteReload")){
+        $("profilesCollapse").classList = sessionStorage.getItem("profilesCollapse")
+        $("adminsCollapse").classList = sessionStorage.getItem("adminsCollapse")
+        $("usersCollapse").classList = sessionStorage.getItem("usersCollapse")
+
+        $("mainlogCollapse").classList = sessionStorage.getItem("mainlogCollapse")
+        $("userlogCollapse").classList = sessionStorage.getItem("userlogCollapse")
+        $("additionallogCollapse").classList = sessionStorage.getItem("additionallogCollapse")
+        $("trackerlogCollapse").classList = sessionStorage.getItem("trackerlogCollapse")
+
+        toastDeleted()
     }
 
     userlogs(), additionallogs(), trackerlogs(), profilesLoad()
