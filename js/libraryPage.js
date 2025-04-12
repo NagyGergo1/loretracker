@@ -44,19 +44,17 @@ function orderCards() {
 }
 
 function searchBar() {
-    let gameSearch = $("text_libraryPageSearch").value.toLowerCase();
+    let gameSearch = $("text_libraryPageSearch").value.toLowerCase().split(" ").join("");
 
     let cards = document.querySelectorAll(".kartya");
-
-    console.log(cards);
 
     if (gameSearch != "") {
         for (const element of cards) {
             element.removeAttribute("hidden");
-            if (element.id.toLowerCase() != gameSearch) {
+
+            if ((element.id.toLowerCase()).split(" ").join("").match(gameSearch) != gameSearch) {
                 element.setAttribute("hidden", true);
             }
-            console.log(element.id.toLowerCase());
         }
     } else {
         for (const element of cards) {
