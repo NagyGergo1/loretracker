@@ -20,6 +20,12 @@ function getQueryParam(param) {
 }
 
 async function jatekAdatBetolt() {
+    /*let tempSteamID = getSession("tempSteamID");
+    if (tempSteamID) {
+        $("communityLink").style.pointerEvents = "none";
+        $("communityLink").style.opacity = "0.5";
+    }*/
+
     const gameId = getQueryParam("gameId");
 
     if(gameId == 1){
@@ -63,11 +69,10 @@ async function jatekAdatBetolt() {
     }
 
     let jatekAdatok = await callphpFunction("gameLoadAll", {id : gameId});
-    
+
     for (let i = 0; i < userAdatok.length; i++) {
         for (let j = 0; j < jatekAdatok.length; j++) {
-            if (userAdatok[i].name == jatekAdatok[j].title && userAdatok[i].achieved && jatekAdatok[j].typeID == typeID) {
-                let chapter = document.createElement("div");
+            if (userAdatok[i].name == jatekAdatok[j].title && userAdatok[i].achieved && jatekAdatok[j].typeID == typeID) {let chapter = document.createElement("div");
                 chapter.id = "chapter" + (j + 1) + "Section";
                 chapter.style.marginBottom = "40px"
 
@@ -79,6 +84,48 @@ async function jatekAdatBetolt() {
                 let chapterText = document.createElement("p");
                 chapterText.innerHTML = `${jatekAdatok[j].body}`;
                 chapter.appendChild(chapterText);
+
+                let acceptedPosts = await callphpFunction("getAdditionalByRelatedAndAccepted", {relatedPageID: parseInt(jatekAdatok[j].pageID)})
+                if(acceptedPosts != "Nincsenek találatok!"){
+                    let additionalText = document.createElement("h4")
+                    additionalText.style.marginTop = "30px"
+
+                    if(Array.isArray(acceptedPosts)){
+                        additionalText.innerHTML = "<b>Community Posts:</b>"
+                        chapter.appendChild(additionalText)
+
+                        for (let post of acceptedPosts) {
+                            let additionalTitle = document.createElement("h4")
+                            let postPublisher = await callphpFunction("getUserData", {id: post.publisher})
+                            additionalTitle.innerHTML = post.title + " | publisher: " + postPublisher.userName
+                            additionalTitle.style.backgroundColor = "orange"
+                            additionalTitle.style.maxWidth = "fit-content"
+                            additionalTitle.style.padding = "3px"
+                            chapter.appendChild(additionalTitle)
+
+                            let additionalBody = document.createElement("p")
+                            additionalBody.innerHTML = post.body
+                            chapter.appendChild(additionalBody)
+                        }
+                    }
+                    else{
+                        additionalText.innerHTML = "<b>Community Post:</b>"
+                        chapter.appendChild(additionalText)
+
+                        let additionalTitle = document.createElement("h4")
+                        let postPublisher = await callphpFunction("getUserData", {id: acceptedPosts.publisher})
+                        additionalTitle.innerHTML = acceptedPosts.title + " | publisher: " + postPublisher.userName
+                        additionalTitle.style.backgroundColor = "orange"
+                        additionalTitle.style.maxWidth = "fit-content"
+                        additionalTitle.style.padding = "3px"
+                        chapter.appendChild(additionalTitle)
+
+                        let additionalBody = document.createElement("p")
+                        additionalBody.innerHTML = acceptedPosts.body
+                        chapter.appendChild(additionalBody)
+                    }
+                }
+
 
                 let navDiv = document.createElement("div");
                 navDiv.classList.add("nav-item");
@@ -101,12 +148,6 @@ async function jatekAdatBetolt() {
         target: '#chapter-nav',
         offset: 100
     });
-
-    let tempSteamID = getSession("tempSteamID");
-    if (tempSteamID) {
-        $("communityLink").style.pointerEvents = "none";
-        $("communityLink").style.opacity = "0.5";
-    }
 }
 
 function adjustNavbar() {

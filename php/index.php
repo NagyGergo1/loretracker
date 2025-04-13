@@ -131,6 +131,10 @@ switch ($url[0]){
         getAdditionalByUserAndGame($params['userID'], $params['gameId']);
         break;
 
+    case "getAdditionalByRelatedAndAccepted":
+        getAdditionalByRelatedAndAccepted($params['relatedPageID']);
+        break;
+
     case "getAdditionalByTimeDesc":
         getAdditionalByTimeDesc($params['gameId']);
         break;
@@ -384,6 +388,11 @@ function getAdditionalById($postID){
 
 function getAdditionalByUserAndGame($userID, $gameId){
     $query = adatokLekerese("SELECT * FROM additionallore WHERE publisher = {$userID} AND jatekID = {$gameId}");
+    queryGetCheck($query);
+}
+
+function getAdditionalByRelatedAndAccepted($relatedPageID){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE accepted = 1 AND relatedPageID = {$relatedPageID} ORDER BY created_at ASC");
     queryGetCheck($query);
 }
 

@@ -34,6 +34,11 @@ async function newPostSections() {
         let newSelect = $("newPostSection");
         let editSelect = $("editPostSection");
         let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
+        if(userAdatok == undefined){
+            $("newPostBtn").hidden = true
+            return
+        }
+
         let jatekAdatok = await callphpFunction("gameLoadAll", { id: gameId });
         for (let i = 0; i < userAdatok.length; i++) {
             for (let j = 0; j < jatekAdatok.length; j++) {
@@ -168,6 +173,7 @@ async function loadCommunityPosts() {
         editPostButton.classList.add("btn");
         editPostButton.classList.add("btn-primary");
         editPostButton.classList.add("postButton");
+        editPostButton.classList.add("editPostButton");
         editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
         editPostButton.innerHTML = "Edit Post";
         editPostButton.onclick = () => {
@@ -180,8 +186,38 @@ async function loadCommunityPosts() {
             cardHeaderContent.appendChild(deletePostButton);
         }
         else if(userData.admin == 1){
-            deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+            deletePostButton.style = "display: inline; margin-left: 10px";
             cardHeaderContent.appendChild(deletePostButton)
+        }
+
+        if(userData.admin == 1){
+            let acceptPostSelect = document.createElement("select")
+            acceptPostSelect.classList.add("form-select");
+
+            let acceptTrue = document.createElement("option")
+            acceptTrue.value = 1
+            acceptTrue.innerHTML = "Yes"
+
+            let acceptFalse = document.createElement("option")
+            acceptFalse.value = 0
+            acceptFalse.innerHTML = "No"
+
+            acceptPostSelect.appendChild(acceptTrue)
+            acceptPostSelect.appendChild(acceptFalse)
+
+            acceptPostSelect.value = getPosts.accepted
+            acceptPostSelect.addEventListener('change', () => {
+                callphpFunction("acceptAdditional", {postID: getPosts.postID, accepted: acceptPostSelect.value})
+            })
+
+            acceptPostSelect.style = "display: inline; margin-right: 10px; max-width: fit-content"
+
+            let acceptLabel = document.createElement("label")
+            acceptLabel.innerHTML = "Accepted: "
+            acceptLabel.style.marginLeft = "10px"
+            
+            cardHeaderContent.appendChild(acceptLabel)
+            cardHeaderContent.appendChild(acceptPostSelect)
         }
 
         cardHeader.appendChild(cardHeaderContent);
@@ -277,6 +313,7 @@ async function loadCommunityPosts() {
             editPostButton.classList.add("btn");
             editPostButton.classList.add("btn-primary");
             editPostButton.classList.add("postButton");
+            editPostButton.classList.add("editPostButton");
             editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
             editPostButton.innerHTML = "Edit Post";
             editPostButton.onclick = () => {
@@ -289,8 +326,38 @@ async function loadCommunityPosts() {
                 cardHeaderContent.appendChild(deletePostButton);
             }
             else if(userData.admin == 1){
-                deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                deletePostButton.style = "display: inline; margin-left: 10px";
                 cardHeaderContent.appendChild(deletePostButton);
+            }
+
+            if(userData.admin == 1){
+                let acceptPostSelect = document.createElement("select")
+                acceptPostSelect.classList.add("form-select");
+    
+                let acceptTrue = document.createElement("option")
+                acceptTrue.value = 1
+                acceptTrue.innerHTML = "Yes"
+    
+                let acceptFalse = document.createElement("option")
+                acceptFalse.value = 0
+                acceptFalse.innerHTML = "No"
+    
+                acceptPostSelect.appendChild(acceptTrue)
+                acceptPostSelect.appendChild(acceptFalse)
+    
+                acceptPostSelect.value = getPosts[i].accepted
+                acceptPostSelect.addEventListener('change', () => {
+                    callphpFunction("acceptAdditional", {postID: getPosts[i].postID, accepted: acceptPostSelect.value})
+                })
+    
+                acceptPostSelect.style = "display: inline; margin-right: 10px; max-width: fit-content"
+
+                let acceptLabel = document.createElement("label")
+                acceptLabel.innerHTML = "Accepted: "
+                acceptLabel.style.marginLeft = "10px"
+                
+                cardHeaderContent.appendChild(acceptLabel)
+                cardHeaderContent.appendChild(acceptPostSelect)
             }
 
             cardHeader.appendChild(cardHeaderContent);
@@ -327,6 +394,8 @@ async function ujPost() {
             </div>
         `;
         } else {
+            ujPostText = ujPostText.split(/\n/).join("<br>")
+
             let postUpload = await callphpFunction("createAdditional", { jatekID: gameId, typeID: 1, title: ujPostTitle, body: ujPostText, publisher: ujPostPublisher, relatedPageID: ujPostSection });
 
             location.reload();
@@ -346,7 +415,8 @@ async function loadEditPost(postId) {
 
         $("editPostTitle").value = postData.title;
         $("editPostSection").value = postData.relatedPageID
-        $("editPostText").value = postData.body;
+        $("editPostText").value = postData.body.split("<br>").join("\n");
+
         $("editPostSubmit").onclick = () => {
             editPost(postData.postID, postData.jatekID, postData.typeID);
         }
@@ -369,6 +439,8 @@ async function editPost(postId, jatekId, typeId) {
                 </div>
             `;
         } else {
+            editPostText = editPostText.split(/\n/).join("<br>")
+
             let postMod = await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
 
             location.reload();
@@ -485,6 +557,7 @@ async function searchBar() {
                         editPostButton.classList.add("btn");
                         editPostButton.classList.add("btn-primary");
                         editPostButton.classList.add("postButton");
+                        editPostButton.classList.add("editPostButton");
                         editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                         editPostButton.innerHTML = "Edit Post";
                         editPostButton.onclick = () => {
@@ -497,8 +570,38 @@ async function searchBar() {
                             cardHeaderContent.appendChild(deletePostButton);
                         }
                         else if(userData.admin == 1){
-                            deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                            deletePostButton.style = "display: inline; margin-left: 10px";
                             cardHeaderContent.appendChild(deletePostButton);
+                        }
+
+                        if(userData.admin == 1){
+                            let acceptPostSelect = document.createElement("select")
+                            acceptPostSelect.classList.add("form-select");
+                
+                            let acceptTrue = document.createElement("option")
+                            acceptTrue.value = 1
+                            acceptTrue.innerHTML = "Yes"
+                
+                            let acceptFalse = document.createElement("option")
+                            acceptFalse.value = 0
+                            acceptFalse.innerHTML = "No"
+                
+                            acceptPostSelect.appendChild(acceptTrue)
+                            acceptPostSelect.appendChild(acceptFalse)
+                
+                            acceptPostSelect.value = findPostDataUser.accepted
+                            acceptPostSelect.addEventListener('change', () => {
+                                callphpFunction("acceptAdditional", {postID: findPostDataUser.postID, accepted: acceptPostSelect.value})
+                            })
+                
+                            acceptPostSelect.style = "display: inline; margin-right: 10px; max-width: fit-content"
+
+                            let acceptLabel = document.createElement("label")
+                            acceptLabel.innerHTML = "Accepted: "
+                            acceptLabel.style.marginLeft = "10px"
+                            
+                            cardHeaderContent.appendChild(acceptLabel)
+                            cardHeaderContent.appendChild(acceptPostSelect)
                         }
 
                         cardHeader.appendChild(cardHeaderContent);
@@ -594,6 +697,7 @@ async function searchBar() {
                             editPostButton.classList.add("btn");
                             editPostButton.classList.add("btn-primary");
                             editPostButton.classList.add("postButton");
+                            editPostButton.classList.add("editPostButton");
                             editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                             editPostButton.innerHTML = "Edit Post";
                             editPostButton.onclick = () => {
@@ -606,8 +710,38 @@ async function searchBar() {
                                 cardHeaderContent.appendChild(deletePostButton);
                             }
                             else if(userData.admin == 1){
-                                deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                                deletePostButton.style = "display: inline; margin-left: 10px";
                                 cardHeaderContent.appendChild(deletePostButton);
+                            }
+
+                            if(userData.admin == 1){
+                                let acceptPostSelect = document.createElement("select")
+                                acceptPostSelect.classList.add("form-select");
+                    
+                                let acceptTrue = document.createElement("option")
+                                acceptTrue.value = 1
+                                acceptTrue.innerHTML = "Yes"
+                    
+                                let acceptFalse = document.createElement("option")
+                                acceptFalse.value = 0
+                                acceptFalse.innerHTML = "No"
+                    
+                                acceptPostSelect.appendChild(acceptTrue)
+                                acceptPostSelect.appendChild(acceptFalse)
+                    
+                                acceptPostSelect.value = element.accepted
+                                acceptPostSelect.addEventListener('change', () => {
+                                    callphpFunction("acceptAdditional", {postID: element.postID, accepted: acceptPostSelect.value})
+                                })
+                    
+                                acceptPostSelect.style = "display: inline; margin-right: 10px; max-width: fit-content"
+
+                                let acceptLabel = document.createElement("label")
+                                acceptLabel.innerHTML = "Accepted: "
+                                acceptLabel.style.marginLeft = "10px"
+                                
+                                cardHeaderContent.appendChild(acceptLabel)
+                                cardHeaderContent.appendChild(acceptPostSelect)
                             }
 
                             cardHeader.appendChild(cardHeaderContent);
@@ -708,6 +842,7 @@ async function searchBar() {
                     editPostButton.classList.add("btn");
                     editPostButton.classList.add("btn-primary");
                     editPostButton.classList.add("postButton");
+                    editPostButton.classList.add("editPostButton");
                     editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
                     editPostButton.innerHTML = "Edit Post";
                     editPostButton.onclick = () => {
@@ -720,8 +855,38 @@ async function searchBar() {
                         cardHeaderContent.appendChild(deletePostButton);
                     }
                     else if(userData.admin == 1){
-                        deletePostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                        deletePostButton.style = "display: inline; margin-left: 10px";
                         cardHeaderContent.appendChild(deletePostButton);
+                    }
+
+                    if(userData.admin == 1){
+                        let acceptPostSelect = document.createElement("select")
+                        acceptPostSelect.classList.add("form-select");
+            
+                        let acceptTrue = document.createElement("option")
+                        acceptTrue.value = 1
+                        acceptTrue.innerHTML = "Yes"
+            
+                        let acceptFalse = document.createElement("option")
+                        acceptFalse.value = 0
+                        acceptFalse.innerHTML = "No"
+            
+                        acceptPostSelect.appendChild(acceptTrue)
+                        acceptPostSelect.appendChild(acceptFalse)
+            
+                        acceptPostSelect.value = element.accepted
+                        acceptPostSelect.addEventListener('change', () => {
+                            callphpFunction("acceptAdditional", {postID: element.postID, accepted: acceptPostSelect.value})
+                        })
+            
+                        acceptPostSelect.style = "display: inline; margin-right: 10px; max-width: fit-content"
+
+                        let acceptLabel = document.createElement("label")
+                        acceptLabel.innerHTML = "Accepted: "
+                        acceptLabel.style.marginLeft = "10px"
+                        
+                        cardHeaderContent.appendChild(acceptLabel)
+                        cardHeaderContent.appendChild(acceptPostSelect)
                     }
 
                     cardHeader.appendChild(cardHeaderContent);
@@ -789,3 +954,10 @@ window.addEventListener("load", function () {
     newPostSections();
     loadCommunityPosts();
 })
+
+/*$("newPostText").addEventListener('change', () => {
+    let valami = $("newPostText").value
+    let asd = valami.split(/\n/).join("<br>")
+    
+    console.log(asd)
+})*/
