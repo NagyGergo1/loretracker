@@ -51,3 +51,7 @@
 .modal-footer {
     justify-content: center;
 }
+
+#adminButton:hover{
+    background-color: darkorange !important;
+}

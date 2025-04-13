@@ -87,6 +87,39 @@
         </div>
     </div>
 
+    <!-- Change password modal -->
+    <div class="modal fade" id="editPasswModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="editPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editPasswModalLabel">Change Password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="oldPasswTitleLabel">Current password: </span>
+                            <input type="text" class="form-control" id="oldPasswTitle" aria-describedby="oldPasswTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newPasswTitleLabel">New password: </span>
+                            <input type="text" class="form-control" id="newPasswTitle" aria-describedby="newPasswTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="confirmPasswTitleLabel">Confirm password: </span>
+                            <input type="text" class="form-control" id="confirmPasswTitle" aria-describedby="confirmPasswTitleLabel">
+                        </div>
+                    </form>
+                    <div id="editPasswHiba"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editPasswModalClose">Close</button>
+                    <button type="button" class="btn btn-primary" id="editPasswSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

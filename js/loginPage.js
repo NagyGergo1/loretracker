@@ -53,14 +53,31 @@ async function loadPage() {
             let adminButton = document.createElement("a");
             adminButton.href = "./adminPage.html";
             adminButton.type = "button";
+            adminButton.id = "adminButton"
             adminButton.classList.add("btn");
             adminButton.classList.add("btn-warning");
             adminButton.style = "margin-bottom: 5px; width: 100%; color: white; background-color: orange"
-            adminButton.innerHTML = "To Admin page";
+            adminButton.innerHTML = "To Admin Page";
 
             adminDiv.appendChild(adminButton);
             $("form-content").appendChild(adminDiv);
         }
+
+        let passwordChange = document.createElement("div");
+
+        let passwordButton = document.createElement("a");
+        passwordButton.type = "button";
+        passwordButton.classList.add("btn");
+        passwordButton.classList.add("btn-success");
+        passwordButton.style = "margin-bottom: 5px; width: 100%; color: white"
+        passwordButton.innerHTML = "Change Password";
+        passwordButton.onclick = () => {
+            const editModal = new bootstrap.Modal($("editPasswModal"))
+            editModal.show()
+        }
+
+        passwordChange.appendChild(passwordButton);
+        $("form-content").appendChild(passwordChange);
 
         let div = document.createElement("div");
         div.style.display = "flex";
@@ -152,6 +169,24 @@ async function logIn() {
 function openDeleteConfirm() {
     const deletModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
     deletModal.show();
+}
+
+async function loadChangePassword(){
+    try {
+        
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function changePassword(){
+    try {
+        
+
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 window.addEventListener("load", function() {

@@ -442,7 +442,7 @@ async function editPost(postId, jatekId, typeId) {
         } else {
             editPostText = editPostText.split(/\n/).join("<br>")
 
-            let postMod = await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
+            await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
 
             location.reload();
         }

@@ -90,7 +90,7 @@ async function jatekAdatBetolt() {
                     additionalText.style.marginTop = "30px"
 
                     if(Array.isArray(acceptedPosts)){
-                        additionalText.innerHTML = "<b>Community Posts:</b>"
+                        additionalText.innerHTML = "Community Posts:"
                         chapter.appendChild(additionalText)
 
                         for (let post of acceptedPosts) {
@@ -108,7 +108,7 @@ async function jatekAdatBetolt() {
                         }
                     }
                     else{
-                        additionalText.innerHTML = "<b>Community Post:</b>"
+                        additionalText.innerHTML = "Community Post:"
                         chapter.appendChild(additionalText)
 
                         let additionalTitle = document.createElement("h4")
