@@ -20,11 +20,10 @@ function getQueryParam(param) {
 }
 
 async function jatekAdatBetolt() {
-    /*let tempSteamID = getSession("tempSteamID");
-    if (tempSteamID) {
+    if(!getCookie("email")) {
         $("communityLink").style.pointerEvents = "none";
         $("communityLink").style.opacity = "0.5";
-    }*/
+    }
 
     const gameId = getQueryParam("gameId");
 

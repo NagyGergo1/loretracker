@@ -70,10 +70,7 @@ function adjustNavbar() {
     if (loginEmail) {
         $("toMyArticles").removeAttribute("hidden");
     } else {
-        const tempSteamID = getSession("tempSteamID");
-        if (tempSteamID) {
-            $("toMyArticles").setAttribute("hidden", true);
-        }
+        $("toMyArticles").setAttribute("hidden", true);
     }
 }
 

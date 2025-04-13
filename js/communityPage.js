@@ -34,7 +34,8 @@ async function newPostSections() {
         let newSelect = $("newPostSection");
         let editSelect = $("editPostSection");
         let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
-        if(userAdatok == undefined){
+        console.log(userAdatok)
+        if((userAdatok == undefined || userAdatok == false) && userData.admin != 1){
             $("newPostBtn").hidden = true
             return
         }

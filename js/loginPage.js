@@ -111,14 +111,14 @@ async function logIn() {
 
     if (userEmail == "") {
         $("hibakiir").innerHTML = `
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
                 Kérem adja meg az e-mail címét!
             </div>
         `;
         return;
     } else if (userPass == "") {
         $("hibakiir").innerHTML = `
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
                 Kérem adja meg a jelszavát!
             </div>
         `;
@@ -139,7 +139,7 @@ async function logIn() {
             location.replace(location.href);
         } else {
             $("hibakiir").innerHTML = `
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" style="padding: 8px;">
                     Nincs ilyen felhasználó!
                 </div>
             `;
