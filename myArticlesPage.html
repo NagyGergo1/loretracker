@@ -37,10 +37,64 @@
 
         <div class="main">
             <div class="container" style="max-height: 100%; height: unset;">
-                <div class="game-sections">
+                <div id="game-sections" class="game-sections">
                     
                 </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="editPostModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="editPostModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editPostModalLabel">Edit Community Post</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editPostTitleLabel">Title: </span>
+                            <input type="text" class="form-control" id="editPostTitle" aria-describedby="editPostTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editPostSectionLabel">Section: </span>
+                            <select class="form-select" name="" id="editPostSection" aria-describedby="editPostSectionLabel">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <textarea rows="3" onclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" class="form-control" name="editPostText" id="editPostText"></textarea>
+                    </form>
+                    <div id="editPostHiba">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editPostModalClose">Close</button>
+                    <button type="button" class="btn btn-primary" id="editPostSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="deleteModalLabel"><b>Are you sure?</b></h3>
+                </div>
+                <div class="modal-body">
+                    <h6>
+                        You are about to delete this post.
+                        <br>
+                        Once it has been deleted, it cannot be recovered.
+                    </h6>
+                    <h6><b>Do you want to proceed?</b></h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="deletePostButton">Delete Post</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancelDelete">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
