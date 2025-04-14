@@ -85,6 +85,10 @@ switch ($url[0]){
         modifyUser($params['userName'], $params['password'], $params['email'], $params['steamID'], $params['currentEmail']);
         break;
 
+    case "changePassword":
+        changePassword($params['email'], $params['password']);
+        break;
+
     case "deleteUser":
         deleteUser($params['email']);
         break;
@@ -324,6 +328,21 @@ function modifyUser($userName, $password, $email, $steamID, $currentEmail){
 
     $query = adatokValtozasa("UPDATE user SET userName = '{$userName}', password = '{$hashed_password}', email = '{$email}', steamID = '{$steamID}' WHERE email = '{$currentEmail}'");
     queryChangeCheck($query);
+}
+
+function changePassword($email, $password){
+    $hashed_password = md5($password);
+    if($hashed_password == adatokLekerese("SELECT `password` FROM user WHERE user.email = '{$email}'")['password']){
+        echo json_encode(['valasz' => 'Nem lehet ugyan az a jelszó!'], JSON_UNESCAPED_UNICODE);
+        header('bad request', true, 400);
+    }
+
+    $query = adatokValtozasa("UPDATE user SET `password` = '{$hashed_password}' WHERE email = '{$email}'");
+    queryChangeCheck($query);
+}
+
+function passwordCheck($email, $password){
+    //if(md5($password) == )
 }
 
 function deleteUser($email){
