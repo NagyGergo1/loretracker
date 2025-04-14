@@ -55,3 +55,7 @@
 #adminButton:hover{
     background-color: darkorange !important;
 }
+
+#userNameClick:hover, #emailClick:hover, #steamidClick:hover{
+    cursor: url(../img/black_beam.cur), text !important
+}

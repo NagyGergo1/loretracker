@@ -26,8 +26,7 @@ export async function callphpFunction(funcName, params = {}){
         })
 
         let data = await response.json()
-        if(response.ok){
-            
+        if(Array.isArray(data)){
             data = (data.length > 1) ? data : data[0]
             return data
         }

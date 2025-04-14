@@ -85,8 +85,24 @@ switch ($url[0]){
         modifyUser($params['userName'], $params['password'], $params['email'], $params['steamID'], $params['currentEmail']);
         break;
 
+    case "modifyUserName":
+        modifyUserName($params['userName'], $params['email']);
+        break;
+
+    case "modifyEmail":
+        modifyEmail($params['newEmail'], $params['currentEmail']);
+        break;
+
+    case "modifySteamID":
+        modifySteamID($params['steamID'], $params['email']);
+        break;
+
     case "changePassword":
         changePassword($params['email'], $params['password']);
+        break;
+
+    case "passwordCheck":
+        passwordCheck($params['email'], $params['password']);
         break;
 
     case "deleteUser":
@@ -330,19 +346,40 @@ function modifyUser($userName, $password, $email, $steamID, $currentEmail){
     queryChangeCheck($query);
 }
 
+function modifyUserName($userName, $email){
+    $query = adatokValtozasa("UPDATE `user` SET `userName`='{$userName}' WHERE `email` = '{$email}'");
+    queryChangeCheck($query);
+}
+
+function modifyEmail($newEmail, $currentEmail){
+    $query = adatokValtozasa("UPDATE `user` SET `email`='{$newEmail}' WHERE `email` = '{$currentEmail}'");
+    queryChangeCheck($query);
+}
+
+function modifySteamID($steamID, $email){
+    $query = adatokValtozasa("UPDATE `user` SET `steamID`='{$steamID}' WHERE `email` = '{$email}'");
+    queryChangeCheck($query);
+}
+
 function changePassword($email, $password){
     $hashed_password = md5($password);
-    if($hashed_password == adatokLekerese("SELECT `password` FROM user WHERE user.email = '{$email}'")['password']){
-        echo json_encode(['valasz' => 'Nem lehet ugyan az a jelszó!'], JSON_UNESCAPED_UNICODE);
-        header('bad request', true, 400);
-    }
+    // if($hashed_password == adatokLekerese("SELECT `password` FROM user WHERE user.email = '{$email}'")[0]['password']){
+    //     echo json_encode(['valasz' => 'Nem lehet ugyan az a jelszó!'], JSON_UNESCAPED_UNICODE);
+    //     header('bad request', true, 400);
+    // }
 
     $query = adatokValtozasa("UPDATE user SET `password` = '{$hashed_password}' WHERE email = '{$email}'");
     queryChangeCheck($query);
 }
 
 function passwordCheck($email, $password){
-    //if(md5($password) == )
+    if(md5($password) == adatokLekerese("SELECT `password` FROM user WHERE email = '{$email}'")[0]['password']){
+        echo json_encode(['valasz' => 'Helyes jelszó!'], JSON_UNESCAPED_UNICODE);
+    }
+    else{
+        echo json_encode(['valasz' => 'Helytelen jelszó!'], JSON_UNESCAPED_UNICODE);
+        header('bad request', true, 400);
+    }
 }
 
 function deleteUser($email){
