@@ -301,10 +301,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin`) VALUES
-(1, 'gergo', 'asd123', 'gergonagy1122@gmail.com', '76561198811836115', 1),
-(2, 'tesztuser1', 'asd123', 'joemail@email.com', 'ijdgsiu298479', 0),
-(8, 'Körte', '12345', 'abc123@gmail.com', '76561198811836115', 0),
-(9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353', 1);
+(1, 'gergo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115', 1),
+(2, 'tesztuser1', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'joemail@email.com', 'ijdgsiu298479', 0),
+(8, 'Körte', '827ccb0eea8a706c4c34a16891f84e7b', 'abc123@gmail.com', '76561198811836115', 0),
+(9, 'endre', '200820e3227815ed1756a6b531e7e0d2', 'endre2543@gmail.com', '76561198842851353', 1);
 
 --
 -- Eseményindítók `user`
