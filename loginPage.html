@@ -14,7 +14,7 @@
 
 <body>
     <div class="container">
-        <div class="navbar navbar-expand-sm navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px;">
+        <div class="navbar navbar-expand-md navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px;">
             <div class="container-fluid">
                 <div id="toMain" class="navbar-brand"><a id="toMainLink" href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
 
@@ -37,7 +37,7 @@
 
         <div class="main">
             <div class="login-container">
-                <div class="form-container">
+                <div id="form-container" class="form-container">
                     <form id="form-content">
                         <h2>Login</h2>
                         <div class="mb-3">
@@ -93,7 +93,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="editPasswModalLabel">Change Password</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="closePasswChange" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -114,8 +114,60 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editPasswModalClose">Close</button>
-                    <button type="button" class="btn btn-primary" id="editPasswSubmit">Submit</button>
+                    <button type="button" class="btn btn-success" id="editPasswSubmit">Submit</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change password toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastPassChange" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Message:</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Successful password change!
+            </div>
+        </div>
+    </div>
+
+    <!-- Successful username change toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastNameChange" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Message:</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Successful username change!
+            </div>
+        </div>
+    </div>
+
+    <!-- Successful email change toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastEmailChange" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Message:</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Successful e-mail change!
+            </div>
+        </div>
+    </div>
+
+    <!-- Successful steam id change toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastSteamidChange" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Message:</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Successful Steam ID change!
             </div>
         </div>
     </div>
