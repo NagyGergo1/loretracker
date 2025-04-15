@@ -18,31 +18,39 @@ async function loadPage() {
 }
 
 async function regisztralas() {
+    $("visszaJelzes").innerHTML = ""
+
     let userName = $("registerUsername").value;
     let userSteamId = $("registerSteamId").value;
     let userEmail = $("registerEmail").value;
     let userPassword = ($("registerPassword").value == $("registerConfirmPassword").value) ? $("registerPassword").value : 0;
 
-    if (userPassword != 0) {
+    if(userName == "" || userSteamId == "" || userEmail == "" || userName == ""){
+        $("visszaJelzes").innerHTML += `
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
+                Please fill all the blanks!
+            </div>
+        `;
+    }
+    else if (userPassword != 0) {
         let userAdatok = await callphpFunction("createUserData", {userName : userName, steamID : userSteamId, email : userEmail, password : userPassword});
         console.log(userAdatok);
         let kiiras = $("form-content")
         kiiras.innerHTML = `
-            <h1 style="text-align: center;">Sikeres regisztráció!</h1>
+            <h1 style="text-align: center;">Successful registration!</h1>
         `;
         let button = document.createElement("button");
         button.classList.add("btn");
         button.classList.add("btn-primary");
         button.type = "button";
-        button.innerHTML="Bejelentkezés";
+        button.innerHTML="Login";
         button.onclick = () => {location.href='./loginPage.html'};
 
         kiiras.appendChild(button);
-    } else {
-        //$("visszaJelzes").innerHTML = "";
+    } else if(userPassword == 0){
         $("visszaJelzes").innerHTML += `
-            <div class="alert alert-danger" role="alert">
-                A két jelszó nem egyezik meg!
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
+                The passwords don't match!
             </div>
         `;
     }

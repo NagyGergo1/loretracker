@@ -228,7 +228,7 @@ async function loadCommunityPosts() {
         cardBody.classList.add("card-body");
         cardBody.innerHTML = `
                 <div class="card-text">
-                    <p>${getPosts.body}</p>
+                    <p id="${getPosts.postID}">${getPosts.body}</p>
                 </div>
             `;
         communityPostCard.appendChild(cardBody);
@@ -368,7 +368,7 @@ async function loadCommunityPosts() {
             cardBody.classList.add("card-body");
             cardBody.innerHTML = `
                 <div class="card-text">
-                    <p>${getPosts[i].body}</p>
+                    <p id="${getPosts[i].postID}">${getPosts[i].body}</p>
                 </div>
             `;
             communityPostCard.appendChild(cardBody);
@@ -612,7 +612,7 @@ async function searchBar() {
                         cardBody.classList.add("card-body");
                         cardBody.innerHTML = `
                             <div class="card-text">
-                                <p>${findPostDataUser.body}</p>
+                                <p id="${findPostDataUser.postID}">${findPostDataUser.body}</p>
                             </div>
                         `;
                         communityPostCard.appendChild(cardBody);
@@ -752,7 +752,7 @@ async function searchBar() {
                             cardBody.classList.add("card-body");
                             cardBody.innerHTML = `
                                 <div class="card-text">
-                                    <p>${element.body}</p>
+                                    <p id="${element.postID}">${element.body}</p>
                                 </div>
                             `;
                             communityPostCard.appendChild(cardBody);
@@ -897,7 +897,7 @@ async function searchBar() {
                     cardBody.classList.add("card-body");
                     cardBody.innerHTML = `
                         <div class="card-text">
-                            <p>${element.body}</p>
+                            <p id="${element.postID}">${element.body}</p>
                         </div>
                     `;
                     communityPostCard.appendChild(cardBody);

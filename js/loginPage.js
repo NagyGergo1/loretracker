@@ -236,14 +236,14 @@ async function logIn() {
     if (userEmail == "") {
         $("hibakiir").innerHTML = `
             <div class="alert alert-danger" role="alert" style="padding: 8px;">
-                Kérem adja meg az e-mail címét!
+                Please enter your e-mail!
             </div>
         `;
         return;
     } else if (userPass == "") {
         $("hibakiir").innerHTML = `
             <div class="alert alert-danger" role="alert" style="padding: 8px;">
-                Kérem adja meg a jelszavát!
+                Please enter your password!
             </div>
         `;
         return;
@@ -264,7 +264,7 @@ async function logIn() {
         } else {
             $("hibakiir").innerHTML = `
                 <div class="alert alert-danger" role="alert" style="padding: 8px;">
-                    Nincs ilyen felhasználó!
+                    Incorrect information!
                 </div>
             `;
         }

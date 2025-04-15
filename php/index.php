@@ -35,27 +35,6 @@ switch ($url[0]){
         getTipusById($params['id']);
         break;
 
-    //tracker
-    case "getUserTracker":
-        getUserTracker($params['id']);
-        break;
-
-    case "getTrackerByUserAndGame":
-        getTrackerByUserAndGame($params['userID'], $params['jatekID']);
-        break;
-
-    case "createTracker":
-        createTracker($params['userID'], $params['jatekID'], $params['mainAcCounter'], $params['optional']);
-        break;
-
-    case "updateTracker":
-        updateTracker($params['trackerID'], $params['mainAcCounter'], $params['optional']);
-        break;
-
-    case "deleteTracker":
-        deleteTracker($params['userID']);
-        break;
-
     //felhasználó
     case "getAllUserData":
         getAllUserData();
@@ -208,10 +187,6 @@ switch ($url[0]){
         getAdditionalLog();
         break;
 
-    case "getTrackerLog":
-        getTrackerLog();
-        break;
-
     //default
     default:
         echo 'none selected';
@@ -266,44 +241,6 @@ function getAlltipus(){
 function getTipusById($id){
     $query = adatokLekerese("SELECT * FROM loretype WHERE typeID = {$id}");
     queryGetCheck($query);
-}
-
-//tracker
-function getUserTracker($trackerID){
-    $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE jatekloretracker.trackerID = {$trackerID}");
-    queryGetCheck($query);
-}
-
-function getTrackerByUserAndGame($userID, $jatekID){
-    $query = adatokLekerese("SELECT * FROM jatekloretracker WHERE userID = {$userID} AND jatekID = {$jatekID}");
-    queryGetCheck($query);
-}
-
-function createTracker($userID, $jatekID, $mainAcCounter, $optional){
-    $counterList = [0, 0, 0, 0];
-
-    for ($i=0; $i < count($optional); $i++) {
-        $counterList[$i] = $optional[$i];
-    }
-
-    $query = adatokValtozasa("REPLACE INTO `jatekloretracker`(`userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES ({$userID},{$jatekID},{$mainAcCounter},{$counterList[0]},{$counterList[1]},{$counterList[2]},{$counterList[3]})");
-    queryChangeCheck($query);
-}
-
-function updateTracker($trackerID, $mainAcCounter, $optional){
-    $counterList = [0, 0, 0, 0];
-
-    for ($i=0; $i < count($optional); $i++) {
-        $counterList[$i] = $optional[$i];
-    }
-
-    $query = adatokValtozasa("UPDATE `jatekloretracker` SET `mainAchievementCounter`={$mainAcCounter},`sideAchievementCounter1`={$counterList[0]},`sideAchievementCounter2`={$counterList[1]},`sideAchievementCounter3`={$counterList[2]},`sideAchievementCounter4`={$counterList[3]} WHERE trackerID = {$trackerID}");
-    queryChangeCheck($query);
-}
-
-function deleteTracker($userID){
-    $query = adatokValtozasa("DELETE FROM `jatekloretracker` WHERE userID = {$userID}");
-    queryChangeCheck($query);
 }
 
 
@@ -388,7 +325,6 @@ function passwordCheck($email, $password){
 
 function deleteUser($email){
     $query1 = adatokLekerese("SELECT userID FROM user WHERE email = '{$email}'");
-    adatokValtozasa("DELETE FROM jatekloretracker WHERE userID = {$query1[0]['userID']}");
     adatokValtozasa("DELETE FROM additionallore WHERE publisher = {$query1[0]['userID']}");
 
     $query3 = adatokValtozasa("DELETE FROM user WHERE email = '{$email}'");
@@ -521,10 +457,5 @@ function getUserLog(){
 
 function getAdditionalLog(){
     $query = adatokLekerese("SELECT * FROM additionallore_log ORDER BY ido");
-    queryGetCheck($query);
-}
-
-function getTrackerLog(){
-    $query = adatokLekerese("SELECT * FROM jatekloretracker_log ORDER BY ido");
     queryGetCheck($query);
 }
