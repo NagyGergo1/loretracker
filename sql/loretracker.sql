@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 15. 08:09
+-- Létrehozás ideje: 2025. Ápr 15. 11:11
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -117,7 +117,15 @@ INSERT INTO `additionallore_log` (`logID`, `muvelet`, `ido`, `postID`, `publishe
 (16, 'insert', '2025-04-14 21:47:28', 10, 1, 'Valami 2', 0),
 (17, 'update', '2025-04-14 22:12:24', 6, 1, 'A szöveg', 0),
 (18, 'update', '2025-04-14 22:14:04', 8, 9, 'Valami1', 0),
-(19, 'insert', '2025-04-14 22:57:38', 11, 9, 'Valami Más - 1', 0);
+(19, 'insert', '2025-04-14 22:57:38', 11, 9, 'Valami Más - 1', 0),
+(20, 'insert', '2025-04-15 08:17:08', 12, 8, 'New title', 0),
+(21, 'insert', '2025-04-15 08:18:20', 13, 8, 'New title', 0),
+(22, 'delete', '2025-04-15 08:18:43', 12, 8, 'New title', 0),
+(23, 'delete', '2025-04-15 08:18:45', 13, 8, 'New title', 0),
+(24, 'insert', '2025-04-15 08:36:23', 14, 8, 'New title', 0),
+(25, 'insert', '2025-04-15 08:37:01', 15, 8, 'New title', 0),
+(26, 'delete', '2025-04-15 08:37:20', 15, 8, 'New title', 0),
+(27, 'delete', '2025-04-15 08:37:21', 14, 8, 'New title', 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +324,13 @@ INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `passwo
 (11, 'insert', '2025-04-11 00:22:47', 9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353'),
 (12, 'insert', '2025-04-14 22:25:18', 10, 'Alma', 'a384b6463fc216a5f8ecb6670f86456a', 'johndoe@gmail.com', '76561198811836115'),
 (13, 'update', '2025-04-15 06:01:38', 1, 'gergoo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115'),
-(14, 'update', '2025-04-15 06:01:43', 1, 'gergo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115');
+(14, 'update', '2025-04-15 06:01:43', 1, 'gergo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115'),
+(15, 'insert', '2025-04-15 07:24:05', 11, '', '0cc175b9c0f1b6a831c399e269772661', '', ''),
+(16, 'delete', '2025-04-15 07:24:21', 11, '', '0cc175b9c0f1b6a831c399e269772661', '', ''),
+(17, 'insert', '2025-04-15 07:25:21', 12, 'a', '0cc175b9c0f1b6a831c399e269772661', 'a', 'a'),
+(18, 'delete', '2025-04-15 07:25:44', 12, 'a', '0cc175b9c0f1b6a831c399e269772661', 'a', 'a'),
+(19, 'insert', '2025-04-15 07:45:32', 13, 'newuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'usermail@email.com', '11111111111111111'),
+(20, 'delete', '2025-04-15 08:57:24', 13, 'newuser', '5f4dcc3b5aa765d61d8327deb882cf99', 'usermail@email.com', '11111111111111111');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -380,13 +394,13 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `additionallore_log`
 --
 ALTER TABLE `additionallore_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT a táblához `jatek`
@@ -410,13 +424,13 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Megkötések a kiírt táblákhoz
