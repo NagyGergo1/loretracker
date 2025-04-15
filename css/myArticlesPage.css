@@ -1,1 +1,22 @@
 @import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
+
+.community-container {
+    padding: 5px;
+    background-color: #e1e1e1;
+}
+
+.community-container .left-side {
+    width: 25%;
+    display: flex;
+    float: left;
+}
+
+.community-container .right-side {
+    display: flex;
+    float: right;
+}
+
+
+.community-container button {
+    margin-right: 5px;
+}

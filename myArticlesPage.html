@@ -16,35 +16,70 @@
     <div class="container">
         <div class="navbar navbar-expand-md navbar-dark" id="navBarId" style="padding-top: 10px; padding-bottom: 10px;">
             <div class="container-fluid">
-                <div id="toMain" class="navbar-brand"><a id="toMainLink" href="./mainPage.html" class="active" style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png" class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a></div>
+                <div id="toMain" class="navbar-brand"><a id="toMainLink" href="./mainPage.html" class="active"
+                        style="font-family: FontAwesome;"><img src="./img/loretracker_logo.png"
+                            class="img-fluid img-rounded float-start" alt="Loretrakcer" style="max-width: 160px;"></a>
+                </div>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-    
+
                 <div class="collapse navbar-collapse" id="navbarMenu">
                     <ul class="navbar-nav me-auto mb-2 mb-md-0" style="margin-bottom: 0px !important;">
-                        <li id="toLibrary" class="nav-item" style="margin: 10px;"><div><a href="./libraryPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf02d Library</a></div></li>
-                        <li id="toMyArticles" class="nav-item" style="margin: 10px;"><div><a href="./myArticlesPage.html" class="nav-item" style="font-family: FontAwesome;">&#xf044 My Articles</a></div></li>
+                        <li id="toLibrary" class="nav-item" style="margin: 10px;">
+                            <div><a href="./libraryPage.html" class="active nav-item"
+                                    style="font-family: FontAwesome;">&#xf02d Library</a></div>
+                        </li>
+                        <li id="toMyArticles" class="nav-item" style="margin: 10px;">
+                            <div><a href="./myArticlesPage.html" class="nav-item"
+                                    style="font-family: FontAwesome;">&#xf044 My Articles</a></div>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav mb-2 mb-md-0">
-                        <li class="nav-item" style="margin: 10px;"><div><a href="./loginPage.html" class="active nav-item" style="font-family: FontAwesome;">&#xf007 Profile</a></div></li>
+                        <li class="nav-item" style="margin: 10px;">
+                            <div><a href="./loginPage.html" class="active nav-item"
+                                    style="font-family: FontAwesome;">&#xf007 Profile</a></div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
 
+        <div class="community-container">
+            <div class="left-side">
+                <div class="input-group" style="width: auto; flex-wrap: nowrap;">
+                    <span class="input-group-text" id="filter_icon" style="font-family: FontAwesome;">&#xf0b0;</span>
+                    <select style="min-width: 100px;" name="communityFilter" id="communityFilter" class="form-select"
+                        aria-describedby="filter_icon">
+                        <option value="timeDesc">Latest</option>
+                        <option value="timeAsc">Oldest</option>
+                        <option value="aToz">A to Z</option>
+                        <option value="zToa">Z to A</option>
+                    </select>
+                    <button type="button" class="btn btn-warning" id="startButton_communityFilter"
+                        style="font-family: FontAwesome;">&#xf002;</button>
+                </div>
+            </div>
+            <div class="right-side">
+                <input type="text" name="text_communitySearch" style="font-family: FontAwesome; width: 200px; margin-left: 140px; text-align: center;"
+                    id="text_articleSearch" class="form-control" placeholder="&#xf002 Search">
+            </div>
+        </div>
+
         <div class="main">
+
             <div class="container" style="max-height: 100%; height: unset;">
                 <div id="game-sections" class="game-sections">
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="editPostModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="editPostModalLabel" aria-hidden="true">
+    <div class="modal fade" id="editPostModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="editPostModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -55,29 +90,35 @@
                     <form>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="editPostTitleLabel">Title: </span>
-                            <input type="text" class="form-control" id="editPostTitle" aria-describedby="editPostTitleLabel">
+                            <input type="text" class="form-control" id="editPostTitle"
+                                aria-describedby="editPostTitleLabel">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="editPostSectionLabel">Section: </span>
-                            <select class="form-select" name="" id="editPostSection" aria-describedby="editPostSectionLabel">
+                            <select class="form-select" name="" id="editPostSection"
+                                aria-describedby="editPostSectionLabel">
                                 <option value=""></option>
                             </select>
                         </div>
-                        <textarea rows="3" onclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" class="form-control" name="editPostText" id="editPostText"></textarea>
+                        <textarea rows="3" onclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
+                            oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
+                            class="form-control" name="editPostText" id="editPostText"></textarea>
                     </form>
                     <div id="editPostHiba">
-                        
+
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editPostModalClose">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        id="editPostModalClose">Close</button>
                     <button type="button" class="btn btn-primary" id="editPostSubmit">Submit</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -93,7 +134,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" id="deletePostButton">Delete Post</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        id="cancelDelete">Cancel</button>
                 </div>
             </div>
         </div>

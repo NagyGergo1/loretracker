@@ -12,8 +12,8 @@ function adjustPage() {
 
     if (!loginEmail) {
         $("toMyArticles").setAttribute("hidden", true);
-        $("newPostBtn").hidden = true
-    } 
+        $("newPostBtn").hidden = true;
+    }
 }
 
 async function loadPosts() {
@@ -21,7 +21,6 @@ async function loadPosts() {
         let userData = getCookie("userId");
         let jatekhozIrtak = new Set();
         let userArticles = await callphpFunction("getAdditionalByUser", { userID: userData });
-
 
         if (Array.isArray(userArticles)) {
             for (const data of userArticles) {
@@ -31,11 +30,13 @@ async function loadPosts() {
             jatekhozIrtak.add(userArticles.jatekID);
         }
 
+        let kiiras = document.getElementById("game-sections");
+        kiiras.innerHTML = "";
+
         // Game Sections load
         for (const element of jatekhozIrtak) {
             await postSections(element);
 
-            let kiiras = document.getElementById("game-sections");
             let gameName = await callphpFunction("gameNameGet", { id: element });
 
             let gameSectionDiv = document.createElement("div");
@@ -55,6 +56,7 @@ async function loadPosts() {
             dGrid_body.classList.add("row");
             dGrid_body.classList.add("collapse");
             dGrid_body.classList.add("mx-0");
+            dGrid_body.classList.add("gx-3");
             dGrid_body.id = `gameSection${element}`;
             dGrid_body.style = "margin-left: 10px !important; margin-right: 10px !important;";
 
@@ -70,14 +72,35 @@ async function loadPosts() {
                 }
             }
 
+            let aktFilter = $("communityFilter").value;
+            switch (aktFilter) {
+                case "timeAsc":
+                    postsForCurrentGame.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                    break;
+                case "timeDesc":
+                    postsForCurrentGame.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                    break;
+                case "aToz":
+                    postsForCurrentGame.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case "zToa":
+                    postsForCurrentGame.sort((a, b) => b.title.localeCompare(a.title));
+                    break;
+            }
+
             for (const post of postsForCurrentGame) {
-                let postSection = await callphpFunction("getChapterTitle", { gameId: element, pageId: post.relatedPageID });
-                const chapterName = postSection ? postSection.chapterName : "Unknown Chapter";
+                let postSection = await callphpFunction("getChapterTitle", {
+                    gameId: element,
+                    pageId: post.relatedPageID,
+                });
 
                 let communityPostCard = document.createElement("div");
                 communityPostCard.classList.add("card");
                 communityPostCard.classList.add("community-post-card");
-                communityPostCard.style = "width: 100%; margin-top: 10px; max-width: 100%";
+                communityPostCard.style = "margin-top: 10px; margin-bottom: 10px";
+                communityPostCard.classList.add("col-12");
+                communityPostCard.classList.add("col-md-6");
+
                 communityPostCard.id = post.postID;
 
                 let cardHeader = document.createElement("div");
@@ -85,12 +108,12 @@ async function loadPosts() {
 
                 let cardHeaderContent = document.createElement("div");
                 cardHeaderContent.innerHTML = `
-                                        <h5 style="display: inline;">${post.title}</h5>
-                                        <div class="vr"></div>
-                                        <h6 style="display: inline;">${chapterName}</h6>
-                                        <div class="vr"></div>
-                                        <h6 style="display: inline;">${post.created_at}</h6>
-                                    `;
+                                            <h5 style="display: inline;">${post.title}</h5>
+                                            <div class="vr"></div>
+                                            <h6 style="display: inline;">${postSection.chapterName}</h6>
+                                            <div class="vr"></div>
+                                            <h6 style="display: inline;">${post.created_at}</h6>
+                                        `;
 
                 let deletePostButton = document.createElement("button");
                 deletePostButton.type = "submit";
@@ -99,18 +122,28 @@ async function loadPosts() {
                 deletePostButton.classList.add("postButton");
                 deletePostButton.style = "display: inline;";
                 deletePostButton.innerHTML = "Delete Post";
-                deletePostButton.onclick = () => { openDeleteConfirm(), localDeletePost(post.postID) };
+                deletePostButton.onclick = () => {
+                    openDeleteConfirm();
+                    localDeletePost(post.postID);
+                };
 
                 function callLocal() {
                     callphpFunction("deleteAdditional", { postID: post.postID }), location.reload();
                 }
 
                 function localDeletePost() {
-                    document.getElementById("deletePostButton").addEventListener('click', callLocal, { once: true })
+                    document
+                        .getElementById("deletePostButton")
+                        .addEventListener("click", callLocal, { once: true });
 
-                    document.getElementById("cancelDelete").addEventListener('click', () => { document.getElementById("deletePostButton").removeEventListener('click', callLocal, false) })
+                    document
+                        .getElementById("cancelDelete")
+                        .addEventListener("click", () => {
+                            document
+                                .getElementById("deletePostButton")
+                                .removeEventListener("click", callLocal, false);
+                        });
                 }
-
 
                 let editPostButton = document.createElement("button");
                 editPostButton.type = "button";
@@ -122,7 +155,7 @@ async function loadPosts() {
                 editPostButton.innerHTML = "Edit Post";
                 editPostButton.onclick = () => {
                     loadEditPost(post.postID);
-                }
+                };
 
                 cardHeaderContent.appendChild(editPostButton);
                 cardHeaderContent.appendChild(deletePostButton);
@@ -133,10 +166,10 @@ async function loadPosts() {
                 let cardBody = document.createElement("div");
                 cardBody.classList.add("card-body");
                 cardBody.innerHTML = `
-                                        <div class="card-text">
-                                            <p>${post.body}</p>
-                                        </div>
-                                    `;
+                                            <div class="card-text">
+                                                <p>${post.body}</p>
+                                            </div>
+                                        `;
                 communityPostCard.appendChild(cardBody);
 
                 dGrid_body.appendChild(communityPostCard);
@@ -152,6 +185,217 @@ async function loadPosts() {
     }
 }
 
+async function searchPost() {
+    try {
+        let keresettSzoveg = $("text_articleSearch").value;
+        let userId = getCookie("userId");
+        let kiiras = document.getElementById("game-sections");
+        kiiras.innerHTML = ""; // Clear previous content
+
+
+        if (keresettSzoveg == "") {
+            loadPosts();
+        } else if (keresettSzoveg != "") {
+            let kereses = await callphpFunction("searchAdditionalByTitleAndUser", {
+                title: keresettSzoveg, userID: userId
+            });
+            if (Array.isArray(kereses)) {
+                for (const post of kereses) {
+                    postSections(post.jatekID);
+                    // Card creation logic starts here
+                    let postSection = await callphpFunction("getChapterTitle", {
+                        gameId: post.jatekID,
+                        pageId: post.relatedPageID,
+                    });
+
+                    let communityPostCard = document.createElement("div");
+                    communityPostCard.classList.add("card");
+                    communityPostCard.classList.add("community-post-card");
+                    communityPostCard.style = "margin-top: 10px;";
+                    communityPostCard.classList.add("col-12");
+                    communityPostCard.classList.add("col-md-6");
+
+
+                    communityPostCard.id = post.postID;
+
+
+                    let cardHeader = document.createElement("div");
+                    cardHeader.classList.add("card-header");
+                    let cardHeaderContent = document.createElement("div");
+                    cardHeaderContent.innerHTML = `
+                        <h5 style="display: inline;">${post.title}</h5>
+                        <div class="vr"></div>
+                        <h6 style="display: inline;">${postSection.chapterName}</h6>
+                        <div class="vr"></div>
+                        <h6 style="display: inline;">${post.created_at}</h6>
+                    `;
+                    let deletePostButton = document.createElement("button");
+                    deletePostButton.type = "submit";
+                    deletePostButton.classList.add("btn");
+                    deletePostButton.classList.add("btn-danger");
+                    deletePostButton.classList.add("postButton");
+                    deletePostButton.style = "display: inline;";
+                    deletePostButton.innerHTML = "Delete Post";
+                    deletePostButton.onclick = () => {
+                        openDeleteConfirm();
+                        localDeletePost(post.postID);
+                    };
+
+
+                    function callLocal() {
+                        callphpFunction("deleteAdditional", { postID: post.postID }), location.reload();
+                    }
+
+
+                    function localDeletePost() {
+                        document
+                            .getElementById("deletePostButton")
+                            .addEventListener("click", callLocal, { once: true });
+                        document
+                            .getElementById("cancelDelete")
+                            .addEventListener("click", () => {
+                                document
+                                    .getElementById("deletePostButton")
+                                    .removeEventListener("click", callLocal, false);
+                            });
+                    }
+
+
+                    let editPostButton = document.createElement("button");
+                    editPostButton.type = "button";
+                    editPostButton.classList.add("btn");
+                    editPostButton.classList.add("btn-primary");
+                    editPostButton.classList.add("postButton");
+                    editPostButton.classList.add("editPostButton");
+                    editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                    editPostButton.innerHTML = "Edit Post";
+                    editPostButton.onclick = () => {
+                        loadEditPost(post.postID);
+                    };
+
+
+                    cardHeaderContent.appendChild(editPostButton);
+                    cardHeaderContent.appendChild(deletePostButton);
+
+
+                    cardHeader.appendChild(cardHeaderContent);
+                    communityPostCard.appendChild(cardHeader);
+
+
+                    let cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body");
+                    cardBody.innerHTML = `
+                        <div class="card-text">
+                        <p>${post.body}</p>
+                        </div>
+                    `;
+                    communityPostCard.appendChild(cardBody);
+
+
+                    kiiras.appendChild(communityPostCard);
+                    // Card creation logic ends here
+                }
+            } else if (kereses) {
+                // Card creation logic starts here
+                let postSection = await callphpFunction("getChapterTitle", {
+                    gameId: kereses.jatekID,
+                    pageId: kereses.relatedPageID,
+                });
+                let communityPostCard = document.createElement("div");
+                communityPostCard.classList.add("card");
+                communityPostCard.classList.add("community-post-card");
+                communityPostCard.style = "margin-top: 10px;";
+                communityPostCard.classList.add("col-12");
+                communityPostCard.classList.add("col-md-6");
+
+
+                communityPostCard.id = kereses.postID;
+
+
+                let cardHeader = document.createElement("div");
+                cardHeader.classList.add("card-header");
+                let cardHeaderContent = document.createElement("div");
+                cardHeaderContent.innerHTML = `
+                    <h5 style="display: inline;">${kereses.title}</h5>
+                    <div class="vr"></div>
+                    <h6 style="display: inline;">${postSection.chapterName}</h6>
+                    <div class="vr"></div>
+                    <h6 style="display: inline;">${kereses.created_at}</h6>
+                `;
+                let deletePostButton = document.createElement("button");
+                deletePostButton.type = "submit";
+                deletePostButton.classList.add("btn");
+                deletePostButton.classList.add("btn-danger");
+                deletePostButton.classList.add("postButton");
+                deletePostButton.style = "display: inline;";
+                deletePostButton.innerHTML = "Delete Post";
+                deletePostButton.onclick = () => {
+                    openDeleteConfirm();
+                    localDeletePost(kereses.postID);
+                };
+
+
+                function callLocal() {
+                    callphpFunction("deleteAdditional", { postID: kereses.postID }), location.reload();
+                }
+
+
+                function localDeletePost() {
+                    document
+                        .getElementById("deletePostButton")
+                        .addEventListener("click", callLocal, { once: true });
+                    document
+                        .getElementById("cancelDelete")
+                        .addEventListener("click", () => {
+                            document
+                                .getElementById("deletePostButton")
+                                .removeEventListener("click", callLocal, false);
+                        });
+                }
+
+
+                let editPostButton = document.createElement("button");
+                editPostButton.type = "button";
+                editPostButton.classList.add("btn");
+                editPostButton.classList.add("btn-primary");
+                editPostButton.classList.add("postButton");
+                editPostButton.classList.add("editPostButton");
+                editPostButton.style = "display: inline; margin-right: 10px; margin-left: 10px";
+                editPostButton.innerHTML = "Edit Post";
+                editPostButton.onclick = () => {
+                    loadEditPost(kereses.postID);
+                };
+
+
+                cardHeaderContent.appendChild(editPostButton);
+                cardHeaderContent.appendChild(deletePostButton);
+
+
+                cardHeader.appendChild(cardHeaderContent);
+                communityPostCard.appendChild(cardHeader);
+
+
+                let cardBody = document.createElement("div");
+                cardBody.classList.add("card-body");
+                cardBody.innerHTML = `
+    <div class="card-text">
+    <p>${kereses.body}</p>
+    </div>
+    `;
+                communityPostCard.appendChild(cardBody);
+
+
+                kiiras.appendChild(communityPostCard);
+                // Card creation logic ends here
+            } else {
+                kiiras.innerHTML = "<p>No matching articles found.</p>";
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 async function postSections(gameId) {
     let userData = await callphpFunction("getUserByEmail", { email: getCookie("email") });
 
@@ -160,7 +404,6 @@ async function postSections(gameId) {
 
         let editSelect = $("editPostSection");
         let userAdatok = await steamRequest(gameData.steamID, userData.steamID);
-
 
         let jatekAdatok = await callphpFunction("gameLoadAll", { id: gameId });
         for (let i = 0; i < userAdatok.length; i++) {
@@ -181,23 +424,23 @@ async function postSections(gameId) {
 }
 
 function openDeleteConfirm() {
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"));
     deleteModal.show();
 }
 
 async function loadEditPost(postId) {
     try {
-        const editModal = new bootstrap.Modal(document.getElementById('editPostModal'));
+        const editModal = new bootstrap.Modal(document.getElementById("editPostModal"));
         editModal.show();
         let postData = await callphpFunction("getAdditionalById", { postID: postId });
 
         $("editPostTitle").value = postData.title;
-        $("editPostSection").value = postData.relatedPageID
+        $("editPostSection").value = postData.relatedPageID;
         $("editPostText").value = postData.body.split("<br>").join("\n");
 
         $("editPostSubmit").onclick = () => {
             editPost(postData.postID, postData.jatekID, postData.typeID);
-        }
+        };
     } catch (error) {
         console.log(error);
     }
@@ -212,14 +455,21 @@ async function editPost(postId, jatekId, typeId) {
 
         if (editPostTitle == "" || editPostSection == "" || editPostText == "") {
             $("editPostHiba").innerHTML = `
-                <div class="alert alert-danger mt-3" role="alert">
-                    Please fill all the blanks!
-                </div>
-            `;
+                        <div class="alert alert-danger mt-3" role="alert">
+                            Please fill all the blanks!
+                        </div>
+                    `;
         } else {
-            editPostText = editPostText.split(/\n/).join("<br>")
+            editPostText = editPostText.split(/\n/).join("<br>");
 
-            await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
+            await callphpFunction("updateAdditional", {
+                postID: postId,
+                jatekID: jatekId,
+                typeID: typeId,
+                title: editPostTitle,
+                body: editPostText,
+                relatedPageID: editPostSection,
+            });
 
             location.reload();
         }
@@ -229,4 +479,11 @@ async function editPost(postId, jatekId, typeId) {
     adjustPage();
 }
 
-window.addEventListener('load', loadPosts);
+window.addEventListener("load", loadPosts);
+$("startButton_communityFilter").addEventListener("click", loadPosts);
+$("text_articleSearch").addEventListener("keydown", function (event) { 
+    if (event.key === "Enter") {
+        event.preventDefault();
+        searchPost();
+    }
+});

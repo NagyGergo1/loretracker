@@ -139,6 +139,10 @@ switch ($url[0]){
         searchAdditionalByTitle($params['title']);
         break;
 
+    case "searchAdditionalByTitleAndUser":
+        searchAdditionalByTitleAndUser($params['title'], $params['userID']);
+        break;
+
     case "getAdditionalByUser":
         getAdditionalByUser($params['userID']);
         break;
@@ -429,6 +433,11 @@ function deleteLorepage($pageId){
 //közösségi oldal
 function searchAdditionalByTitle($title){
     $query = adatokLekerese("SELECT * FROM additionallore WHERE title LIKE '%{$title}%'");
+    queryGetCheck($query);
+}
+
+function searchAdditionalByTitleAndUser($title, $userID){
+    $query = adatokLekerese("SELECT * FROM additionallore WHERE title LIKE '%{$title}%' AND publisher = {$userID}");
     queryGetCheck($query);
 }
 
