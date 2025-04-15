@@ -18,7 +18,6 @@ async function profilesLoad() {
         sessionStorage.removeItem("mainlogCollapse")
         sessionStorage.removeItem("userlogCollapse")
         sessionStorage.removeItem("additionallogCollapse")
-        sessionStorage.removeItem("trackerlogCollapse")
 
         let adminKiiras = $("adminList");
         let userKiiras = $("userList");
@@ -65,7 +64,6 @@ async function profilesLoad() {
                 sessionStorage.setItem("mainlogCollapse", $("mainlogCollapse").classList.toString())
                 sessionStorage.setItem("userlogCollapse", $("userlogCollapse").classList.toString())
                 sessionStorage.setItem("additionallogCollapse", $("additionallogCollapse").classList.toString())
-                sessionStorage.setItem("trackerlogCollapse", $("trackerlogCollapse").classList.toString())
                 location.reload()
             })
 
@@ -113,7 +111,6 @@ async function profilesLoad() {
                     sessionStorage.setItem("mainlogCollapse", $("mainlogCollapse").classList.toString())
                     sessionStorage.setItem("userlogCollapse", $("userlogCollapse").classList.toString())
                     sessionStorage.setItem("additionallogCollapse", $("additionallogCollapse").classList.toString())
-                    sessionStorage.setItem("trackerlogCollapse", $("trackerlogCollapse").classList.toString())
                     location.reload()
                 })
 
@@ -199,47 +196,6 @@ async function additionallogs(){
     }
 }
 
-async function trackerlogs(){
-    let kiiras = $("trackerlogs")
-    kiiras.innerHTML = ""
-
-    let adatok = await callphpFunction("getTrackerLog")
-    for (let adat of adatok) {
-        let sor = document.createElement("tr")
-
-        let logid = document.createElement("td")
-        let method = document.createElement("td")
-        let time = document.createElement("td")
-        let trackerid = document.createElement("td")
-        let mainach = document.createElement("td")
-        let sideach1 = document.createElement("td")
-        let sideach2 = document.createElement("td")
-        let sideach3 = document.createElement("td")
-        let sideach4 = document.createElement("td")
-
-        logid.innerHTML = adat.logID
-        method.innerHTML = adat.muvelet
-        time.innerHTML = adat.ido
-        trackerid.innerHTML = adat.trackerID
-        mainach.innerHTML = adat.mainAchievementCounter
-        sideach1.innerHTML = adat.sideAchievementCounter1
-        sideach2.innerHTML = adat.sideAchievementCounter2
-        sideach3.innerHTML = adat.sideAchievementCounter3
-        sideach4.innerHTML = adat.sideAchievementCounter4
-
-        sor.appendChild(logid)
-        sor.appendChild(method)
-        sor.appendChild(time)
-        sor.appendChild(trackerid)
-        sor.appendChild(mainach)
-        sor.appendChild(sideach1)
-        sor.appendChild(sideach2)
-        sor.appendChild(sideach3)
-        sor.appendChild(sideach4)
-        kiiras.appendChild(sor)
-    }
-}
-
 function openDeleteConfirm() {
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
     deleteModal.show();
@@ -270,7 +226,7 @@ window.addEventListener('load', () => {
         $("mainlogCollapse").classList = sessionStorage.getItem("mainlogCollapse")
         $("userlogCollapse").classList = sessionStorage.getItem("userlogCollapse")
         $("additionallogCollapse").classList = sessionStorage.getItem("additionallogCollapse")
-        $("trackerlogCollapse").classList = sessionStorage.getItem("trackerlogCollapse")
+        
     }
     else if(sessionStorage.getItem("deleteReload")){
         $("profilesCollapse").classList = sessionStorage.getItem("profilesCollapse")
@@ -280,10 +236,9 @@ window.addEventListener('load', () => {
         $("mainlogCollapse").classList = sessionStorage.getItem("mainlogCollapse")
         $("userlogCollapse").classList = sessionStorage.getItem("userlogCollapse")
         $("additionallogCollapse").classList = sessionStorage.getItem("additionallogCollapse")
-        $("trackerlogCollapse").classList = sessionStorage.getItem("trackerlogCollapse")
 
         toastDeleted()
     }
 
-    userlogs(), additionallogs(), trackerlogs(), profilesLoad()
+    userlogs(), additionallogs(), profilesLoad()
 })

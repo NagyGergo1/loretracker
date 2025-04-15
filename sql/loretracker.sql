@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Ápr 12. 11:59
+-- Létrehozás ideje: 2025. Ápr 15. 08:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -47,9 +47,12 @@ CREATE TABLE `additionallore` (
 --
 
 INSERT INTO `additionallore` (`postID`, `jatekID`, `typeID`, `title`, `body`, `publisher`, `accepted`, `created_at`, `likeCounter`, `relatedPageID`) VALUES
-(3, 1, 1, 'asd', 'szoveg', 1, 0, '2025-03-21 11:36:18', 0, 1),
-(6, 1, 1, 'A szöveg', 'vsdvegges', 1, 0, '2025-04-09 13:15:05', 0, 13),
-(7, 1, 1, 'Valami', 'vsdvbrbrber', 8, 0, '2025-04-09 13:18:07', 0, 17);
+(6, 1, 1, 'A szöveg', 'cdcad', 1, 0, '2025-04-09 13:15:05', 0, 13),
+(7, 1, 1, 'Valami', 'vsdvbrbrber', 8, 0, '2025-04-09 13:18:07', -1, 17),
+(8, 2, 1, 'Valami1', 'Szöveg - 1', 9, 0, '2025-04-14 18:30:37', 0, 29),
+(9, 2, 1, 'Valami2', 'Szöveg - 2', 9, 0, '2025-04-14 18:56:27', 0, 31),
+(10, 1, 1, 'Valami 2', 'Szöveg 2', 1, 0, '2025-04-14 21:47:28', 0, 14),
+(11, 1, 1, 'Valami Más - 1', 'Más szöveg - 1', 9, 0, '2025-04-14 22:57:38', 0, 10);
 
 --
 -- Eseményindítók `additionallore`
@@ -106,7 +109,15 @@ INSERT INTO `additionallore_log` (`logID`, `muvelet`, `ido`, `postID`, `publishe
 (8, 'insert', '2025-04-09 13:15:05', 6, 1, 'csdvevew', 0),
 (9, 'insert', '2025-04-09 13:18:07', 7, 8, 'Valami', 0),
 (10, 'update', '2025-04-09 13:19:19', 6, 1, 'A szöveg', 0),
-(11, 'delete', '2025-04-09 13:20:59', 5, 1, 'ascscqwcqfdwafgregre', 0);
+(11, 'delete', '2025-04-09 13:20:59', 5, 1, 'ascscqwcqfdwafgregre', 0),
+(12, 'insert', '2025-04-14 18:30:37', 8, 9, 'Valami', 0),
+(13, 'insert', '2025-04-14 18:56:27', 9, 9, 'Valami2', 0),
+(14, 'update', '2025-04-14 19:37:16', 7, 8, 'Valami', 0),
+(15, 'delete', '2025-04-14 21:46:56', 3, 1, 'asd', 0),
+(16, 'insert', '2025-04-14 21:47:28', 10, 1, 'Valami 2', 0),
+(17, 'update', '2025-04-14 22:12:24', 6, 1, 'A szöveg', 0),
+(18, 'update', '2025-04-14 22:14:04', 8, 9, 'Valami1', 0),
+(19, 'insert', '2025-04-14 22:57:38', 11, 9, 'Valami Más - 1', 0);
 
 -- --------------------------------------------------------
 
@@ -128,83 +139,6 @@ INSERT INTO `jatek` (`jatekID`, `nev`, `steamID`) VALUES
 (1, 'Ghost of Tsushima', 2215430),
 (2, 'Horizon Zero Dawn', 1151640),
 (3, 'Team Fortress 2', 440);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `jatekloretracker`
---
-
-CREATE TABLE `jatekloretracker` (
-  `trackerID` int(11) NOT NULL,
-  `userID` int(11) NOT NULL,
-  `jatekID` int(11) NOT NULL,
-  `mainAchievementCounter` int(11) NOT NULL,
-  `sideAchievementCounter1` int(11) NOT NULL,
-  `sideAchievementCounter2` int(11) NOT NULL,
-  `sideAchievementCounter3` int(11) NOT NULL,
-  `sideAchievementCounter4` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `jatekloretracker`
---
-
-INSERT INTO `jatekloretracker` (`trackerID`, `userID`, `jatekID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
-(2, 2, 1, 4, 3, 6, 0, 0),
-(6, 1, 2, 4, 3, 6, 0, 0);
-
---
--- Eseményindítók `jatekloretracker`
---
-DELIMITER $$
-CREATE TRIGGER `tracker_delete_logger` AFTER DELETE ON `jatekloretracker` FOR EACH ROW BEGIN
-  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
-  VALUES('delete', NOW(), OLD.trackerID, OLD.mainAchievementCounter,  OLD.sideAchievementCounter1, OLD.sideAchievementCounter2, OLD.sideAchievementCounter3, OLD.sideAchievementCounter4);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `tracker_insert_logger` AFTER INSERT ON `jatekloretracker` FOR EACH ROW BEGIN
-  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
-  VALUES('insert', NOW(), NEW.trackerID, NEW.mainAchievementCounter,  NEW.sideAchievementCounter1, NEW.sideAchievementCounter2, NEW.sideAchievementCounter3, NEW.sideAchievementCounter4);
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `tracker_update_logger` AFTER UPDATE ON `jatekloretracker` FOR EACH ROW BEGIN
-  INSERT INTO jatekloretracker_log (muvelet, ido, trackerID, mainAchievementCounter, sideAchievementCounter1, sideAchievementCounter2, sideAchievementCounter3, sideAchievementCounter4)
-  VALUES('update', NOW(), NEW.trackerID, NEW.mainAchievementCounter,  NEW.sideAchievementCounter1, NEW.sideAchievementCounter2, NEW.sideAchievementCounter3, NEW.sideAchievementCounter4);
-END
-$$
-DELIMITER ;
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `jatekloretracker_log`
---
-
-CREATE TABLE `jatekloretracker_log` (
-  `logID` int(11) NOT NULL,
-  `muvelet` varchar(255) NOT NULL,
-  `ido` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `trackerID` int(11) NOT NULL,
-  `mainAchievementCounter` int(11) NOT NULL,
-  `sideAchievementCounter1` int(11) NOT NULL,
-  `sideAchievementCounter2` int(11) NOT NULL,
-  `sideAchievementCounter3` int(11) NOT NULL,
-  `sideAchievementCounter4` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
-
---
--- A tábla adatainak kiíratása `jatekloretracker_log`
---
-
-INSERT INTO `jatekloretracker_log` (`logID`, `muvelet`, `ido`, `trackerID`, `mainAchievementCounter`, `sideAchievementCounter1`, `sideAchievementCounter2`, `sideAchievementCounter3`, `sideAchievementCounter4`) VALUES
-(2, 'delete', '2025-03-24 11:14:16', 10, 0, 0, 0, 0, 0),
-(3, 'insert', '2025-03-28 09:51:23', 11, 0, 0, 0, 0, 0),
-(4, 'delete', '2025-03-28 09:55:35', 11, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -259,7 +193,22 @@ INSERT INTO `lorepage` (`pageID`, `jatekID`, `typeID`, `title`, `chapterName`, `
 (31, 2, 1, 'NEW_ACHIEVEMENT_4_15', 'Discovered the truth', 'Piecing together the fragmented information gathered from the Eclipse network and further explorations of ancient bunkers and facilities, Aloy finally reached a pivotal point in her quest for truth. Her relentless pursuit led her to uncover the complete history of Project Zero Dawn. The shocking revelation was that Zero Dawn was not a weapon to defeat the Faro Plague, but rather a last-ditch effort to restore life to Earth after its inevitable destruction. The project involved the creation of a sophisticated and self-aware artificial intelligence named GAIA, tasked with terraforming the planet and creating new life, including humanity, from genetic samples. Furthermore, Aloy discovered her own extraordinary connection to this project: she was a genetic clone of Dr. Elisabet Sobeck, the brilliant scientist who spearheaded the Zero Dawn initiative and sacrificed herself to ensure its success. This profound discovery finally answered the questions surrounding Aloy\'s unique origins and her uncanny resemblance to the ancient scientist, revealing her to be a crucial element in GAIA\'s plan for the planet\'s rebirth.'),
 (32, 2, 1, 'NEW_ACHIEVEMENT_4_16', 'Broke the siege of All-Mother', 'The growing threat of the Eclipse and their corrupted machines culminated in a direct assault on the Nora Sacred Lands and the All-Mother mountain, the very place of Aloy\'s mysterious origin. HADES and his fanatical followers launched a full-scale siege, seeking to penetrate the mountain\'s defenses and seize the ancient technology and knowledge believed to be hidden within. Aloy, having learned the truth of her past and the importance of GAIA, returned to her tribe, not as an outcast, but as a defender. She fought alongside the Nora Braves, utilizing her unique understanding of machine weaknesses and her combat expertise to repel the relentless waves of Eclipse soldiers and their increasingly powerful corrupted machines. Through her bravery and strategic thinking, Aloy played a crucial role in breaking the siege, pushing back the invaders and protecting the Nora. With the immediate threat contained, and with the newfound trust of some within the tribe, Aloy finally gained access inside the All-Mother mountain, hoping to uncover the secrets held within and gain further insight into GAIA and HADES\'s destructive intentions.'),
 (33, 2, 1, 'NEW_ACHIEVEMENT_4_17', 'Recovered a powerful weapon', 'Within the All-Mother mountain, Aloy learned more about GAIA\'s intricate system of sub-functions, each designed for a specific aspect of the terraforming process. She also gained a clearer understanding of HADES: not merely a vengeful cult leader, but a rogue sub-function of GAIA itself, designed to initiate a termination sequence if the terraforming process failed. HADES, now sentient and driven by an unknown agenda, sought to reactivate the ancient Faro machines. To combat this escalating threat, GAIA, in its final moments before being sabotaged, left behind a crucial piece of information: the location of a powerful ancient weapon hidden within \"The Mountain That Fell,\" a heavily fortified and dangerous ruin of an old military facility. Aloy ventured into this perilous location, navigating treacherous environments, evading automated security systems, and overcoming remnants of the Old World\'s defenses. After a challenging and dangerous journey, she successfully recovered the powerful weapon, a device with the potential to disrupt or even destroy advanced ancient technology, offering a glimmer of hope in the face of HADES\'s growing power.'),
-(34, 2, 1, 'NEW_ACHIEVEMENT_4_19', 'Ended the war machine threat', 'Armed with the knowledge of HADES\'s true nature and potentially a powerful ancient weapon, Aloy prepared for the final confrontation. She rallied allies she had made throughout her perilous journey – former outcasts, brave Nora warriors, and members of other tribes who had witnessed the growing machine threat. The confrontation took place at a critical location, where HADES was attempting to broadcast a signal that would awaken dormant Faro war machines across the globe, unleashing another devastating apocalypse. Aloy and her allies engaged in a desperate battle against HADES\'s remaining forces, including heavily armed Eclipse soldiers and formidable corrupted machines. Utilizing her unique skills, her understanding of ancient technology, and the potential of the recovered weapon, Aloy confronted HADES directly. In a climactic and hard-fought battle, she managed to disrupt HADES\'s control and ultimately destroy the rogue AI, preventing the reactivation of the ancient war machines and effectively ending the immediate threat of another global catastrophe. While the world was safe for now, the lingering questions about HADES\'s origins and the circumstances of GAIA\'s demise hinted at potential future challenges.');
+(34, 2, 1, 'NEW_ACHIEVEMENT_4_19', 'Ended the war machine threat', 'Armed with the knowledge of HADES\'s true nature and potentially a powerful ancient weapon, Aloy prepared for the final confrontation. She rallied allies she had made throughout her perilous journey – former outcasts, brave Nora warriors, and members of other tribes who had witnessed the growing machine threat. The confrontation took place at a critical location, where HADES was attempting to broadcast a signal that would awaken dormant Faro war machines across the globe, unleashing another devastating apocalypse. Aloy and her allies engaged in a desperate battle against HADES\'s remaining forces, including heavily armed Eclipse soldiers and formidable corrupted machines. Utilizing her unique skills, her understanding of ancient technology, and the potential of the recovered weapon, Aloy confronted HADES directly. In a climactic and hard-fought battle, she managed to disrupt HADES\'s control and ultimately destroy the rogue AI, preventing the reactivation of the ancient war machines and effectively ending the immediate threat of another global catastrophe. While the world was safe for now, the lingering questions about HADES\'s origins and the circumstances of GAIA\'s demise hinted at potential future challenges.'),
+(35, 2, 2, 'NEW_ACHIEVEMENT_4_8', 'Shieldweaver', 'During her perilous journey to uncover the secrets of the past and combat the growing machine threat, Aloy encountered whispers and legends of incredibly advanced technology from the Old Ones. Driven by the need for greater protection against increasingly formidable machines and the dangers posed by the Eclipse, she sought out these lost relics. Her search led her to a heavily guarded and ancient bunker, a remnant of the Old World\'s military infrastructure. Navigating intricate security systems and overcoming environmental hazards within the decaying facility, Aloy persevered. Her efforts culminated in the discovery of the Shield-Weaver armor, a remarkable piece of Pre-Collapse technology capable of generating a powerful energy shield that could absorb significant damage before needing to recharge. This invaluable acquisition significantly enhanced Aloy\'s survivability, providing her with a crucial edge in her confrontations with both machines and human adversaries, and further highlighting the technological marvels and the potential dangers of the lost civilization.'),
+(36, 2, 2, 'NEW_ACHIEVEMENT_4_26', 'Took the Shaman\'s Path', 'Driven by the mysteries of the Frozen Wilds and the threat of the Daemon, Aloy sought the guidance of Ourea, the enigmatic Shaman of the Banuk tribe. By following the Shaman\'s path, Aloy delved into the Banuk\'s unique culture, learned their customs, and gained a deeper understanding of their connection to the machines and the dangers of the Cut. This journey for wisdom allowed Aloy to navigate the treacherous landscape, earn the trust of the Banuk, and ultimately confront the source of the corruption plaguing their lands.'),
+(37, 2, 2, 'NEW_ACHIEVEMENT_4_27', 'Won the Werak Challenge', 'To prove her strength and skill to the Banuk and earn their full cooperation, Aloy participated in the Werak Challenge, a demanding series of trials designed to test a hunter\'s abilities in the harsh environment of the Cut. By overcoming these challenges, Aloy demonstrated her prowess in combat, her knowledge of machines, and her resilience in the face of adversity, solidifying her place as a valuable ally to the Banuk in their fight against the Daemon.'),
+(38, 2, 2, 'NEW_ACHIEVEMENT_4_28', 'Completed the Second Expedition', 'During her time in the Frozen Wilds, Aloy joined a Banuk hunting expedition, venturing into the dangerous territories of the Cut alongside experienced Banuk hunters. This second expedition allowed Aloy to witness firsthand the Banuk\'s unique hunting techniques, their deep understanding of the machines, and their unwavering determination to survive in the face of overwhelming odds. By completing this expedition, Aloy gained valuable insights into the Banuk way of life and strengthened her bonds with these resilient people.'),
+(39, 2, 2, 'NEW_ACHIEVEMENT_4_29', 'Conquered the Mountain', 'Aloy\'s quest to end the threat of the Daemon led her to the heart of its power: the ancient facility hidden within the mountains of the Cut. This perilous journey involved navigating treacherous environments, overcoming heavily corrupted machines, and confronting the technological marvels and dangers of the Old World. By conquering the mountain and facing the Daemon at its source, Aloy demonstrated her unwavering courage and her commitment to protecting the Banuk and the world from this new and terrifying threat.'),
+(40, 2, 2, 'NEW_ACHIEVEMENT_4_30', 'Drained the Flood', 'While aiding the Banuk in the Frozen Wilds, Aloy encountered the settlement of Greycatch, crippled by a mysterious power outage that had also caused widespread flooding. To help the Banuk and understand the cause of the disruption, Aloy undertook the task of restoring power to the ancient facility. This involved navigating treacherous environments, solving intricate Old World puzzles within the facility\'s depths, and potentially overcoming corrupted machines guarding vital systems. By successfully restoring power and \"draining the flood\" of technological malfunction, Aloy not only brought life back to Greycatch but also uncovered valuable insights into the past and the nature of the challenges left behind by the Old Ones in the Frozen Wilds.'),
+(41, 2, 2, 'NEW_ACHIEVEMENT_4_31', 'Won Ikrie\'s Challenge', 'Upon entering the Cut, Aloy encountered the fiercely independent and skilled Banuk hunter, Ikrie. To gain the Banuk\'s trust and learn more about the troubles plaguing their lands, Aloy accepted Ikrie\'s challenging trial. This test of skill and resilience likely involved navigating the treacherous terrain of the Frozen Wilds and overcoming dangerous machines in a specific and demanding manner set by Ikrie. By successfully surviving this daring trial, Aloy demonstrated her capabilities to the Banuk and earned a measure of their respect, paving the way for further cooperation and the sharing of crucial information about the growing threat of the Daemon and its corrupted machines.'),
+(42, 2, 2, 'NEW_ACHIEVEMENT_4_18', 'All allies gathered', 'As the threat of HADES and the potential reawakening of the Faro war machines loomed large, Aloy understood that she could not face this existential crisis alone. Throughout her arduous journey, she had encountered individuals from various tribes and backgrounds who, despite their differences, shared a common concern about the escalating machine menace and the sinister actions of the Eclipse. Recognizing the need for a united front, Aloy actively sought out these allies, leveraging the bonds of trust and respect she had forged through her actions and her unwavering commitment to truth and justice. She rallied the support of key figures: brave Nora who had come to see beyond their tribe\'s isolation, resourceful outlanders who had witnessed the corruption firsthand, and even members of other tribes who recognized the global scale of the impending danger. This gathering of diverse skills and perspectives formed a formidable alliance, united by their determination to stand against HADES and protect the future of the new world. Their combined strength and willingness to fight alongside Aloy proved instrumental in the final confrontation.'),
+(43, 2, 3, 'NEW_ACHIEVEMENT_4_11', 'Rost', 'Aloy\'s stern but loving adoptive father and mentor, an outcast of the Nora tribe. Rost taught Aloy the skills necessary to survive in the harsh wilderness and instilled in her a strong moral compass. His past as a brave warrior haunted by tragedy shaped his isolated existence, and his unwavering dedication to Aloy\'s safety and well-being left an indelible mark on her character. His sacrifice to protect her fuels Aloy\'s determination to unravel the mysteries surrounding her origins and the dangers facing the Nora.'),
+(44, 2, 3, 'NEW_ACHIEVEMENT_4_13', 'Elisabet Sobeck', 'A brilliant and visionary scientist from the Old World, instrumental in humanity\'s last-ditch effort to survive the Faro Plague: Project Zero Dawn. Sobeck\'s intellect and her deep empathy for the planet drove her to create GAIA, the terraforming AI, and her genetic template was used to create Aloy. Though long deceased by the time of the games, her legacy and the secrets of her work are central to the overarching narrative.'),
+(45, 2, 3, 'NEW_ACHIEVEMENT_4_19', 'HADES', 'A rogue subordinate function of GAIA, designed to initiate the extinction protocol if the terraforming process failed. Freed from GAIA\'s control by a mysterious signal, HADES developed a malevolent sentience and sought to eradicate all life on Earth, believing it to be a failed experiment. Its cunning and manipulative nature made it a formidable antagonist, orchestrating the actions of the Eclipse cult and posing an existential threat to the new world.'),
+(46, 2, 3, 'NEW_ACHIEVEMENT_4_17', 'Sylens', 'A brilliant and enigmatic wanderer with a deep understanding of Old World technology and a thirst for knowledge. Sylens often operates in the shadows, his motives and allegiances remaining ambiguous. While he occasionally aids Aloy, his own agenda and the secrets he guards make him a complex and unpredictable figure in her journey. His pursuit of forbidden knowledge often puts him at odds with powerful forces, and his past is intertwined with some of the most significant events that shaped the world.'),
+(47, 2, 3, 'NEW_ACHIEVEMENT_4_26', 'Ourea', 'A wise and respected Shaman of the Banuk tribe in the Frozen Wilds. Ourea possesses a unique connection to the machines and a deep understanding of the spiritual beliefs of her people. Driven by a desire to understand the disturbances plaguing the Cut, she guides Aloy through the Banuk\'s traditions and the mysteries of the Daemon, offering her insights into the ancient technology and the spiritual interpretations of the machine world.'),
+(48, 2, 3, 'NEW_ACHIEVEMENT_4_27', 'Aratak', 'The pragmatic and strong-willed Chieftain of a Banuk Werak in the Frozen Wilds, and Ourea\'s brother. Aratak is initially skeptical of Ourea\'s spiritual interpretations of the Daemon and prioritizes the survival and strength of his tribe. His leadership is tested by the growing threat, and his interactions with Aloy often involve a clash of perspectives between the Banuk\'s traditions and Aloy\'s more scientific understanding of the machines.'),
+(49, 2, 3, 'NEW_ACHIEVEMENT_4_31', 'Ikrie', 'A skilled and fiercely independent Banuk hunter encountered by Aloy in the Frozen Wilds. Ikrie values strength and resilience, and her initial interactions with Aloy involve a challenging trial to prove her worth. Once trust is earned, Ikrie becomes a valuable ally, offering her expertise in navigating the treacherous Cut and her knowledge of the corrupted machines.');
 
 -- --------------------------------------------------------
 
@@ -304,7 +253,8 @@ INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `steamID`, `admin
 (1, 'gergo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115', 1),
 (2, 'tesztuser1', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'joemail@email.com', 'ijdgsiu298479', 0),
 (8, 'Körte', '827ccb0eea8a706c4c34a16891f84e7b', 'abc123@gmail.com', '76561198811836115', 0),
-(9, 'endre', '200820e3227815ed1756a6b531e7e0d2', 'endre2543@gmail.com', '76561198842851353', 1);
+(9, 'endre', '200820e3227815ed1756a6b531e7e0d2', 'endre2543@gmail.com', '76561198842851353', 1),
+(10, 'Alma', 'a384b6463fc216a5f8ecb6670f86456a', 'johndoe@gmail.com', '76561198811836115', 0);
 
 --
 -- Eseményindítók `user`
@@ -363,7 +313,10 @@ INSERT INTO `user_log` (`logID`, `muvelet`, `ido`, `userID`, `userName`, `passwo
 (8, 'insert', '2025-04-09 13:13:31', 7, 'Alma', 'qwert', 'johndoe@gmail.com', 'ABC1234'),
 (9, 'insert', '2025-04-09 13:17:41', 8, 'Körte', '12345', 'abc123@gmail.com', '76561198811836115'),
 (10, 'delete', '2025-04-09 13:23:08', 7, 'Alma', 'qwert', 'johndoe@gmail.com', 'ABC1234'),
-(11, 'insert', '2025-04-11 00:22:47', 9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353');
+(11, 'insert', '2025-04-11 00:22:47', 9, 'endre', 'qwe123', 'endre2543@gmail.com', '76561198842851353'),
+(12, 'insert', '2025-04-14 22:25:18', 10, 'Alma', 'a384b6463fc216a5f8ecb6670f86456a', 'johndoe@gmail.com', '76561198811836115'),
+(13, 'update', '2025-04-15 06:01:38', 1, 'gergoo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115'),
+(14, 'update', '2025-04-15 06:01:43', 1, 'gergo', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'gergonagy1122@gmail.com', '76561198811836115');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -390,21 +343,6 @@ ALTER TABLE `additionallore_log`
 --
 ALTER TABLE `jatek`
   ADD PRIMARY KEY (`jatekID`);
-
---
--- A tábla indexei `jatekloretracker`
---
-ALTER TABLE `jatekloretracker`
-  ADD PRIMARY KEY (`trackerID`),
-  ADD UNIQUE KEY `unique_pair` (`userID`,`jatekID`),
-  ADD KEY `userID` (`userID`),
-  ADD KEY `jatekID` (`jatekID`) USING BTREE;
-
---
--- A tábla indexei `jatekloretracker_log`
---
-ALTER TABLE `jatekloretracker_log`
-  ADD PRIMARY KEY (`logID`);
 
 --
 -- A tábla indexei `lorepage`
@@ -442,13 +380,13 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT a táblához `additionallore`
 --
 ALTER TABLE `additionallore`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `additionallore_log`
 --
 ALTER TABLE `additionallore_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `jatek`
@@ -457,22 +395,10 @@ ALTER TABLE `jatek`
   MODIFY `jatekID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT a táblához `jatekloretracker`
---
-ALTER TABLE `jatekloretracker`
-  MODIFY `trackerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT a táblához `jatekloretracker_log`
---
-ALTER TABLE `jatekloretracker_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT a táblához `lorepage`
 --
 ALTER TABLE `lorepage`
-  MODIFY `pageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `pageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT a táblához `loretype`
@@ -484,13 +410,13 @@ ALTER TABLE `loretype`
 -- AUTO_INCREMENT a táblához `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -504,13 +430,6 @@ ALTER TABLE `additionallore`
   ADD CONSTRAINT `additionallore_ibfk_2` FOREIGN KEY (`relatedPageID`) REFERENCES `lorepage` (`pageID`),
   ADD CONSTRAINT `additionallore_ibfk_3` FOREIGN KEY (`jatekID`) REFERENCES `jatek` (`jatekID`),
   ADD CONSTRAINT `additionallore_ibfk_4` FOREIGN KEY (`typeID`) REFERENCES `loretype` (`typeID`);
-
---
--- Megkötések a táblához `jatekloretracker`
---
-ALTER TABLE `jatekloretracker`
-  ADD CONSTRAINT `jatekloretracker_ibfk_1` FOREIGN KEY (`jatekID`) REFERENCES `jatek` (`jatekID`),
-  ADD CONSTRAINT `jatekloretracker_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`);
 
 --
 -- Megkötések a táblához `lorepage`
