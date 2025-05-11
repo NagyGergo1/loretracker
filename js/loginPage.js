@@ -61,7 +61,9 @@ async function loadPage() {
 
             $(`${element}Input`).focus()
 
-            $(`${element}Input`).addEventListener('focusout', function(){
+            $(`${element}Input`).addEventListener('focusout', async function(){
+                userData = await callphpFunction("getUserByEmail", {email: userEmail});
+
                 if(element == "userName"){
                     $(`userNameClickParent`).innerHTML = `<a id="userNameClick">${userData.userName}</a>`
                 }
@@ -78,36 +80,57 @@ async function loadPage() {
             $(`${element}Input`).addEventListener('keydown', async function(event){
                 if(event.key === "Enter"){
                     let ertek = $(`${element}Input`).value
+                    userData = await callphpFunction("getUserByEmail", {email: userEmail});
 
                     if(element == "userName"){
-                        await callphpFunction("modifyUserName", {userName: ertek, email: userEmail})
+                        if(await callphpFunction("getUserByName", {name: ertek}) != "Nincsenek találatok!"){
+                            if(userData.userName != ertek){
+                                alert("This username is already in use!")
+                            }
+                            else{
+                                $(`${element}Input`).blur()
+                            }
+                        }
+                        else{
+                            await callphpFunction("modifyUserName", {userName: ertek, email: userEmail})
 
-                        setCookie("name", ertek)
-                        $("userNameClickParent").innerHTML = ""
-                        $("userNameClickParent").innerHTML = `<a id="userNameClick">${ertek}</a>`
+                            setCookie("name", ertek)
+                            $("userNameClickParent").innerHTML = ""
+                            $("userNameClickParent").innerHTML = `<a id="userNameClick">${ertek}</a>`
 
-                        const livetoast = document.getElementById("toastNameChange")
-                        const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
-                        toast.show()
+                            const livetoast = document.getElementById("toastNameChange")
+                            const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+                            toast.show()
 
-                        addEnterListeners()
+                            addEnterListeners()
 
-                        $(`${element}Input`).dispatchEvent(new Event("focusout"))
+                            $(`${element}Input`).dispatchEvent(new Event("focusout"))
+                        }
                     }
                     else if(element == "email"){
-                        await callphpFunction("modifyEmail", {newEmail: ertek, currentEmail: userEmail})
+                        if(await callphpFunction("getUserByEmail", {email: ertek}) != "Nincsenek találatok!"){
+                            if(userData.email != ertek){
+                                alert("This email is already in use!")
+                            }
+                            else{
+                                $(`${element}Input`).blur()
+                            }
+                        }
+                        else{
+                            await callphpFunction("modifyEmail", {newEmail: ertek, currentEmail: userEmail})
                         
-                        setCookie("email", ertek)
-                        $("emailClickParent").innerHTML = ""
-                        $("emailClickParent").innerHTML = `<a id="emailClick">${ertek}</a>`
+                            setCookie("email", ertek)
+                            $("emailClickParent").innerHTML = ""
+                            $("emailClickParent").innerHTML = `<a id="emailClick">${ertek}</a>`
 
-                        const livetoast = document.getElementById("toastEmailChange")
-                        const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
-                        toast.show()
+                            const livetoast = document.getElementById("toastEmailChange")
+                            const toast = bootstrap.Toast.getOrCreateInstance(livetoast)
+                            toast.show()
 
-                        addEnterListeners()
+                            addEnterListeners()
 
-                        $(`${element}Input`).dispatchEvent(new Event("focusout"))
+                            $(`${element}Input`).dispatchEvent(new Event("focusout"))
+                        }
                     }
                     else if(element == "steamid"){
                         await callphpFunction("modifySteamID", {steamID: ertek, email: userEmail})
@@ -233,7 +256,15 @@ async function logIn() {
     let userEmail = $("loginEmail").value;
     let userPass = $("loginPassword").value;
 
-    if (userEmail == "") {
+    if(userEmail == "" && userPass == ""){
+        $("hibakiir").innerHTML = `
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
+                Please fill all the blanks!
+            </div>
+        `;
+        return;
+    }
+    else if (userEmail == "") {
         $("hibakiir").innerHTML = `
             <div class="alert alert-danger" role="alert" style="padding: 8px;">
                 Please enter your e-mail!

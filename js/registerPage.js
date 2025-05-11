@@ -32,6 +32,20 @@ async function regisztralas() {
             </div>
         `;
     }
+    else if(await callphpFunction("getUserByName", {name : userName}) != "Nincsenek találatok!"){
+        $("visszaJelzes").innerHTML += `
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
+                Username already taken!
+            </div>
+        `;
+    }
+    else if(await callphpFunction("getUserByEmail", {email : userEmail}) != "Nincsenek találatok!"){
+        $("visszaJelzes").innerHTML += `
+            <div class="alert alert-danger" role="alert" style="padding: 8px;">
+                A profile with this e-mail already exists!
+            </div>
+        `;
+    }
     else if (userPassword != 0) {
         let userAdatok = await callphpFunction("createUserData", {userName : userName, steamID : userSteamId, email : userEmail, password : userPassword});
         console.log(userAdatok);
@@ -47,7 +61,8 @@ async function regisztralas() {
         button.onclick = () => {location.href='./loginPage.html'};
 
         kiiras.appendChild(button);
-    } else if(userPassword == 0){
+    }
+    else if(userPassword == 0){
         $("visszaJelzes").innerHTML += `
             <div class="alert alert-danger" role="alert" style="padding: 8px;">
                 The passwords don't match!

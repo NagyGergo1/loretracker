@@ -74,12 +74,14 @@ function adjustNavbar() {
     }
 }
 
-$("text_libraryPageSearch").addEventListener("keydown", function (press) {
+/*$("text_libraryPageSearch").addEventListener("keydown", function (press) {
     if (press.key === "Enter") {
         press.preventDefault();
         searchBar();
     }
-});
+});*/
+
+$("text_libraryPageSearch").addEventListener("input", searchBar)
 
 $("startButton_libraryFilter").addEventListener("click", orderCards);
 
