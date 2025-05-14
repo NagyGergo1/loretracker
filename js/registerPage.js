@@ -10,7 +10,6 @@ function $(id) {
 
 async function loadPage() {
     checkCookie("email");
-    console.log(loginStat);
     
     if (loginStat == true) {
         window.location.href='./loginPage.html';
@@ -48,7 +47,6 @@ async function regisztralas() {
     }
     else if (userPassword != 0) {
         let userAdatok = await callphpFunction("createUserData", {userName : userName, steamID : userSteamId, email : userEmail, password : userPassword});
-        console.log(userAdatok);
         let kiiras = $("form-content")
         kiiras.innerHTML = `
             <h1 style="text-align: center;">Successful registration!</h1>

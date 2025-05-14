@@ -114,6 +114,6 @@ ul, li, .navbar-brand, .container-fluid, #navbarMenu{
     cursor: default !important;
 }
 
-input{
+input, textarea{
     cursor: url(../img/black_beam.cur), text !important
 }

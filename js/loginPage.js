@@ -15,14 +15,12 @@ function $(id) {
 
 async function loadPage() {
     checkCookie("email");
-    console.log(loginStat);
     if (loginStat == true) {
         $("toLibrary").removeAttribute("hidden");
         $("toMyArticles").removeAttribute("hidden");
         $("form-container").innerHTML = "";
         let userEmail = getCookie("email");
         let userData = await callphpFunction("getUserByEmail", {email: userEmail});
-        console.log(userData);
 
         $("form-container").innerHTML += `
             <h2 style="text-align: center; color: orange"><b>My Account</b></h2>
@@ -282,13 +280,11 @@ async function logIn() {
 
     try {
         let userAdatok = await callphpFunction("getUserLogin", { email: userEmail, password: userPass });
-        console.log(userAdatok.userName);
 
         if (userAdatok && userAdatok.userName) {
             setCookie("name", userAdatok.userName);
             setCookie("email", userAdatok.email);
             setCookie("userId", userAdatok.userID)
-            console.log(getCookie("name"));
             checkCookie("name");
             removeSession("tempSteamID");
             location.replace(location.href);

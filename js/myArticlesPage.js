@@ -5,7 +5,6 @@ import { steamRequest, loginStat, checkCookie, getCookie, loginCheck } from "./i
 window.addEventListener("load", loginCheck);
 
 checkCookie("email");
-console.log(loginStat);
 
 function adjustPage() {
     const loginEmail = getCookie("email");
@@ -89,8 +88,7 @@ async function loadPosts() {
             }
 
             for (const post of postsForCurrentGame) {
-                let postSection = await callphpFunction("getChapterTitle", {
-                    gameId: element,
+                let postSection = await callphpFunction("getChapterByID", {
                     pageId: post.relatedPageID,
                 });
 
@@ -178,7 +176,6 @@ async function loadPosts() {
             kiiras.appendChild(gameSectionDiv);
             kiiras.appendChild(dGrid_body);
 
-            console.log(gameName);
         }
     } catch (error) {
         console.log(error);
@@ -203,8 +200,7 @@ async function searchPost() {
                 for (const post of kereses) {
                     postSections(post.jatekID);
                     // Card creation logic starts here
-                    let postSection = await callphpFunction("getChapterTitle", {
-                        gameId: post.jatekID,
+                    let postSection = await callphpFunction("getChapterByID", {
                         pageId: post.relatedPageID,
                     });
 
@@ -297,8 +293,7 @@ async function searchPost() {
                 }
             } else if (kereses) {
                 // Card creation logic starts here
-                let postSection = await callphpFunction("getChapterTitle", {
-                    gameId: kereses.jatekID,
+                let postSection = await callphpFunction("getChapterByID", {
                     pageId: kereses.relatedPageID,
                 });
                 let communityPostCard = document.createElement("div");

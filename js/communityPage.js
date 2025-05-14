@@ -98,7 +98,7 @@ async function loadCommunityPosts() {
         let postPub = await callphpFunction("getUserData", { id: getPosts.publisher });
         let postPubName = postPub.userName;
 
-        let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts.relatedPageID });
+        let postSection = await callphpFunction("getChapterByID", { pageId: getPosts.relatedPageID });
         postSection = postSection.chapterName;
 
         let communityPostCard = document.createElement("div");
@@ -180,7 +180,6 @@ async function loadCommunityPosts() {
             loadEditPost(getPosts.postID);
         }
 
-
         if (postPubName == getCookie("name")) {
             cardHeaderContent.appendChild(editPostButton);
             cardHeaderContent.appendChild(deletePostButton);
@@ -239,7 +238,7 @@ async function loadCommunityPosts() {
             let postPub = await callphpFunction("getUserData", { id: getPosts[i].publisher });
             let postPubName = postPub.userName;
 
-            let postSection = await callphpFunction("getChapterTitle", { gameId: gameId, pageId: getPosts[i].relatedPageID });
+            let postSection = await callphpFunction("getChapterByID", { pageId: getPosts[i].relatedPageID });
             postSection = postSection.chapterName;
 
             let communityPostCard = document.createElement("div");
@@ -392,9 +391,10 @@ async function ujPost() {
             <div class="alert alert-danger mt-3" role="alert">
                 Please fill all the blanks!
             </div>
-        `;
+            `;
         } else {
             ujPostText = ujPostText.split(/\n/).join("<br>")
+            ujPostText = ujPostText.split("'").join("\\'")
 
             let postUpload = await callphpFunction("createAdditional", { jatekID: gameId, typeID: 1, title: ujPostTitle, body: ujPostText, publisher: ujPostPublisher, relatedPageID: ujPostSection });
 
@@ -414,7 +414,7 @@ async function loadEditPost(postId) {
         let postData = await callphpFunction("getAdditionalById", { postID: postId });
 
         $("editPostTitle").value = postData.title;
-        $("editPostSection").value = postData.relatedPageID
+        $("editPostSection").value = postData.relatedPageID;
         $("editPostText").value = postData.body.split("<br>").join("\n");
 
         $("editPostSubmit").onclick = () => {
@@ -440,6 +440,7 @@ async function editPost(postId, jatekId, typeId) {
             `;
         } else {
             editPostText = editPostText.split(/\n/).join("<br>")
+            editPostText = editPostText.split("'").join("\\'")
 
             await callphpFunction("updateAdditional", { postID: postId, jatekID: jatekId, typeID: typeId, title: editPostTitle, body: editPostText, relatedPageID: editPostSection });
 
@@ -483,7 +484,7 @@ async function searchBar() {
                         let postPub = await callphpFunction("getUserData", { id: findPostDataUser.publisher });
                         let postPubName = postPub.userName;
 
-                        let postSection = await callphpFunction("getChapterTitle", { gameId: findPostDataUser.jatekID, pageId: findPostDataUser.relatedPageID });
+                        let postSection = await callphpFunction("getChapterByID", { pageId: findPostDataUser.relatedPageID });
                         postSection = postSection.chapterName;
 
                         let communityPostCard = document.createElement("div");
@@ -623,7 +624,7 @@ async function searchBar() {
                             let postPub = await callphpFunction("getUserData", { id: element.publisher });
                             let postPubName = postPub.userName;
 
-                            let postSection = await callphpFunction("getChapterTitle", { gameId: element.jatekID, pageId: element.relatedPageID });
+                            let postSection = await callphpFunction("getChapterByID", { pageId: element.relatedPageID });
                             postSection = postSection.chapterName;
 
                             let communityPostCard = document.createElement("div");
@@ -768,7 +769,7 @@ async function searchBar() {
                     let postPubName = postPub.userName;
 
 
-                    let postSection = await callphpFunction("getChapterTitle", { gameId: element.jatekID, pageId: element.relatedPageID });
+                    let postSection = await callphpFunction("getChapterByID", { pageId: element.relatedPageID });
                     postSection = postSection.chapterName;
 
                     let communityPostCard = document.createElement("div");
@@ -958,6 +959,4 @@ window.addEventListener("load", function () {
 /*$("newPostText").addEventListener('change', () => {
     let valami = $("newPostText").value
     let asd = valami.split(/\n/).join("<br>")
-    
-    console.log(asd)
 })*/

@@ -97,8 +97,8 @@ switch ($url[0]){
         gameLoadAll($params['id']);
         break;
     
-    case "getChapterTitle":
-        getChapterTitle($params['gameId'], $params['pageId']);
+    case "getChapterByID":
+        getChapterByID($params['pageId']);
         break;
 
     case "createLorepage":
@@ -343,8 +343,8 @@ function gameLoadAll($gameId){
     queryGetCheck($query);
 }
 
-function getChapterTitle($gameId, $pageId) {
-    $query = adatokLekerese("SELECT * FROM lorepage WHERE jatekID = $gameId AND pageID = $pageId;");
+function getChapterByID($pageId) {
+    $query = adatokLekerese("SELECT * FROM lorepage WHERE pageID = $pageId;");
     queryGetCheck($query);
 }
 

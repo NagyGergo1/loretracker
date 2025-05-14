@@ -79,12 +79,10 @@ export async function steamRequest(jatekAzon, steamAzon) {
         //let valasz1 = await fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?appid=2215430&key=525020EAA6719FA15214AF6D447A5FC7&format=json&steamid=76561198811836115`)
 
         //let valasz2 = await fetch(`https://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key=525020EAA6719FA15214AF6D447A5FC7&appid=2215430`)
-        //console.log(adatok2.game.availableGameStats.achievements)
 
         let adatok1 = await valasz1.json()
         
         if(valasz1.ok){
-            console.log(adatok1.playerstats.achievements)
             return adatok1.playerstats.achievements;
         }
         

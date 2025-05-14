@@ -37,7 +37,7 @@
 
         <div class="button-container" style="background-color: #333;">
             <h5 class="form-label" id="gameName"></h5>
-            <a href="#" type="button" class="btn" style="height: fit-content; margin-top: auto; margin-bottom: auto;">Lore Page</a>
+            <a href="#" type="button" id="lorepagebtn" class="btn" style="height: fit-content; margin-top: auto; margin-bottom: auto;">Lore Page</a>
             <a href="./communityPage.html" type="button" class="btn" id="communityLink" style="background-color: #FFDB91; height: fit-content; margin-top: auto; margin-bottom: auto;">Community Page</a>
         </div>
 
@@ -62,7 +62,7 @@
                     <div class="content-area col-12 col-xxl-9 col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-bottom: 6vh;">
                         <div class="content" id="actual_page" style="width: 100%;">
                             <div class="card" style="width: 100%; height: 80vh;">
-                                <div class="card-body scrollable-content">
+                                <div id="chapterScroll" class="card-body scrollable-content">
                                     <h1 id="typeTitle"></h1>
                                     <div class="chapters" id="chapters" data-spy="scroll" data-target="#chapter-nav" data-offset="0"></div>
                                 </div>
@@ -81,10 +81,86 @@
         </div>
     </div>
 
+    <!-- New chapter modal -->
+    <div class="modal fade" id="newChapterModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="newChapterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newChapterModalLabel">New Chapter</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newChapterTitleLabel">Title: </span>
+                            <input type="text" class="form-control" id="newChapterTitle" aria-describedby="newChapterTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newChapterNameLabel">Chapter Name: </span>
+                            <input type="text" class="form-control" id="newChapterName" aria-describedby="newChapterNameLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="newChapterSectionLabel">Type: </span>
+                            <select class="form-select" name="" id="newChapterType" aria-describedby="newChapterSectionLabel">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <textarea rows="2" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" class="form-control" name="newChapterText" id="newChapterText"></textarea>
+                    </form>
+                    <div id="newChapterHiba">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="newChapterModalClose">Close</button>
+                    <button type="submit" class="btn btn-primary" id="newChapterSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit chapter modal -->
+    <div class="modal fade" id="editChapterModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="editChapterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editChapterModalLabel">Edit Chapter</h1>
+                    <button id="editChapterModalCloseTop" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editChapterTitleLabel">Title: </span>
+                            <input type="text" class="form-control" id="editChapterTitle" aria-describedby="editChapterTitleLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editChapterNameLabel">Chapter Name: </span>
+                            <input type="text" class="form-control" id="editChapterName" aria-describedby="editChapterNameLabel">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="editChapterSectionLabel">Type: </span>
+                            <select class="form-select" name="" id="editChapterType" aria-describedby="editChapterSectionLabel">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <textarea rows="2" onclick="this.style.height = '';this.style.height = this.scrollHeight + 'px'" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" class="form-control" name="editChapterText" id="editChapterText"></textarea>
+                    </form>
+                    <div id="editChapterHiba">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="editChapterModalClose">Close</button>
+                    <button type="button" class="btn btn-primary" id="editChapterSubmit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script type="module" src="./js/gamePage.js"></script>
+    <script type="module" defer src="./js/gamePage.js"></script>
 </body>
 
 </html>

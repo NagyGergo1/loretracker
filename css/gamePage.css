@@ -64,8 +64,7 @@
 }
 
 .sidebar button,
-.chapter-navbar button,
-.content button {
+.chapter-navbar button{
     display: block;
     width: 100%;
     margin: 5px 0;
@@ -124,6 +123,10 @@
     background-color: orange !important;
 }
 
-.btn:hover, .btn:active{
+#communityLink:hover, #communityLink:active{
     background-color: orange !important;
+}
+
+#lorepagebtn:hover{
+    background-color: orange;
 }
